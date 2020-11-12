@@ -94,14 +94,14 @@ namespace cds {
          *  Constructor
          *  Container can be any class.
          *  Depending on the implementation it requires some methods.
-         *  In this case we need that the container supports iterators, size, and each element a first and second atrribute.
+         *  In this case we need that the container supports iterators, size, and each element a first and second attribute.
          */
         template <class Container>
         table_bitmap(const Container &input){
             //1.Computing the maximum key value
             //We need iterators (begin, end) because we are using a for
             value_type max_key = 0;
-            //Const: no modification; &var: the value is obtained by reference (no copy)
+            //Const: no modification; &var: the value is obtained by reference (not a copy)
             for(const auto &element : input){
                 //We need a first and second because we are assuming the container contains pairs
                 if(element.first > max_key) max_key = element.first;
@@ -200,7 +200,7 @@ namespace cds {
         //Serialize to a stream
         size_type serialize(std::ostream& out, sdsl::structure_tree_node* v=nullptr, std::string name="")const
         {
-            //Create a node and store the different elements of our structrue in that node
+            //Create a node and store the different elements of our structure in that node
             sdsl::structure_tree_node* child = sdsl::structure_tree::add_child(v, name, sdsl::util::class_name(*this));
             size_type written_bytes = 0;
             written_bytes += m_bitmap.serialize(out, child, "bitmap");
