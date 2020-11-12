@@ -3,7 +3,7 @@
 Template for creating a Compact Data Structure project using SDSL library.
 
 
-####A little example
+#### A little example
 
 This code shows how we can create a simple data structure (table_bitmap) that receives as an input an integer pair vector and recognizes each pair as (index, data). In order to store this information, this code uses a bit_vector and an int_vector respectively.
 
@@ -11,7 +11,7 @@ The main function loads 5 random pairs into this data structure  and outputs wha
 
 Table_bitmap.hpp includes also some basic concepts that you will use in all your CDS projects as type definitions, SDSL library usage or class functions management.
 
-####Installing the example
+#### Installing the example
 
 - git clone 
 - ./cds-template/compile.sh (if needed, use chmod +x path/compile.sh)
