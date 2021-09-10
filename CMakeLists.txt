@@ -46,6 +46,7 @@ else()
 endif()
 
 add_subdirectory(external/sdsl-lite)
+add_subdirectory(external/malloc_count)
 
 include_directories("${PROJECT_SOURCE_DIR}/external/googletest/include"
         ${CMAKE_HOME_DIRECTORY}/include
@@ -53,9 +54,10 @@ include_directories("${PROJECT_SOURCE_DIR}/external/googletest/include"
         ${CMAKE_BINARY_DIR}/external/sdsl-lite/external/libdivsufsort/include/
         ${CMAKE_HOME_DIRECTORY}/external/googletest/include
         ${CMAKE_HOME_DIRECTORY}/external/sdsl-lite/external/FastPFor/headers/
+        ${CMAKE_HOME_DIRECTORY}/external/malloc_count/include
         ${STXXL_INCLUDE_DIRS}
         )
 
 
 add_executable(template_executable src/main.cpp)
-target_link_libraries(template_executable sdsl divsufsort divsufsort64)
+target_link_libraries(template_executable sdsl divsufsort divsufsort64 malloc_count)

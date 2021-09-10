@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
 #include <table_bitmap.hpp>
+#include <malloc_count/malloc_count.h>
 
 using namespace cds;
 
@@ -34,7 +35,10 @@ int main(){
 
     std::vector<std::pair<uint32_t, uint32_t>> input = {{1,3}, {4,5}, {5,6}, {9,7}, {14,2}};
 
+    malloc_count_reset_peak();
+    
     table_bitmap<uint32_t> tb(input);
+
 
     for(uint64_t i = 0; i < 15; ++i){
         auto exists = tb.exist(i);
@@ -44,6 +48,11 @@ int main(){
         }
         std::cout << std::endl;
     }
+
+    std::cout << "[[Mem. consumption]]  Current allocation: ";
+    std::cout << malloc_count_current() << " B, Peak allocation: ";
+    std::cout << malloc_count_peak() << " B" << std::endl;
+
 
     std::cout << "Size of the structure: " << sdsl::size_in_bytes(tb) << " bytes. "<< std::endl;
 }
