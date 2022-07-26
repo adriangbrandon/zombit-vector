@@ -135,6 +135,7 @@ namespace runs_vectors {
             }
             return *this;
         }
+
         rec_zombit_vector &operator=(rec_zombit_vector &&o) {
             if (this != &o) {
                 m_levels = o.m_levels;
