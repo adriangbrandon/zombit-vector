@@ -79,12 +79,12 @@ template <class BV>
 int run(std::string file_name, std::string index_file) {
 
 
-    sdsl::wt_int<BV> wm_bv;
-    std::cout << "Reading WT ... " << std::flush;
+    sdsl::wm_int<BV> wm_bv;
+    std::cout << "Reading WM ... " << std::flush;
     if(!sdsl::load_from_file(wm_bv, index_file)){
         std::cout << "[fail]" << std::endl;
         sdsl::int_vector<> text, bwt;
-        std::cout << "Building WT ... " << std::flush;
+        std::cout << "Building WM ... " << std::flush;
         read_file(file_name, 1, text);
         bwt.resize(text.size());
         build_bwt(text, bwt);
@@ -95,22 +95,7 @@ int run(std::string file_name, std::string index_file) {
         std::cout << "[done]" << std::endl;
     }
     std::cout << "sigma: " << wm_bv.sigma << std::endl;
-    auto max_level = wm_bv.max_level;
-    for(uint64_t l = 0; l < max_level; ++l){
-        std::cout << "Building bitvector at level=" << l << " ..." << std::flush;
-        sdsl::bit_vector bv(wm_bv.size());
-        for(uint64_t p = l*bv.size(); p < (l+1)*bv.size(); ++p){
-            bv[p - l*bv.size()] = wm_bv.tree[p];
-        }
-        std::cout << "[done]" << std::endl;
-        std::cout << "Compressing bitvector at level=" << l << " ..." << std::flush;
-        BV new_bv(std::move(bv));
-        Rank rank;
-        sdsl::util::init_support(rank, &new_bv);
-        std::cout << "[done]" << std::endl;
-        std::cout << "Size in Bytes at level=" << l << ": "
-                  << sdsl::size_in_bytes(new_bv) + sdsl::size_in_bytes(rank) << std::endl;
-    }
+    std::cout << "Size in Bytes : " << sdsl::size_in_bytes(wm_bv) << std::endl;
 
 }
 
