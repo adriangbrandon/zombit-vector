@@ -63,6 +63,10 @@ namespace runs_vectors {
         typedef typename sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::difference_type difference_type;
         typedef sdsl::random_access_const_iterator<zombit_vector_v3> iterator;
+        typedef rank_support_zombit_v3<1> rank_1_type;
+        typedef rank_support_zombit_v3<0> rank_0_type;
+        typedef select_support_zombit_v3<1> select_1_type;
+        typedef select_support_zombit_v3<0> select_0_type;
 
         friend class rec_zombit_vector_v3;
         friend class rank_support_zombit_rec_v3<1>;

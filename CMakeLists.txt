@@ -67,3 +67,6 @@ target_link_libraries(exp-wt sdsl divsufsort divsufsort64)
 
 add_executable(exp-wm exp/exp-wm.cpp)
 target_link_libraries(exp-wm sdsl divsufsort divsufsort64)
+
+add_executable(full-wm exp/full-wm.cpp)
+target_link_libraries(full-wm sdsl divsufsort divsufsort64)
