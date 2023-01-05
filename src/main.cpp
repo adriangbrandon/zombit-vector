@@ -200,6 +200,7 @@ void sd_exp(sdsl::bit_vector &bm) {
               << "(bytes) succ= " << time << " (µs)" << std::endl;
 }
 
+
 void zombit_test(sdsl::bit_vector &bm) {
 
     runs_vectors::zombit_vector zombit(bm);

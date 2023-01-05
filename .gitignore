@@ -1,5 +1,5 @@
 dataset*
-*build*
+build/
 .idea*
 .DS_Store/
 data/

@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libmalloc_count.a  CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o CMakeFiles/malloc_count.dir/src/stack_count.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libmalloc_count.a

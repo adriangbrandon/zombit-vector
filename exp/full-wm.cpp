@@ -37,8 +37,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sdsl/bit_vectors.hpp>
 #include <iostream>
 #include <zombit_vector_v3.hpp>
+#include <rec_partitioned_zombit_vector.hpp>
+#include <partitioned_zombit_vector.hpp>
 
 typedef runs_vectors::zombit_vector_v3 zombit_type;
+typedef runs_vectors::partitioned_zombit_vector pzombit_type;
+typedef runs_vectors::rec_partitioned_zombit_vector rpzombit_type;
 typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 
@@ -96,6 +100,8 @@ int run(std::string file_name, std::string index_file) {
     }
     std::cout << "sigma: " << wm_bv.sigma << std::endl;
     std::cout << "Size in Bytes : " << sdsl::size_in_bytes(wm_bv) << std::endl;
+    std::ofstream out(index_file + ".html");
+    sdsl::write_structure<sdsl::HTML_FORMAT>(wm_bv, out);
 
 }
 
@@ -116,5 +122,14 @@ int main(int argc, char** argv)
         std::cout << "---- Zombit ----" << std::endl;
         std::string index_file = file_name + ".zombit.wt";
         run<zombit_type>(file_name, index_file);
+    }else if (type == "pzombit"){
+        std::cout << "---- PZombit ----" << std::endl;
+        std::string index_file = file_name + ".pzombit.wt";
+        run<pzombit_type>(file_name, index_file);
+    }else if (type == "rpzombit") {
+        std::cout << "---- RPZombit ----" << std::endl;
+        std::string index_file = file_name + ".rpzombit.wt";
+        run<rpzombit_type>(file_name, index_file);
     }
+
 }

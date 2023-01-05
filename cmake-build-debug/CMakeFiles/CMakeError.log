@@ -1,0 +1,79 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+ld: library not found for -lSystem
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+ld: library not found for -lc++
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+Performing C++ SOURCE FILE Test HAVE_CXA_DEMANGLE failed with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_65ab4/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_65ab4.dir/build.make CMakeFiles/cmTC_65ab4.dir/build
+Building CXX object CMakeFiles/cmTC_65ab4.dir/src.cxx.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++    -std=c++11 -stdlib=libc++ -msse4.2 -std=c++11 -DNDEBUG -stdlib=libc++ -DHAVE_CXA_DEMANGLE -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk   -o CMakeFiles/cmTC_65ab4.dir/src.cxx.o -c /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx
+/Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.cxx:4:37: error: member access into incomplete type 'const std::type_info'
+    const char *foo = typeid(foobar).name();
+                                    ^
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/cxxabi.h:32:7: note: forward declaration of 'std::type_info'
+class type_info; // forward declaration
+      ^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_65ab4.dir/src.cxx.o] Error 1
+make: *** [cmTC_65ab4/fast] Error 2
+
+
+Source file was:
+#include <cxxabi.h>
+int main(void){
+    int foobar = 0;
+    const char *foo = typeid(foobar).name();
+    int status;
+    char *demangled = abi::__cxa_demangle( foo, 0, 0, &status );
+}
+Performing C SOURCE FILE Test HAVE___DECLSPEC_DLLEXPORT_ failed with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_73eab/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_73eab.dir/build.make CMakeFiles/cmTC_73eab.dir/build
+Building C object CMakeFiles/cmTC_73eab.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wall -DHAVE___DECLSPEC_DLLEXPORT_ -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk   -o CMakeFiles/cmTC_73eab.dir/src.c.o   -c /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+/Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.c:1:1: error: '__declspec' attributes are not enabled; use '-fdeclspec' or '-fms-extensions' to enable support for __declspec attributes
+__declspec(dllexport) void func(); void func() { } int main() { func(); return 0; }
+^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_73eab.dir/src.c.o] Error 1
+make: *** [cmTC_73eab/fast] Error 2
+
+
+Source file was:
+__declspec(dllexport) void func(); void func() { } int main() { func(); return 0; }
+Performing C SOURCE FILE Test HAVE___DECLSPEC_DLLIMPORT_ failed with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f3ce5/fast && /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_f3ce5.dir/build.make CMakeFiles/cmTC_f3ce5.dir/build
+Building C object CMakeFiles/cmTC_f3ce5.dir/src.c.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -Wall -DHAVE___DECLSPEC_DLLIMPORT_ -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk   -o CMakeFiles/cmTC_f3ce5.dir/src.c.o   -c /Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+/Users/adrian/CLionProjects/succ-vectors/cmake-build-debug/CMakeFiles/CMakeTmp/src.c:1:1: error: '__declspec' attributes are not enabled; use '-fdeclspec' or '-fms-extensions' to enable support for __declspec attributes
+__declspec(dllimport) void func(); void func() { } int main() { func(); return 0; }
+^
+1 error generated.
+make[1]: *** [CMakeFiles/cmTC_f3ce5.dir/src.c.o] Error 1
+make: *** [cmTC_f3ce5/fast] Error 2
+
+
+Source file was:
+__declspec(dllimport) void func(); void func() { } int main() { func(); return 0; }

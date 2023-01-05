@@ -37,6 +37,29 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sdsl/bits.hpp>
 
 
+template<class Container, class Structure>
+void container_set_vector(const Container &c, Structure &s){
+    if(c.size() != s.size()) return;
+    for(auto i = 0; i < c.size(); ++i){
+        s[i].set_vector(&c[i]);
+    }
+}
+
+template<class Structure>
+void container_set_vector_null( Structure &s){
+    for(auto i = 0; i < s.size(); ++i){
+        s[i].set_vector(nullptr);
+    }
+}
+
+template<class Container, class Structure>
+void container_init_support(const Container &c, Structure &s){
+    if(c.size() != s.size()) return;
+    for(auto i = 0; i < c.size(); ++i){
+        sdsl::util::init_support(s[i], &c[i]);
+    }
+}
+
 namespace sdsl {
 
     namespace bits_more {

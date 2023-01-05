@@ -9,7 +9,7 @@ set(PROJECT_CONTACT "adrian.gbrandon@udc.es")
 
 
 #Change to "Debug" when you need it
-set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
 
 # C++11 compiler Check
 if(NOT CMAKE_CXX_COMPILER_VERSION) # work around for cmake versions smaller than 2.8.10
@@ -62,6 +62,9 @@ include_directories("${PROJECT_SOURCE_DIR}/external/googletest/include"
 add_executable(template_executable src/main.cpp)
 target_link_libraries(template_executable sdsl divsufsort divsufsort64)
 
+add_executable(s src/s.cpp)
+target_link_libraries(s sdsl divsufsort divsufsort64)
+
 add_executable(exp-wt exp/exp-wt.cpp)
 target_link_libraries(exp-wt sdsl divsufsort divsufsort64)
 
@@ -70,3 +73,12 @@ target_link_libraries(exp-wm sdsl divsufsort divsufsort64)
 
 add_executable(full-wm exp/full-wm.cpp)
 target_link_libraries(full-wm sdsl divsufsort divsufsort64)
+
+add_executable(error src/error.cpp)
+target_link_libraries(error sdsl divsufsort divsufsort64)
+
+add_executable(test_partitioned_zombit test/partitioned_zombit.cpp)
+target_link_libraries(test_partitioned_zombit sdsl divsufsort divsufsort64)
+
+add_executable(test_rec_partitioned_zombit test/rec_partitioned_zombit.cpp)
+target_link_libraries(test_rec_partitioned_zombit sdsl divsufsort divsufsort64)
