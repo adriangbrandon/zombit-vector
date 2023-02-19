@@ -1,0 +1,89 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S /Users/adrian/CLionProjects/succ-vectors -B /Users/adrian/CLionProjects/succ-vectors/cmake-build-release
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Compiler is recent enough to support C++11.
+-- Performing Test HAVE_CLANG_STD=C__11
+-- Performing Test HAVE_CLANG_STD=C__11 - Success
+-- Performing Test HAVE_CLANG_STDLIB=LIBC__
+-- Performing Test HAVE_CLANG_STDLIB=LIBC__ - Success
+-- Could not find support for SSE2 on this machine.
+-- Could not find support for SSE3 on this machine.
+-- Could not find support for SSSE3 on this machine.
+-- Could not find support for SSE4.1 on this machine.
+-- Could not find support for SSE4.2 on this machine.
+-- CPU does NOT support SSE4.2
+CMake Deprecation Warning at external/sdsl-lite/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Compiler is recent enough to support C++11.
+-- Performing Test HAVE_CLANG_STD=C__11__DNDEBUG
+-- Performing Test HAVE_CLANG_STD=C__11__DNDEBUG - Success
+-- Performing Test HAVE_CLANG_O3__FFAST_MATH__FUNROLL_LOOPS__D__EXTERN_ALWAYS_INLINE="EXTERN___ALWAYS_INLINE"_
+-- Performing Test HAVE_CLANG_O3__FFAST_MATH__FUNROLL_LOOPS__D__EXTERN_ALWAYS_INLINE="EXTERN___ALWAYS_INLINE"_ - Success
+-- Could NOT find CxaDemangle (missing: HAVE_CXA_DEMANGLE) 
+git found: /opt/homebrew/bin/git
+CMake Deprecation Warning at external/sdsl-lite/external/libdivsufsort/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+CMake Warning (dev) at external/sdsl-lite/external/libdivsufsort/CMakeLists.txt:7 (project):
+  Policy CMP0048 is not set: project() command manages VERSION variables.
+  Run "cmake --help-policy CMP0048" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  The following variable(s) would be set to empty:
+
+    PROJECT_VERSION
+    PROJECT_VERSION_MAJOR
+    PROJECT_VERSION_MINOR
+    PROJECT_VERSION_PATCH
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at external/sdsl-lite/external/googletest/googletest/CMakeLists.txt:47 (project):
+  Policy CMP0048 is not set: project() command manages VERSION variables.
+  Run "cmake --help-policy CMP0048" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  The following variable(s) would be set to empty:
+
+    PROJECT_VERSION
+    PROJECT_VERSION_MAJOR
+    PROJECT_VERSION_MINOR
+    PROJECT_VERSION_PATCH
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Deprecation Warning at external/sdsl-lite/external/googletest/googletest/CMakeLists.txt:48 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+CMake Deprecation Warning at external/malloc_count/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release

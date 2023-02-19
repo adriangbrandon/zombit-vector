@@ -1,0 +1,162 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "external/sdsl-lite/test/int_vector_test"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"ADD_EXECUTABLE",
+			"INCLUDE_DIRECTORIES"
+		],
+		"files" : 
+		[
+			"external/sdsl-lite/test/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 49,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 32,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=c++11 -stdlib=libc++ -std=c++11 -DNDEBUG -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "MODE_TI"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/test/../include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/test/../external/libdivsufsort/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/googletest/googletest/include"
+				},
+				{
+					"backtrace" : 1,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 1,
+			"id" : "divsufsort::@923a79fab18144df1ebf"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "divsufsort64::@923a79fab18144df1ebf"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "gtest::@307669c541c43f129518"
+		},
+		{
+			"backtrace" : 1,
+			"id" : "sdsl::@c451a27e72d6001d7d94"
+		}
+	],
+	"id" : "int_vector_test::@0b59ae8c8f08a485b727",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-std=c++11 -stdlib=libc++ -std=c++11 -DNDEBUG -stdlib=libc++ -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "external/sdsl-lite/lib/libsdsl.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "external/sdsl-lite/external/googletest/googletest/libgtest.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 1,
+				"fragment" : "external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "int_vector_test",
+	"nameOnDisk" : "int_vector_test",
+	"paths" : 
+	{
+		"build" : "external/sdsl-lite/test",
+		"source" : "external/sdsl-lite/test"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "external/sdsl-lite/test/int_vector_test.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

@@ -1,0 +1,45 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"external/malloc_count/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 34,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"external/malloc_count/libmalloc_count.a"
+			],
+			"targetId" : "malloc_count::@a86a455104321a63d984",
+			"targetIndex" : 113,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "external/malloc_count",
+		"source" : "external/malloc_count"
+	}
+}

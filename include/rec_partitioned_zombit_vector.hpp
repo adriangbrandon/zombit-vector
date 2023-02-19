@@ -46,10 +46,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace runs_vectors {
 
    // template<uint8_t t_b = 1> class rank_support_zombit_rec_v3;
-    template<uint8_t t_b = 1> class rank_support_rec_partitioned_zombit;
-    template<uint8_t t_b = 1> class select_support_rec_partitioned_zombit;
+    template<uint8_t t_b = 1, class t_mixed=sdsl::bit_vector> class rank_support_rec_partitioned_zombit;
+    template<uint8_t t_b = 1, class t_mixed=sdsl::bit_vector> class select_support_rec_partitioned_zombit;
     class succ_support_rec_partitioned_zombit;
 
+    template<class t_mixed = sdsl::bit_vector >
     class rec_partitioned_zombit_vector {
 
     public:
@@ -79,7 +80,7 @@ namespace runs_vectors {
 
         size_type m_size = 0;
         size_type m_levels = 0;
-        std::vector<partitioned_zombit_vector> m_zombits;
+        std::vector<partitioned_zombit_vector<t_mixed>> m_zombits;
 
 
 
@@ -104,12 +105,12 @@ namespace runs_vectors {
             if(c.empty()) return;
             m_size = c.size();
             size_type l = 1;
-            auto zom = partitioned_zombit_vector(c);
+            auto zom = partitioned_zombit_vector<t_mixed>(c);
             size_type size_plain;
             do {
                 m_zombits.emplace_back(std::move(zom));
                 size_plain = sdsl::size_in_bytes(m_zombits.back().mixed);
-                zom = partitioned_zombit_vector(m_zombits.back().mixed);
+                zom = partitioned_zombit_vector<t_mixed>(m_zombits.back().mixed);
                 ++l;
                 std::cout << "Trying level=" << l << " plain=" << size_plain << " zombit=" <<  sdsl::size_in_bytes(zom) << std::endl;
             }while(size_plain > sdsl::size_in_bytes(zom) && l <= max_levels);
@@ -159,7 +160,7 @@ namespace runs_vectors {
             //std::cout << "acess at " << i << std::endl;
             size_type aux_i = i;
             for(size_type l = 0; l < m_levels; ++l){
-                const partitioned_zombit_vector& zombit = m_zombits[l];
+                const partitioned_zombit_vector<t_mixed>& zombit = m_zombits[l];
                 auto j = zombit.pos_to_block(i);
                 if(m_zombits[l].m_full[j]){
                     //std::cout << "full: " << j << "(" << m_full.size() << ")" << std::endl;
@@ -244,7 +245,7 @@ namespace runs_vectors {
 
     template<uint8_t t_b>
     struct rank_support_rec_partitioned_zombit_trait {
-        typedef rec_partitioned_zombit_vector::size_type size_type;
+        typedef uint64_t size_type;
         static size_type adjust_rank(size_type r,size_type)
         {
             return r;
@@ -253,7 +254,7 @@ namespace runs_vectors {
 
     template<>
     struct rank_support_rec_partitioned_zombit_trait<0> {
-        typedef rec_partitioned_zombit_vector::size_type size_type;
+        typedef uint64_t size_type;
         static size_type adjust_rank(size_type r, size_type n)
         {
             return n - r;
@@ -261,7 +262,7 @@ namespace runs_vectors {
     };
 
 
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class rank_support_rec_partitioned_zombit {
 
     public:
@@ -269,8 +270,8 @@ namespace runs_vectors {
         typedef sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::rank_1_type rank_mixed_type;
     private:
-        const rec_partitioned_zombit_vector* m_v = nullptr;
-        std::vector<rank_support_partitioned_zombit_v<t_b>> m_rank_zombit;
+        const rec_partitioned_zombit_vector<t_mixed>* m_v = nullptr;
+        std::vector<rank_support_partitioned_zombit_v<t_b, t_mixed>> m_rank_zombit;
 
         void copy(const rank_support_rec_partitioned_zombit& ss){
             m_v = ss.m_v;
@@ -284,7 +285,7 @@ namespace runs_vectors {
 
         rank_support_rec_partitioned_zombit(){};
 
-        rank_support_rec_partitioned_zombit(const rec_partitioned_zombit_vector* v)
+        rank_support_rec_partitioned_zombit(const rec_partitioned_zombit_vector<t_mixed>* v)
         {
             m_v = v;
             if(m_v != nullptr){
@@ -307,7 +308,7 @@ namespace runs_vectors {
             for(size_type l = 0; l < m_v->m_levels; ++l){
                 //std::cout << "aux_i: " << aux_i << std::endl;
                 if(aux_i == 0) return rank_support_rec_partitioned_zombit_trait<t_b>::adjust_rank(r, i);
-                const partitioned_zombit_vector& zombit = m_v->m_zombits[l];
+                const partitioned_zombit_vector<t_mixed>& zombit = m_v->m_zombits[l];
                 auto j = zombit.pos_to_block(aux_i-1); //block
                 size_type m = j - zombit.m_rank_full(j); // M blocks before j
                 size_type o = m_rank_zombit[l].m_rank_info(j) - m;
@@ -342,7 +343,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const rec_partitioned_zombit_vector* v=nullptr)
+        void set_vector(const rec_partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr && m_v->levels > 0){
@@ -400,7 +401,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const rec_partitioned_zombit_vector* v=nullptr)
+        void load(std::istream& in, const rec_partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr && m_v->levels > 0){
@@ -697,11 +698,11 @@ namespace runs_vectors {
 * \tparam k_sblock_rate  Superblock rate (number of blocks inside superblock)
 * TODO: implement select queries, currently this is dummy class.
 */
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class select_support_rec_partitioned_zombit
     {
     public:
-        typedef rec_partitioned_zombit_vector bit_vector_type;
+        typedef rec_partitioned_zombit_vector<t_mixed> bit_vector_type;
         typedef typename bit_vector_type::size_type size_type;
         enum { bit_pat = t_b };
         enum { bit_pat_len = (uint8_t)1 };

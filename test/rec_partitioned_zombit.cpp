@@ -93,7 +93,7 @@ void test(sdsl::bit_vector &bm) {
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    runs_vectors::rec_partitioned_zombit_vector pz(bm, 2);
+    runs_vectors::rec_partitioned_zombit_vector<> pz(bm, 2);
     runs_vectors::rank_support_rec_partitioned_zombit<1> pz_rank;
     sdsl::util::init_support(pz_rank, &pz);
     /*runs_vectors::succ_support_partitioned_zombit pz_succ;

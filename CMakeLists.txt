@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 include(AppendCompilerFlags)
+set(CMAKE_OSX_ARCHITECTURES x86_64)
 
 project(succ-vectors)
 set(PROJECT_VENDOR "Adrián Gómez Brandón")
@@ -9,7 +10,7 @@ set(PROJECT_CONTACT "adrian.gbrandon@udc.es")
 
 
 #Change to "Debug" when you need it
-set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_BUILD_TYPE "Debug")
 
 # C++11 compiler Check
 if(NOT CMAKE_CXX_COMPILER_VERSION) # work around for cmake versions smaller than 2.8.10
@@ -82,3 +83,9 @@ target_link_libraries(test_partitioned_zombit sdsl divsufsort divsufsort64)
 
 add_executable(test_rec_partitioned_zombit test/rec_partitioned_zombit.cpp)
 target_link_libraries(test_rec_partitioned_zombit sdsl divsufsort divsufsort64)
+
+add_executable(test_rrr test/rrr.cpp)
+target_link_libraries(test_rrr sdsl divsufsort divsufsort64)
+
+add_executable(test_hyb test/hyb.cpp)
+target_link_libraries(test_hyb sdsl divsufsort divsufsort64)

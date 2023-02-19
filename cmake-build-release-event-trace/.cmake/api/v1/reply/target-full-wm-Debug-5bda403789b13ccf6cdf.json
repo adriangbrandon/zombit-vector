@@ -1,0 +1,166 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "full-wm"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 75,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 76,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 52,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/googletest/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "divsufsort::@923a79fab18144df1ebf"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "divsufsort64::@923a79fab18144df1ebf"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "sdsl::@c451a27e72d6001d7d94"
+		}
+	],
+	"id" : "full-wm::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-std=c++11 -stdlib=libc++ -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "external/sdsl-lite/lib/libsdsl.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "full-wm",
+	"nameOnDisk" : "full-wm",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "exp/full-wm.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

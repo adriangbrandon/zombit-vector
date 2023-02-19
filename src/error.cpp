@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Created by Adrián on 2/1/23.
 //
 #include <time.hpp>
-#include <partitioned_zombit_vector.hpp>
+#include <succ-vec/hyb_vector.hpp>
 
 int main(int argc, char** argv) {
 
@@ -41,12 +41,12 @@ int main(int argc, char** argv) {
     const uint8_t* data = (uint8_t*) bv.data();
     std::cout << (uint64_t) data[11] << std::endl;
 
-    runs_vectors::partitioned_zombit_vector pz(bv);
-    runs_vectors::rank_support_partitioned_zombit_v<1> rank_pz;
+    sdsl_v2::hyb_vector<> pz(bv);
+    sdsl_v2::hyb_vector<>::succ_1_type rank_pz;
     sdsl::util::init_support(rank_pz, &pz);
 
-    std::cout << rank_pz(272) << std::endl;
-    std::cout << rank_pz(273) << std::endl;
+    std::cout << rank_pz(4091) << std::endl;
+    std::cout << rank_pz(0) << std::endl;
 
 
 

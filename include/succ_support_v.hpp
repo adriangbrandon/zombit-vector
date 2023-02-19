@@ -78,8 +78,8 @@ namespace runs_vectors {
                 m_super_blocks = sdsl::int_vector<64>(1 ,0);
                 return ;
             }
-            size_type super_block_size = util::math::ceil_div(v->capacity(), W2);
-            size_type basic_block_size = util::math::ceil_div(v->capacity(), W);
+            size_type super_block_size = ::util::math::ceil_div(v->capacity(), W2);
+            size_type basic_block_size = ::util::math::ceil_div(v->capacity(), W);
             m_super_blocks.resize(super_block_size);   // resize structure for super_blocks
             m_basic_blocks.resize(basic_block_size);   // resize structure for basic_blocks
             size_type i;

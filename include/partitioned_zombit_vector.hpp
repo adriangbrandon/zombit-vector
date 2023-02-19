@@ -49,16 +49,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace runs_vectors {
 
-    template<uint8_t t_b> class rank_support_partitioned_zombit_simple;
-    template<uint8_t t_b> class rank_support_partitioned_zombit_v;
-    template<uint8_t t_b> class rank_support_rec_partitioned_zombit;
-    template<uint8_t t_b> class select_support_zombit_v4;
-    class succ_support_partitioned_zombit_naive;
-    class succ_support_partitioned_zombit;
-    class rec_partitioned_zombit_vector;
+    template<uint8_t t_b, class t_mixed> class rank_support_partitioned_zombit_simple;
+    template<uint8_t t_b, class t_mixed> class rank_support_partitioned_zombit_v;
+    template<uint8_t t_b, class t_mixed> class rank_support_rec_partitioned_zombit;
+    template<uint8_t t_b, class t_mixed> class select_support_zombit_v4;
+    template<class t_mixed> class succ_support_partitioned_zombit_naive;
+    template<class t_mixed, class t_succ_mixed> class succ_support_partitioned_zombit;
+    template<class t_mixed> class rec_partitioned_zombit_vector;
     class succ_support_rec_partitioned_zombit;
 
 
+    template <class t_mixed = sdsl::bit_vector, class t_succ_mixed= succ_support_v<1>>
     class partitioned_zombit_vector {
 
     public:
@@ -67,27 +68,27 @@ namespace runs_vectors {
         typedef sdsl::sd_vector<>   length_type;
         typedef typename sdsl::sd_vector<>::rank_1_type   rank_length_type;
         typedef typename sdsl::sd_vector<>::select_1_type select_length_type;
-        typedef sdsl::bit_vector    mixed_bitmap_type;
+        typedef t_mixed  mixed_bitmap_type;
         typedef typename sdsl::bit_vector::size_type size_type;
         typedef typename sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::difference_type difference_type;
         typedef sdsl::random_access_const_iterator<partitioned_zombit_vector> iterator;
-        typedef rank_support_partitioned_zombit_v<1> rank_1_type;
-        typedef rank_support_partitioned_zombit_v<0> rank_0_type;
-        typedef select_support_zombit_v4<1> select_1_type;
-        typedef select_support_zombit_v4<0> select_0_type;
+        typedef rank_support_partitioned_zombit_v<1, t_mixed> rank_1_type;
+        typedef rank_support_partitioned_zombit_v<0, t_mixed> rank_0_type;
+        typedef select_support_zombit_v4<1, t_mixed> select_1_type;
+        typedef select_support_zombit_v4<0, t_mixed> select_0_type;
 
-        friend class select_support_zombit_v4<1>;
-        friend class select_support_zombit_v4<0>;
-        friend class rank_support_partitioned_zombit_simple<1>;
-        friend class rank_support_partitioned_zombit_simple<0>;
-        friend class rank_support_partitioned_zombit_v<1>;
-        friend class rank_support_rec_partitioned_zombit<0>;
-        friend class succ_support_partitioned_zombit_naive;
-        friend class succ_support_partitioned_zombit;
-        friend class rec_partitioned_zombit_vector;
-        friend class rank_support_rec_partitioned_zombit<1>;
-        friend class rank_support_partitioned_zombit_v<0>;
+        friend class select_support_zombit_v4<1, t_mixed>;
+        friend class select_support_zombit_v4<0, t_mixed>;
+        friend class rank_support_partitioned_zombit_simple<1, t_mixed>;
+        friend class rank_support_partitioned_zombit_simple<0, t_mixed>;
+        friend class rank_support_partitioned_zombit_v<1, t_mixed>;
+        friend class rank_support_rec_partitioned_zombit<0, t_mixed>;
+        friend class succ_support_partitioned_zombit_naive<t_mixed>;
+        friend class succ_support_partitioned_zombit<t_mixed, t_succ_mixed>;
+        friend class rec_partitioned_zombit_vector<mixed_bitmap_type>;
+        friend class rank_support_rec_partitioned_zombit<1, t_mixed>;
+        friend class rank_support_partitioned_zombit_v<0, t_mixed>;
         friend class succ_support_rec_partitioned_zombit;
 
     private:
@@ -226,7 +227,7 @@ namespace runs_vectors {
             m_full[m_full.size()-2] = 0;
             m_full[m_full.size()-1] = 1;
             //Storing info of mixed blocks
-            m_mixed = sdsl::bit_vector(cnt_mixed_blocks*ZOMBIT_SMALL_BLOCK);
+            m_mixed = mixed_bitmap_type(cnt_mixed_blocks*ZOMBIT_SMALL_BLOCK);
             size_type ith_mixed = 0, start_block, end_block;
             for(const auto &mixed_block : mixed_blocks){
                 start_block = mixed_block.first * ZOMBIT_SMALL_BLOCK;
@@ -411,7 +412,7 @@ namespace runs_vectors {
 
     template<uint8_t t_b>
     struct rank_support_partitioned_zombit_trait {
-        typedef partitioned_zombit_vector::size_type size_type;
+        typedef partitioned_zombit_vector<>::size_type size_type;
         static size_type adjust_rank(size_type r,size_type)
         {
             return r;
@@ -420,22 +421,22 @@ namespace runs_vectors {
 
     template<>
     struct rank_support_partitioned_zombit_trait<0> {
-        typedef partitioned_zombit_vector::size_type size_type;
+        typedef partitioned_zombit_vector<>::size_type size_type;
         static size_type adjust_rank(size_type r, size_type n)
         {
             return n - r;
         }
     };
 
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class rank_support_partitioned_zombit_simple {
 
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
-        typedef typename sdsl::bit_vector::rank_1_type rank_mixed_type;
+        typedef typename t_mixed::rank_1_type rank_mixed_type;
     private:
-        const partitioned_zombit_vector* m_v = nullptr;
+        const partitioned_zombit_vector<t_mixed>* m_v = nullptr;
 
         rank_mixed_type m_rank_mixed;
         std::vector<uint64_t> m_blocks;
@@ -459,7 +460,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        explicit rank_support_partitioned_zombit_simple(const partitioned_zombit_vector* v)
+        explicit rank_support_partitioned_zombit_simple(const partitioned_zombit_vector<t_mixed>* v)
         {
             m_v = v;
             sdsl::util::init_support(m_rank_mixed, &(m_v->mixed));
@@ -523,7 +524,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const partitioned_zombit_vector* v=nullptr)
+        void set_vector(const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr){
@@ -574,7 +575,7 @@ namespace runs_vectors {
 
 
 
-        void load(std::istream& in, const partitioned_zombit_vector* v=nullptr)
+        void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr){
@@ -598,17 +599,17 @@ namespace runs_vectors {
     };
 
 
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class rank_support_partitioned_zombit_v {
 
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
-        typedef typename sdsl::bit_vector::rank_1_type rank_type;
+        typedef typename t_mixed::rank_1_type rank_type;
         typedef sdsl::rank_support_trait<t_b, 1> trait_type;
-        friend class rank_support_rec_partitioned_zombit<t_b>;
+        friend class rank_support_rec_partitioned_zombit<t_b, t_mixed>;
     private:
-        const partitioned_zombit_vector* m_v = nullptr;
+        const partitioned_zombit_vector<t_mixed>* m_v = nullptr;
 
         rank_type m_rank_mixed;
         rank_type m_rank_info;
@@ -637,7 +638,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        explicit rank_support_partitioned_zombit_v(const partitioned_zombit_vector* v)
+        explicit rank_support_partitioned_zombit_v(const partitioned_zombit_vector<t_mixed>* v)
         {
             m_v = v;
             sdsl::util::init_support(m_rank_mixed, &(m_v->mixed));
@@ -694,7 +695,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const partitioned_zombit_vector* v=nullptr)
+        void set_vector(const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr){
@@ -754,7 +755,7 @@ namespace runs_vectors {
 
 
 
-        void load(std::istream& in, const partitioned_zombit_vector* v=nullptr)
+        void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr){
@@ -781,15 +782,17 @@ namespace runs_vectors {
     };
 
 
+    template<class t_mixed = sdsl::bit_vector, class t_succ_mixed = succ_support_v<1>>
     class succ_support_partitioned_zombit {
 
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
+        typedef t_succ_mixed succ_1_mixed_type;
     private:
-        const partitioned_zombit_vector* m_v;
+        const partitioned_zombit_vector<t_mixed>* m_v;
         succ_support_v<1>   m_succ_info;
-        succ_support_v<1>   m_succ_mixed;
+        succ_1_mixed_type   m_succ_mixed;
 
 
         void copy(const succ_support_partitioned_zombit& ss){
@@ -838,7 +841,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        succ_support_partitioned_zombit(const partitioned_zombit_vector* v = nullptr)
+        succ_support_partitioned_zombit(const partitioned_zombit_vector<t_mixed>* v = nullptr)
         {
             m_v = v;
             if(m_v == nullptr) return;
@@ -881,7 +884,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const partitioned_zombit_vector* v=nullptr)
+        void set_vector(const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr){
@@ -937,7 +940,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const partitioned_zombit_vector* v=nullptr)
+        void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr){
@@ -963,13 +966,14 @@ namespace runs_vectors {
 
 
     //Only with t_b=1
+    template<class t_mixed = sdsl::bit_vector>
     class succ_support_partitioned_zombit_naive {
 
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
     private:
-        const partitioned_zombit_vector* m_v;
+        const partitioned_zombit_vector<t_mixed>* m_v;
 
 
         void copy(const succ_support_partitioned_zombit_naive& ss){
@@ -1012,7 +1016,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        succ_support_partitioned_zombit_naive(const partitioned_zombit_vector* v = nullptr)
+        succ_support_partitioned_zombit_naive(const partitioned_zombit_vector<t_mixed>* v = nullptr)
         {
             m_v = v;
             if(m_v == nullptr) return;
@@ -1052,7 +1056,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const partitioned_zombit_vector* v=nullptr)
+        void set_vector(const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
         }
@@ -1079,7 +1083,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const partitioned_zombit_vector* v=nullptr)
+        void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
         }
@@ -1101,11 +1105,11 @@ namespace runs_vectors {
  * \tparam k_sblock_rate  Superblock rate (number of blocks inside superblock)
  * TODO: implement select queries, currently this is dummy class.
  */
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class select_support_zombit_v4
     {
     public:
-        typedef partitioned_zombit_vector bit_vector_type;
+        typedef partitioned_zombit_vector<t_mixed> bit_vector_type;
         typedef typename bit_vector_type::size_type size_type;
         enum { bit_pat = t_b };
         enum { bit_pat_len = (uint8_t)1 };

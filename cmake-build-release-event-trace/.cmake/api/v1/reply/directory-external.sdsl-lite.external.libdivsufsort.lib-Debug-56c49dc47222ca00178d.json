@@ -1,0 +1,63 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"external/sdsl-lite/external/libdivsufsort/lib/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "/usr/local/lib",
+			"paths" : 
+			[
+				"external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a"
+			],
+			"targetId" : "divsufsort::@923a79fab18144df1ebf",
+			"targetIndex" : 74,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "/usr/local/lib",
+			"paths" : 
+			[
+				"external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a"
+			],
+			"targetId" : "divsufsort64::@923a79fab18144df1ebf",
+			"targetIndex" : 75,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "external/sdsl-lite/external/libdivsufsort/lib",
+		"source" : "external/sdsl-lite/external/libdivsufsort/lib"
+	}
+}
