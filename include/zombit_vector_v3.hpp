@@ -44,42 +44,44 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace runs_vectors {
 
-    template<uint8_t t_b> class rank_support_zombit_v3;
-    template<uint8_t t_b> class select_support_zombit_v3;
-    template<uint8_t t_b> class succ_support_zombit_v3;
+    template<uint8_t t_b, class t_mixed> class rank_support_zombit_v3;
+    template<uint8_t t_b, class t_mixed> class select_support_zombit_v3;
+    template<uint8_t t_b, class t_mixed> class succ_support_zombit_v3;
     class succ_support_zombit_v3_naive;
     class rec_zombit_vector_v3;
     template<uint8_t t_b> class rank_support_zombit_rec_v3;
     template<uint8_t t_b> class succ_support_zombit_rec_v3;
 
 
+    template <class t_mixed = sdsl::bit_vector>
     class zombit_vector_v3 {
 
     public:
         typedef sdsl::bit_vector bitmap_type;
-        typedef sdsl::bit_vector values_type;
+        typedef t_mixed  mixed_bitmap_type;
         typedef typename sdsl::bit_vector::rank_1_type rank_bitmap_type;
         typedef typename sdsl::bit_vector::size_type size_type;
         typedef typename sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::difference_type difference_type;
         typedef sdsl::random_access_const_iterator<zombit_vector_v3> iterator;
-        typedef rank_support_zombit_v3<1> rank_1_type;
-        typedef rank_support_zombit_v3<0> rank_0_type;
-        typedef select_support_zombit_v3<1> select_1_type;
-        typedef select_support_zombit_v3<0> select_0_type;
+        typedef rank_support_zombit_v3<1, t_mixed> rank_1_type;
+        typedef rank_support_zombit_v3<0, t_mixed> rank_0_type;
+        typedef select_support_zombit_v3<1, t_mixed> select_1_type;
+        typedef select_support_zombit_v3<0, t_mixed> select_0_type;
+        typedef succ_support_zombit_v3<1, t_mixed> succ_1_type;
 
         friend class rec_zombit_vector_v3;
         friend class rank_support_zombit_rec_v3<1>;
         friend class rank_support_zombit_rec_v3<0>;
         friend class succ_support_zombit_rec_v3<1>;
         friend class succ_support_zombit_rec_v3<0>;
-        friend class rank_support_zombit_v3<1>;
-        friend class select_support_zombit_v3<1>;
-        friend class select_support_zombit_v3<0>;
-        friend class rank_support_zombit_v3<0>;
+        friend class rank_support_zombit_v3<1, t_mixed>;
+        friend class select_support_zombit_v3<1, t_mixed>;
+        friend class select_support_zombit_v3<0, t_mixed>;
+        friend class rank_support_zombit_v3<0, t_mixed>;
         friend class succ_support_zombit_v3_naive;
-        friend class succ_support_zombit_v3<1>;
-        friend class succ_support_zombit_v3<0>;
+        friend class succ_support_zombit_v3<1, t_mixed>;
+        friend class succ_support_zombit_v3<0, t_mixed>;
 
     private:
 
@@ -88,7 +90,7 @@ namespace runs_vectors {
         bitmap_type m_full;
         rank_bitmap_type m_rank_full;
         bitmap_type m_info;
-        values_type m_mixed;
+        mixed_bitmap_type m_mixed;
 
         void copy(const zombit_vector_v3 &o){
             m_size = o.m_size;
@@ -122,7 +124,7 @@ namespace runs_vectors {
     public:
 
         const size_type &sample = m_sample;
-        const values_type &mixed = m_mixed;
+        const mixed_bitmap_type &mixed = m_mixed;
 
         zombit_vector_v3() = default;
 
@@ -201,16 +203,17 @@ namespace runs_vectors {
             m_full[m_full.size()-2] = 0;
             m_full[m_full.size()-1] = 1;
             //Storing info of mixed blocks
-            m_mixed = sdsl::bit_vector(mixed_blocks.size()*sample);
+            auto aux = sdsl::bit_vector(mixed_blocks.size()*sample);
             size_type ith_mixed = 0;
             for(const auto &mixed_block : mixed_blocks){
                 start_block = mixed_block * sample;
                 end_block = std::min(start_block + sample, c.size());
                 for(size_type i = start_block; i < end_block; ++i){
-                    m_mixed[ith_mixed] = c[i];
+                    aux[ith_mixed] = c[i];
                     ++ith_mixed;
                 }
             }
+            m_mixed = mixed_bitmap_type(aux);
             sdsl::util::init_support(m_rank_full, &m_full);
         }
 
@@ -342,7 +345,7 @@ namespace runs_vectors {
 
     template<uint8_t t_b>
     struct rank_support_zombit_v3_trait {
-        typedef zombit_vector_v3::size_type size_type;
+        typedef uint64_t size_type;
         static size_type adjust_rank(size_type r,size_type)
         {
             return r;
@@ -351,14 +354,15 @@ namespace runs_vectors {
 
     template<>
     struct rank_support_zombit_v3_trait<0> {
-        typedef zombit_vector_v3::size_type size_type;
+        typedef uint64_t size_type;
         static size_type adjust_rank(size_type r, size_type n)
         {
             return n - r;
         }
     };
 
-    template<uint8_t t_b>
+
+    template <uint8_t t_b=1, class t_mixed = sdsl::bit_vector>
     class rank_support_zombit_v3 {
 
     public:
@@ -366,11 +370,12 @@ namespace runs_vectors {
         friend class rank_support_zombit_rec_v3<0>;
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
-        typedef typename sdsl::bit_vector::rank_1_type rank_mixed_type;
+        typedef typename t_mixed::rank_1_type rank_mixed_type;
+        typedef typename sdsl::bit_vector::rank_1_type rank_type;
     private:
-        const zombit_vector_v3* m_v = nullptr;
+        const zombit_vector_v3<t_mixed>* m_v = nullptr;
         rank_mixed_type m_rank_mixed;
-        rank_mixed_type m_rank_info;
+        rank_type m_rank_info;
 
         void copy(const rank_support_zombit_v3& ss){
             m_v = ss.m_v;
@@ -392,7 +397,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        explicit rank_support_zombit_v3(const zombit_vector_v3* v)
+        explicit rank_support_zombit_v3(const zombit_vector_v3<t_mixed>* v)
         {
             m_v = v;
             sdsl::util::init_support(m_rank_info, &(m_v->m_info));
@@ -443,7 +448,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const zombit_vector_v3* v=nullptr)
+        void set_vector(const zombit_vector_v3<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr){
@@ -499,7 +504,7 @@ namespace runs_vectors {
 
 
 
-        void load(std::istream& in, const zombit_vector_v3* v=nullptr)
+        void load(std::istream& in, const zombit_vector_v3<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr){
@@ -523,7 +528,7 @@ namespace runs_vectors {
 
 
 
-    template <uint8_t t_b>
+    template <uint8_t t_b, class t_mixed>
     class succ_support_zombit_v3 {
 
         friend class succ_support_zombit_rec_v3<1>;
@@ -531,10 +536,11 @@ namespace runs_vectors {
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
+        typedef typename t_mixed::succ_1_type succ_mixed_type;
     private:
-        const zombit_vector_v3* m_v;
+        const zombit_vector_v3<t_mixed>* m_v;
         succ_support_v<1> m_next_check;
-        succ_support_v<t_b> m_succ_mixed;
+        succ_mixed_type m_succ_mixed;
 
 
         void copy(const succ_support_zombit_v3& ss){
@@ -558,7 +564,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        succ_support_zombit_v3(const zombit_vector_v3* v = nullptr)
+        succ_support_zombit_v3(const zombit_vector_v3<t_mixed>* v = nullptr)
         {
             m_v = v;
             if(m_v == nullptr) return;
@@ -602,7 +608,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const zombit_vector_v3* v=nullptr)
+        void set_vector(const zombit_vector_v3<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(v != nullptr){
@@ -687,7 +693,7 @@ namespace runs_vectors {
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
     private:
-        const zombit_vector_v3* m_v;
+        const zombit_vector_v3<sdsl::bit_vector>* m_v;
 
 
         void copy(const succ_support_zombit_v3_naive& ss){
@@ -702,7 +708,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        succ_support_zombit_v3_naive(const zombit_vector_v3* v = nullptr)
+        succ_support_zombit_v3_naive(const zombit_vector_v3<sdsl::bit_vector>* v = nullptr)
         {
             m_v = v;
             if(m_v == nullptr) return;
@@ -750,7 +756,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const zombit_vector_v3* v=nullptr)
+        void set_vector(const zombit_vector_v3<sdsl::bit_vector>* v=nullptr)
         {
             m_v = v;
         }
@@ -777,7 +783,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const zombit_vector_v3* v=nullptr)
+        void load(std::istream& in, const zombit_vector_v3<sdsl::bit_vector>* v=nullptr)
         {
             m_v = v;
         }
@@ -799,11 +805,11 @@ namespace runs_vectors {
  * \tparam k_sblock_rate  Superblock rate (number of blocks inside superblock)
  * TODO: implement select queries, currently this is dummy class.
  */
-    template<uint8_t t_b>
+    template<uint8_t t_b, class t_mixed>
     class select_support_zombit_v3
     {
     public:
-        typedef zombit_vector_v3 bit_vector_type;
+        typedef zombit_vector_v3<t_mixed> bit_vector_type;
         typedef typename bit_vector_type::size_type size_type;
         enum { bit_pat = t_b };
         enum { bit_pat_len = (uint8_t)1 };

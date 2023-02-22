@@ -94,7 +94,7 @@ void test(sdsl::bit_vector &bm) {
     sdsl::util::init_support(bm_succ, &bm);
 
     runs_vectors::partitioned_zombit_vector<> pz(bm);
-    runs_vectors::succ_support_partitioned_zombit<> pz_succ;
+    typename runs_vectors::partitioned_zombit_vector<>::succ1_type pz_succ;
     runs_vectors::succ_support_partitioned_zombit_naive<> pz_succ_naive;
     runs_vectors::partitioned_zombit_vector<>::rank_1_type pz_rank;
     sdsl::util::init_support(pz_succ, &pz);

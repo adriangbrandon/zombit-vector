@@ -8,6 +8,7 @@
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/test_rec_partitioned_zombit.dir
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/test_rrr.dir
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/test_hyb.dir
+/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/wm.dir
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/package.dir
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/package_source.dir
 /Users/adrian/CLionProjects/succ-vectors/cmake-build-release/CMakeFiles/edit_cache.dir

@@ -41,8 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <partitioned_zombit_vector.hpp>
 
 typedef runs_vectors::zombit_vector_v3 zombit_type;
-typedef runs_vectors::partitioned_zombit_vector pzombit_type;
-typedef runs_vectors::rec_partitioned_zombit_vector rpzombit_type;
+typedef runs_vectors::partitioned_zombit_vector<> pzombit_type;
+typedef runs_vectors::rec_partitioned_zombit_vector<> rpzombit_type;
 typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 

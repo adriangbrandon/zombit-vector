@@ -9,7 +9,7 @@
 
 # =============================================================================
 # Project: succ-vectors
-# Configurations: Debug
+# Configurations: Release
 # =============================================================================
 
 #############################################
@@ -21,7 +21,7 @@ ninja_required_version = 1.5
 #############################################
 # Set configuration variable for custom commands.
 
-CONFIGURATION = Debug
+CONFIGURATION = Release
 # =============================================================================
 # Include auxiliary files.
 
@@ -46,9 +46,9 @@ cmake_ninja_workdir = /Users/adrian/CLionProjects/succ-vectors/cmake-build-relea
 
 build cmake_object_order_depends_target_template_executable: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/template_executable.dir/src/main.cpp.o: CXX_COMPILER__template_executable_Debug /Users/adrian/CLionProjects/succ-vectors/src/main.cpp || cmake_object_order_depends_target_template_executable
+build CMakeFiles/template_executable.dir/src/main.cpp.o: CXX_COMPILER__template_executable_Release /Users/adrian/CLionProjects/succ-vectors/src/main.cpp || cmake_object_order_depends_target_template_executable
   DEP_FILE = CMakeFiles/template_executable.dir/src/main.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/template_executable.dir
   OBJECT_FILE_DIR = CMakeFiles/template_executable.dir/src
@@ -61,8 +61,8 @@ build CMakeFiles/template_executable.dir/src/main.cpp.o: CXX_COMPILER__template_
 #############################################
 # Link the executable template_executable
 
-build template_executable: CXX_EXECUTABLE_LINKER__template_executable_Debug CMakeFiles/template_executable.dir/src/main.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build template_executable: CXX_EXECUTABLE_LINKER__template_executable_Release CMakeFiles/template_executable.dir/src/main.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/template_executable.dir
   POST_BUILD = :
@@ -79,9 +79,9 @@ build template_executable: CXX_EXECUTABLE_LINKER__template_executable_Debug CMak
 
 build cmake_object_order_depends_target_s: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/s.dir/src/s.cpp.o: CXX_COMPILER__s_Debug /Users/adrian/CLionProjects/succ-vectors/src/s.cpp || cmake_object_order_depends_target_s
+build CMakeFiles/s.dir/src/s.cpp.o: CXX_COMPILER__s_Release /Users/adrian/CLionProjects/succ-vectors/src/s.cpp || cmake_object_order_depends_target_s
   DEP_FILE = CMakeFiles/s.dir/src/s.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/s.dir
   OBJECT_FILE_DIR = CMakeFiles/s.dir/src
@@ -94,8 +94,8 @@ build CMakeFiles/s.dir/src/s.cpp.o: CXX_COMPILER__s_Debug /Users/adrian/CLionPro
 #############################################
 # Link the executable s
 
-build s: CXX_EXECUTABLE_LINKER__s_Debug CMakeFiles/s.dir/src/s.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build s: CXX_EXECUTABLE_LINKER__s_Release CMakeFiles/s.dir/src/s.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/s.dir
   POST_BUILD = :
@@ -112,9 +112,9 @@ build s: CXX_EXECUTABLE_LINKER__s_Debug CMakeFiles/s.dir/src/s.cpp.o | external/
 
 build cmake_object_order_depends_target_exp-wt: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o: CXX_COMPILER__exp-wt_Debug /Users/adrian/CLionProjects/succ-vectors/exp/exp-wt.cpp || cmake_object_order_depends_target_exp-wt
+build CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o: CXX_COMPILER__exp-wt_Release /Users/adrian/CLionProjects/succ-vectors/exp/exp-wt.cpp || cmake_object_order_depends_target_exp-wt
   DEP_FILE = CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/exp-wt.dir
   OBJECT_FILE_DIR = CMakeFiles/exp-wt.dir/exp
@@ -127,8 +127,8 @@ build CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o: CXX_COMPILER__exp-wt_Debug /Users/
 #############################################
 # Link the executable exp-wt
 
-build exp-wt: CXX_EXECUTABLE_LINKER__exp-wt_Debug CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build exp-wt: CXX_EXECUTABLE_LINKER__exp-wt_Release CMakeFiles/exp-wt.dir/exp/exp-wt.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/exp-wt.dir
   POST_BUILD = :
@@ -145,9 +145,9 @@ build exp-wt: CXX_EXECUTABLE_LINKER__exp-wt_Debug CMakeFiles/exp-wt.dir/exp/exp-
 
 build cmake_object_order_depends_target_exp-wm: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o: CXX_COMPILER__exp-wm_Debug /Users/adrian/CLionProjects/succ-vectors/exp/exp-wm.cpp || cmake_object_order_depends_target_exp-wm
+build CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o: CXX_COMPILER__exp-wm_Release /Users/adrian/CLionProjects/succ-vectors/exp/exp-wm.cpp || cmake_object_order_depends_target_exp-wm
   DEP_FILE = CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/exp-wm.dir
   OBJECT_FILE_DIR = CMakeFiles/exp-wm.dir/exp
@@ -160,8 +160,8 @@ build CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o: CXX_COMPILER__exp-wm_Debug /Users/
 #############################################
 # Link the executable exp-wm
 
-build exp-wm: CXX_EXECUTABLE_LINKER__exp-wm_Debug CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build exp-wm: CXX_EXECUTABLE_LINKER__exp-wm_Release CMakeFiles/exp-wm.dir/exp/exp-wm.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/exp-wm.dir
   POST_BUILD = :
@@ -178,9 +178,9 @@ build exp-wm: CXX_EXECUTABLE_LINKER__exp-wm_Debug CMakeFiles/exp-wm.dir/exp/exp-
 
 build cmake_object_order_depends_target_full-wm: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/full-wm.dir/exp/full-wm.cpp.o: CXX_COMPILER__full-wm_Debug /Users/adrian/CLionProjects/succ-vectors/exp/full-wm.cpp || cmake_object_order_depends_target_full-wm
+build CMakeFiles/full-wm.dir/exp/full-wm.cpp.o: CXX_COMPILER__full-wm_Release /Users/adrian/CLionProjects/succ-vectors/exp/full-wm.cpp || cmake_object_order_depends_target_full-wm
   DEP_FILE = CMakeFiles/full-wm.dir/exp/full-wm.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/full-wm.dir
   OBJECT_FILE_DIR = CMakeFiles/full-wm.dir/exp
@@ -193,8 +193,8 @@ build CMakeFiles/full-wm.dir/exp/full-wm.cpp.o: CXX_COMPILER__full-wm_Debug /Use
 #############################################
 # Link the executable full-wm
 
-build full-wm: CXX_EXECUTABLE_LINKER__full-wm_Debug CMakeFiles/full-wm.dir/exp/full-wm.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build full-wm: CXX_EXECUTABLE_LINKER__full-wm_Release CMakeFiles/full-wm.dir/exp/full-wm.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/full-wm.dir
   POST_BUILD = :
@@ -211,9 +211,9 @@ build full-wm: CXX_EXECUTABLE_LINKER__full-wm_Debug CMakeFiles/full-wm.dir/exp/f
 
 build cmake_object_order_depends_target_error: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/error.dir/src/error.cpp.o: CXX_COMPILER__error_Debug /Users/adrian/CLionProjects/succ-vectors/src/error.cpp || cmake_object_order_depends_target_error
+build CMakeFiles/error.dir/src/error.cpp.o: CXX_COMPILER__error_Release /Users/adrian/CLionProjects/succ-vectors/src/error.cpp || cmake_object_order_depends_target_error
   DEP_FILE = CMakeFiles/error.dir/src/error.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/error.dir
   OBJECT_FILE_DIR = CMakeFiles/error.dir/src
@@ -226,8 +226,8 @@ build CMakeFiles/error.dir/src/error.cpp.o: CXX_COMPILER__error_Debug /Users/adr
 #############################################
 # Link the executable error
 
-build error: CXX_EXECUTABLE_LINKER__error_Debug CMakeFiles/error.dir/src/error.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build error: CXX_EXECUTABLE_LINKER__error_Release CMakeFiles/error.dir/src/error.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/error.dir
   POST_BUILD = :
@@ -244,9 +244,9 @@ build error: CXX_EXECUTABLE_LINKER__error_Debug CMakeFiles/error.dir/src/error.c
 
 build cmake_object_order_depends_target_test_partitioned_zombit: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o: CXX_COMPILER__test_partitioned_zombit_Debug /Users/adrian/CLionProjects/succ-vectors/test/partitioned_zombit.cpp || cmake_object_order_depends_target_test_partitioned_zombit
+build CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o: CXX_COMPILER__test_partitioned_zombit_Release /Users/adrian/CLionProjects/succ-vectors/test/partitioned_zombit.cpp || cmake_object_order_depends_target_test_partitioned_zombit
   DEP_FILE = CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/test_partitioned_zombit.dir
   OBJECT_FILE_DIR = CMakeFiles/test_partitioned_zombit.dir/test
@@ -259,8 +259,8 @@ build CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o: CXX_
 #############################################
 # Link the executable test_partitioned_zombit
 
-build test_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_partitioned_zombit_Debug CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build test_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_partitioned_zombit_Release CMakeFiles/test_partitioned_zombit.dir/test/partitioned_zombit.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/test_partitioned_zombit.dir
   POST_BUILD = :
@@ -277,9 +277,9 @@ build test_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_partitioned_zombit_De
 
 build cmake_object_order_depends_target_test_rec_partitioned_zombit: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp.o: CXX_COMPILER__test_rec_partitioned_zombit_Debug /Users/adrian/CLionProjects/succ-vectors/test/rec_partitioned_zombit.cpp || cmake_object_order_depends_target_test_rec_partitioned_zombit
+build CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp.o: CXX_COMPILER__test_rec_partitioned_zombit_Release /Users/adrian/CLionProjects/succ-vectors/test/rec_partitioned_zombit.cpp || cmake_object_order_depends_target_test_rec_partitioned_zombit
   DEP_FILE = CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/test_rec_partitioned_zombit.dir
   OBJECT_FILE_DIR = CMakeFiles/test_rec_partitioned_zombit.dir/test
@@ -292,8 +292,8 @@ build CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp
 #############################################
 # Link the executable test_rec_partitioned_zombit
 
-build test_rec_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_rec_partitioned_zombit_Debug CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build test_rec_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_rec_partitioned_zombit_Release CMakeFiles/test_rec_partitioned_zombit.dir/test/rec_partitioned_zombit.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/test_rec_partitioned_zombit.dir
   POST_BUILD = :
@@ -310,9 +310,9 @@ build test_rec_partitioned_zombit: CXX_EXECUTABLE_LINKER__test_rec_partitioned_z
 
 build cmake_object_order_depends_target_test_rrr: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/test_rrr.dir/test/rrr.cpp.o: CXX_COMPILER__test_rrr_Debug /Users/adrian/CLionProjects/succ-vectors/test/rrr.cpp || cmake_object_order_depends_target_test_rrr
+build CMakeFiles/test_rrr.dir/test/rrr.cpp.o: CXX_COMPILER__test_rrr_Release /Users/adrian/CLionProjects/succ-vectors/test/rrr.cpp || cmake_object_order_depends_target_test_rrr
   DEP_FILE = CMakeFiles/test_rrr.dir/test/rrr.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/test_rrr.dir
   OBJECT_FILE_DIR = CMakeFiles/test_rrr.dir/test
@@ -325,8 +325,8 @@ build CMakeFiles/test_rrr.dir/test/rrr.cpp.o: CXX_COMPILER__test_rrr_Debug /User
 #############################################
 # Link the executable test_rrr
 
-build test_rrr: CXX_EXECUTABLE_LINKER__test_rrr_Debug CMakeFiles/test_rrr.dir/test/rrr.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build test_rrr: CXX_EXECUTABLE_LINKER__test_rrr_Release CMakeFiles/test_rrr.dir/test/rrr.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/test_rrr.dir
   POST_BUILD = :
@@ -343,9 +343,9 @@ build test_rrr: CXX_EXECUTABLE_LINKER__test_rrr_Debug CMakeFiles/test_rrr.dir/te
 
 build cmake_object_order_depends_target_test_hyb: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
 
-build CMakeFiles/test_hyb.dir/test/hyb.cpp.o: CXX_COMPILER__test_hyb_Debug /Users/adrian/CLionProjects/succ-vectors/test/hyb.cpp || cmake_object_order_depends_target_test_hyb
+build CMakeFiles/test_hyb.dir/test/hyb.cpp.o: CXX_COMPILER__test_hyb_Release /Users/adrian/CLionProjects/succ-vectors/test/hyb.cpp || cmake_object_order_depends_target_test_hyb
   DEP_FILE = CMakeFiles/test_hyb.dir/test/hyb.cpp.o.d
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
   OBJECT_DIR = CMakeFiles/test_hyb.dir
   OBJECT_FILE_DIR = CMakeFiles/test_hyb.dir/test
@@ -358,14 +358,47 @@ build CMakeFiles/test_hyb.dir/test/hyb.cpp.o: CXX_COMPILER__test_hyb_Debug /User
 #############################################
 # Link the executable test_hyb
 
-build test_hyb: CXX_EXECUTABLE_LINKER__test_hyb_Debug CMakeFiles/test_hyb.dir/test/hyb.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
-  FLAGS = -std=c++11 -stdlib=libc++ -g -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+build test_hyb: CXX_EXECUTABLE_LINKER__test_hyb_Release CMakeFiles/test_hyb.dir/test/hyb.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
   LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
   OBJECT_DIR = CMakeFiles/test_hyb.dir
   POST_BUILD = :
   PRE_LINK = :
   TARGET_FILE = test_hyb
   TARGET_PDB = test_hyb.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target wm
+
+
+#############################################
+# Order-only phony target for wm
+
+build cmake_object_order_depends_target_wm: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
+
+build CMakeFiles/wm.dir/exp/wm.cpp.o: CXX_COMPILER__wm_Release /Users/adrian/CLionProjects/succ-vectors/exp/wm.cpp || cmake_object_order_depends_target_wm
+  DEP_FILE = CMakeFiles/wm.dir/exp/wm.cpp.o.d
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
+  OBJECT_DIR = CMakeFiles/wm.dir
+  OBJECT_FILE_DIR = CMakeFiles/wm.dir/exp
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target wm
+
+
+#############################################
+# Link the executable wm
+
+build wm: CXX_EXECUTABLE_LINKER__wm_Release CMakeFiles/wm.dir/exp/wm.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+  LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
+  OBJECT_DIR = CMakeFiles/wm.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = wm
+  TARGET_PDB = wm.dbg
 
 
 #############################################
@@ -6106,16 +6139,16 @@ build external/sdsl-lite/test/CMakeFiles/clean-test | ${cmake_ninja_workdir}exte
 
 build cmake_object_order_depends_target_malloc_count: phony || external/malloc_count/CMakeFiles/malloc_count.dir
 
-build external/malloc_count/CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o: CXX_COMPILER__malloc_count_Debug /Users/adrian/CLionProjects/succ-vectors/external/malloc_count/src/malloc_count.cpp || cmake_object_order_depends_target_malloc_count
+build external/malloc_count/CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o: CXX_COMPILER__malloc_count_Release /Users/adrian/CLionProjects/succ-vectors/external/malloc_count/src/malloc_count.cpp || cmake_object_order_depends_target_malloc_count
   DEP_FILE = external/malloc_count/CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o.d
-  FLAGS = -Wall -m64  -std=c++0x -Wall -g3 -DDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -Wall -m64  -std=c++0x -Wall -O9 -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/./include
   OBJECT_DIR = external/malloc_count/CMakeFiles/malloc_count.dir
   OBJECT_FILE_DIR = external/malloc_count/CMakeFiles/malloc_count.dir/src
 
-build external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o: CXX_COMPILER__malloc_count_Debug /Users/adrian/CLionProjects/succ-vectors/external/malloc_count/src/stack_count.cpp || cmake_object_order_depends_target_malloc_count
+build external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o: CXX_COMPILER__malloc_count_Release /Users/adrian/CLionProjects/succ-vectors/external/malloc_count/src/stack_count.cpp || cmake_object_order_depends_target_malloc_count
   DEP_FILE = external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o.d
-  FLAGS = -Wall -m64  -std=c++0x -Wall -g3 -DDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  FLAGS = -Wall -m64  -std=c++0x -Wall -O9 -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
   INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/./include
   OBJECT_DIR = external/malloc_count/CMakeFiles/malloc_count.dir
   OBJECT_FILE_DIR = external/malloc_count/CMakeFiles/malloc_count.dir/src
@@ -6128,9 +6161,9 @@ build external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o: C
 #############################################
 # Link the static library external/malloc_count/libmalloc_count.a
 
-build external/malloc_count/libmalloc_count.a: C_STATIC_LIBRARY_LINKER__malloc_count_Debug external/malloc_count/CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o
+build external/malloc_count/libmalloc_count.a: C_STATIC_LIBRARY_LINKER__malloc_count_Release external/malloc_count/CMakeFiles/malloc_count.dir/src/malloc_count.cpp.o external/malloc_count/CMakeFiles/malloc_count.dir/src/stack_count.cpp.o
   ARCH_FLAGS = -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
-  LANGUAGE_COMPILE_FLAGS = -g
+  LANGUAGE_COMPILE_FLAGS = -O3 -DNDEBUG
   OBJECT_DIR = external/malloc_count/CMakeFiles/malloc_count.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -6703,7 +6736,7 @@ build zarathustra.txt: phony external/sdsl-lite/test/zarathustra.txt
 #############################################
 # Folder: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace
 
-build all: phony template_executable s exp-wt exp-wm full-wm error test_partitioned_zombit test_rec_partitioned_zombit test_rrr test_hyb external/sdsl-lite/all external/malloc_count/all
+build all: phony template_executable s exp-wt exp-wm full-wm error test_partitioned_zombit test_rec_partitioned_zombit test_rrr test_hyb wm external/sdsl-lite/all external/malloc_count/all
 
 # =============================================================================
 
