@@ -960,3 +960,39 @@ Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_3
 
 Source file was:
 int main() { return 0; }
+Performing C++ SOURCE FILE Test HAVE_CLANG_STD=C__11 succeeded with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_06739 && [1/2] Building CXX object CMakeFiles/cmTC_06739.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_06739
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test HAVE_CLANG_STDLIB=LIBC__ succeeded with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_c2fea && [1/2] Building CXX object CMakeFiles/cmTC_c2fea.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_c2fea
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test HAVE_CLANG_STD=C__11__DNDEBUG succeeded with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_cef00 && [1/2] Building CXX object CMakeFiles/cmTC_cef00.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_cef00
+
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test HAVE_CLANG_O3__FFAST_MATH__FUNROLL_LOOPS__D__EXTERN_ALWAYS_INLINE="EXTERN___ALWAYS_INLINE"_ succeeded with the following output:
+Change Dir: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/Applications/CLion.app/Contents/bin/ninja/mac/ninja cmTC_dd021 && [1/2] Building CXX object CMakeFiles/cmTC_dd021.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_dd021
+
+
+Source file was:
+int main() { return 0; }

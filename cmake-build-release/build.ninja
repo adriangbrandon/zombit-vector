@@ -433,6 +433,39 @@ build wt_huff: CXX_EXECUTABLE_LINKER__wt_huff_Release CMakeFiles/wt_huff.dir/exp
   TARGET_FILE = wt_huff
   TARGET_PDB = wt_huff.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target wm-bwt
+
+
+#############################################
+# Order-only phony target for wm-bwt
+
+build cmake_object_order_depends_target_wm-bwt: phony || cmake_object_order_depends_target_divsufsort cmake_object_order_depends_target_divsufsort64 cmake_object_order_depends_target_sdsl
+
+build CMakeFiles/wm-bwt.dir/exp/wm-bwt.cpp.o: CXX_COMPILER__wm-bwt_Release /Users/adrian/CLionProjects/succ-vectors/exp/wm-bwt.cpp || cmake_object_order_depends_target_wm-bwt
+  DEP_FILE = CMakeFiles/wm-bwt.dir/exp/wm-bwt.cpp.o.d
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/adrian/CLionProjects/succ-vectors/external/googletest/include -I/Users/adrian/CLionProjects/succ-vectors/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/include -I/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/external/libdivsufsort/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/FastPFor/headers -I/Users/adrian/CLionProjects/succ-vectors/external/malloc_count/include -I/Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/include
+  OBJECT_DIR = CMakeFiles/wm-bwt.dir
+  OBJECT_FILE_DIR = CMakeFiles/wm-bwt.dir/exp
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target wm-bwt
+
+
+#############################################
+# Link the executable wm-bwt
+
+build wm-bwt: CXX_EXECUTABLE_LINKER__wm-bwt_Release CMakeFiles/wm-bwt.dir/exp/wm-bwt.cpp.o | external/sdsl-lite/lib/libsdsl.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a || external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a external/sdsl-lite/lib/libsdsl.a
+  FLAGS = -std=c++11 -stdlib=libc++ -O3 -DNDEBUG -msse4.2 -O3  -ffast-math -funroll-loops -DNDEBUG -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk
+  LINK_LIBRARIES = external/sdsl-lite/lib/libsdsl.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a  external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a
+  OBJECT_DIR = CMakeFiles/wm-bwt.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = wm-bwt
+  TARGET_PDB = wm-bwt.dbg
+
 
 #############################################
 # Utility command for package
@@ -6769,7 +6802,7 @@ build zarathustra.txt: phony external/sdsl-lite/test/zarathustra.txt
 #############################################
 # Folder: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release
 
-build all: phony template_executable s exp-wt exp-wm full-wm error test_partitioned_zombit test_rec_partitioned_zombit test_rrr test_hyb wm wt_huff external/sdsl-lite/all external/malloc_count/all
+build all: phony template_executable s exp-wt exp-wm full-wm error test_partitioned_zombit test_rec_partitioned_zombit test_rrr test_hyb wm wt_huff wm-bwt external/sdsl-lite/all external/malloc_count/all
 
 # =============================================================================
 
