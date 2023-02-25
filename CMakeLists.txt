@@ -92,3 +92,6 @@ target_link_libraries(test_hyb sdsl divsufsort divsufsort64)
 
 add_executable(wm exp/wm.cpp)
 target_link_libraries(wm sdsl divsufsort divsufsort64)
+
+add_executable(wt_huff exp/wt_huff.cpp)
+target_link_libraries(wt_huff sdsl divsufsort divsufsort64)
