@@ -874,6 +874,268 @@ namespace runs_vectors {
         }
     };
 
+    /* template <uint8_t t_b>
+    class succ_support_zombit_rapid {
+
+    public:
+        typedef sdsl::bit_vector::size_type size_type;
+        typedef sdsl::bit_vector::value_type value_type;
+    private:
+        const zombit_vector* m_v;
+        sdsl::int_vector<> m_solutions;
+
+
+        void copy(const succ_support_zombit_rapid& ss){
+            m_v = ss.m_v;
+            m_check_block = ss.m_check_block;
+            m_next_check = ss.m_next_check;
+            m_next_check.set_vector(&m_check_block);
+            m_succ_mixed == ss.m_succ_mixed;
+            if(m_v != nullptr){
+                m_succ_mixed.set_vector(&(m_v->m_mixed));
+            }else{
+                m_succ_mixed.set_vector(nullptr);
+            }
+        }
+
+    public:
+
+        succ_support_zombit_rapid() = default;
+
+
+        explicit succ_support_zombit_rapid(const zombit_vector* v)
+        {
+            m_v = v;
+            if(m_v == nullptr) return;
+            m_check_block = sdsl::bit_vector(m_v->m_full.size(), 0);
+            for(size_type i = 0; i < m_v->m_full.size(); ++i){
+                if(m_v->m_full[i]){
+                    if(m_v->m_full_type[m_v->m_rank_full(i+1)-1]){
+                        m_check_block[i] = 1;
+                    }
+                }else{
+                    m_check_block[i] = 1;
+                }
+            }
+            sdsl::util::init_support(m_next_check, &m_check_block);
+            sdsl::util::init_support(m_succ_mixed, &(m_v->m_mixed));
+        }
+
+        size_type succ(size_type i) const{
+            auto j = i /m_v->sample;
+            auto p = m_v->m_rank_full(j+1);
+            auto q = j+1-p;
+            if(m_v->m_full[j]){
+                if(m_v->m_full_type[p-1] == t_b) {
+                    return i;
+                }
+            }else{
+                auto next_in_mixed = m_succ_mixed((q-1)*m_v->sample + i %m_v->sample);
+                if(next_in_mixed < q*m_v->sample) {
+                    return next_in_mixed - (q - 1) * m_v->sample + j * m_v->sample;
+                }
+            }
+            j = m_next_check(j+1);
+            //std::cout << "next block1: " << j << " (" << m_check_block.size() << ") " << std::endl;
+            if(j == m_check_block.size()) return m_v->size();
+            if(m_v->m_full[j]){
+                return j * m_v->sample;
+            }else{
+                size_type succ_mixed = m_succ_mixed(q*m_v->sample);
+                if(succ_mixed == m_v->mixed.size()) return m_v->size();
+                return j * m_v->sample + succ_mixed - q*m_v->sample;
+            }
+        };
+
+        size_type operator()(size_type i)const
+        {
+            return succ(i);
+        }
+
+        size_type size()const
+        {
+            return m_v->size();
+        }
+
+        void set_vector(const zombit_vector* v=nullptr)
+        {
+            m_v = v;
+            if(v != nullptr){
+                sdsl::util::init_support(m_succ_mixed, &(m_v->m_mixed));
+            }
+        }
+
+        succ_support_zombit_rapid& operator=(const succ_support_zombit_rapid& ss)
+        {
+            if (this != &ss) {
+                copy(ss);
+            }
+            return *this;
+        }
+
+        succ_support_zombit_rapid& operator=(succ_support_zombit_rapid&& ss)
+        {
+            if (this != &ss) {
+                m_v = std::move(ss.m_v);
+                m_check_block = std::move(ss.m_check_block);
+                m_next_check = std::move(ss.m_next_check);
+                m_next_check.set_vector(&m_check_block);
+                m_succ_mixed == std::move(ss.m_succ_mixed);
+                if(m_v != nullptr){
+                    m_succ_mixed.set_vector(&(m_v->m_mixed));
+                }else{
+                    m_succ_mixed.set_vector(nullptr);
+                }
+            }
+            return *this;
+        }
+
+        void swap(succ_support_zombit_rapid& ss) {
+            if (this != &ss) {
+                std::swap(m_v, ss.m_v);
+                m_check_block.swap(ss.m_check_block);
+                sdsl::util::swap_support(m_next_check, ss.m_next_check, &m_check_block, &ss.m_check_block);
+                m_succ_mixed.swap(ss.m_succ_mixed);
+                if(m_v != nullptr){
+                    m_succ_mixed.set_vector(&(m_v->m_mixed));
+                }else{
+                    m_succ_mixed.set_vector(nullptr);
+                }
+                if(ss.m_v != nullptr){
+                    ss.m_succ_mixed.set_vector(&(ss.m_v->m_mixed));
+                }else{
+                    ss.m_succ_mixed.set_vector(nullptr);
+                }
+            }
+        }
+
+        void load(std::istream& in, const succ_support_zombit_rapid* v=nullptr)
+        {
+            m_v = v;
+            m_check_block.load(in);
+            m_next_check.load(in, &m_check_block);
+            if(m_v != nullptr){
+                m_succ_mixed.load(in, &(m_v->m_mixed));
+            }
+        }
+
+        //! Serializes the data structure into the given ostream
+        size_type serialize(std::ostream& out, sdsl::structure_tree_node* v=nullptr, std::string name="")const
+        {
+            sdsl::structure_tree_node* child = sdsl::structure_tree::add_child(v, name, sdsl::util::class_name(*this));
+            size_type written_bytes = 0;
+            written_bytes += m_check_block.serialize(out, child, "check_block");
+            written_bytes += m_next_check.serialize(out, child, "m_next_check");
+            written_bytes += m_succ_mixed.serialize(out, child, "succ_mixed");
+            sdsl::structure_tree::add_size(child, written_bytes);
+            return written_bytes;
+        }
+
+
+    };*/
+
+
+    /*
+    //! Returns the position of the i-th occurrence in the bit vector.
+    template<>
+    typename succ_support_zombit_vector<0>::size_type succ_support_zombit_vector<0>::succ(size_type i)const
+    {
+        assert(i >= 0); assert(i < m_v->size());
+        auto sample_index = i/m_v->sample;
+        if(!m_v->sampling[sample_index]) return i;
+        auto ones = m_v->rank_sampling(sample_index + 1);
+        auto beg = sample_index * m_v->sample + m_v->offset[ones-1];
+        auto pos = m_v->pos[ones-1];
+        auto next_pos = m_v->pos[ones];
+        auto length = next_pos - pos;
+        if(beg > i || beg + length <= i){
+            return i;
+        }else{
+            auto next_0_value = m_succ_values((i-beg) + pos);
+            if(next_0_value < next_pos){
+                return beg + (next_0_value - pos);
+            }
+            if((beg + length) % m_v->sample != 0){
+                return beg + length;
+            }
+            if(next_0_value > m_v->values.size()) return m_v->size();
+            auto delta = m_delta_next_0[ones-1];
+            if(delta == 0) return m_v->size();
+            auto new_index = sample_index + delta;
+            if (!m_v->sampling[new_index]) return new_index * m_v->sample;
+            auto offset = m_v->offset[ones + delta - 1];
+            if(offset > 0){
+                return new_index * m_v->sample;
+            }else{
+                pos = m_v->pos[ones + delta - 1];
+                next_pos = m_v->pos[ones + delta];
+                beg = new_index * m_v->sample + offset;
+                if(next_0_value < next_pos){
+                    return beg + (next_0_value - pos);
+                }else{
+                    return beg + (next_pos - pos);
+                }
+            }
+
+
+        }
+    }
+
+
+
+    //! Returns the position of the i-th occurrence in the bit vector.
+    template<>
+    typename succ_support_zombit_vector<0>::size_type succ_support_zombit_vector<0>::succ(size_type i, next_info_type &next_info)const
+    {
+        assert(i >= 0); assert(i < m_v->size());
+        auto sample_index = i/m_v->sample;
+        if(!m_v->sampling[sample_index]) return i;
+        size_type ones, beg, pos, next_pos, length;
+        if(sample_index != next_info.sample_index || !next_info.init){
+            ones = m_v->rank_sampling(sample_index + 1);
+            beg = sample_index * m_v->sample + m_v->offset[ones-1];
+            pos = m_v->pos[ones-1];
+            next_pos = m_v->pos[ones];
+            length = next_pos - pos;
+            next_info = {true, i/m_v->sample, ones, beg, pos, next_pos, length};
+        }else{
+            ones = next_info.ones;
+            beg = next_info.beg;
+            pos = next_info.pos;
+            next_pos = next_info.next_pos;
+            length = next_info.length;
+        }
+        if(beg > i || beg + length <= i){
+            return i;
+        }else{
+            auto next_0_value = m_succ_values((i-beg) + pos);
+            if(next_0_value < next_pos){
+                return beg + (next_0_value - pos);
+            }
+            if((beg + length) % m_v->sample != 0){
+                return beg + length;
+            }
+            if(next_0_value > m_v->values.size()) return m_v->size();
+            auto delta = m_delta_next_0[ones-1];
+            if(delta == 0) return m_v->size();
+            auto new_index = sample_index + delta;
+            if (!m_v->sampling[new_index]) return new_index * m_v->sample;
+            auto offset = m_v->offset[ones + delta - 1];
+            if(offset > 0){
+                return new_index * m_v->sample;
+            }else{
+                pos = m_v->pos[ones + delta - 1];
+                next_pos = m_v->pos[ones + delta];
+                beg = new_index * m_v->sample + offset;
+                if(next_0_value < next_pos){
+                    return beg + (next_0_value - pos);
+                }else{
+                    return beg + (next_pos - pos);
+                }
+            }
+        }
+    }
+    */
 }
 
-#endif //RUNS_VECTORS_ZOMBIT_VECTOR_V3_HPP
+#endif //RCT_ZOMBIT_VECTOR_HPP

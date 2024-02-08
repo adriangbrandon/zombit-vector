@@ -26,10 +26,10 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
-#include <prev_support_v.hpp>
-#include <succ_support_v.hpp>
+#include <sdsl/prev_support_v.hpp>
+#include <sdsl/succ_support_v.hpp>
 #include <sdsl/sd_vector.hpp>
-#include <succ_support_sd.hpp>
+#include <sdsl/succ_support_sd.hpp>
 #include <zombit_vector_v2.hpp>
 #include <zombit_vector_v3.hpp>
 #include <time.hpp>
@@ -97,7 +97,7 @@ sdsl::bit_vector generate_runs(uint64_t size, double mean_1, double stdev_1, dou
 
 void plain_test(sdsl::bit_vector &bm) {
 
-    runs_vectors::succ_support_v<1> bm_succ;
+    sdsl::succ_support_v<1> bm_succ;
     sdsl::util::init_support(bm_succ, &bm);
     for(size_t i = 0; i < bm.size(); ++i){
         if(bm_succ(i) != check_succ(i, bm)){
@@ -109,24 +109,6 @@ void plain_test(sdsl::bit_vector &bm) {
         }
     }
 
-    runs_vectors::prev_support_v<1> bm_prev;
-    sdsl::util::init_support(bm_prev, &bm);
-    for(size_t i = 0; i < bm.size(); ++i){
-        if(bm_prev(i) != check_prev(i, bm)){
-            sdsl::store_to_file(bm, "error.bin");
-            std::cout << "Error in Plain-prev at i=" << i << std::endl;
-            auto k = bm_prev(i);
-            for(auto a = 0; a <= k; ++a){
-                std::cout << a << ": " << bm[a] << std::endl;
-            }
-            std::cout << bm[bm_prev(i)] << std::endl;
-
-            bm_prev(i);
-            std::cout << "Expected=" << check_prev(i, bm) << std::endl;
-            std::cout << "Obtained=" << bm_prev(i) << std::endl;
-            exit(0);
-        }
-    }
 
 }
 
@@ -216,8 +198,8 @@ void zombit_test(sdsl::bit_vector &bm) {
         }
     }
 
-    runs_vectors::zombit_vector_v3 zombit_lite(bm);
-    runs_vectors::succ_support_zombit_v3<1> zombit_lite_succ;
+    runs_vectors::zombit_vector_v3<> zombit_lite(bm);
+    typename runs_vectors::zombit_vector_v3<>::succ_1_type zombit_lite_succ;
     sdsl::util::init_support(zombit_lite_succ, &zombit_lite);
     for(size_t i = 0; i < bm.size(); ++i){
         if(zombit_lite_succ(i) != check_succ(i, bm)){
@@ -246,7 +228,7 @@ void zombit_test(sdsl::bit_vector &bm) {
 void plain_exp(sdsl::bit_vector &bm) {
 
 
-    runs_vectors::succ_support_v<1> bm_succ;
+    sdsl::succ_support_v<1> bm_succ;
     sdsl::rank_support_v<1> bm_rank;
     sdsl::select_support_mcl<1> bm_select;
     sdsl::util::init_support(bm_succ, &bm);
@@ -286,8 +268,8 @@ void zombit_exp(sdsl::bit_vector &bm) {
     std::cout << "Zombit: size= " << sdsl::size_in_bytes(zombit) + sdsl::size_in_bytes(zombit_succ)
               << "(bytes) succ= " << time << " (µs)" << std::endl;
 
-    runs_vectors::zombit_vector_v3 zombit_lite(bm);
-    runs_vectors::succ_support_zombit_v3<1> zombit_lite_succ;
+    runs_vectors::zombit_vector_v3<> zombit_lite(bm);
+    typename runs_vectors::zombit_vector_v3<>::succ_1_type zombit_lite_succ;
     sdsl::util::init_support(zombit_lite_succ, &zombit_lite);
     t0 = util::time::user::now();
     for(size_t i = 0; i < bm.size(); ++i){

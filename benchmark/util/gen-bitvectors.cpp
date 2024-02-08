@@ -1,0 +1,122 @@
+//
+// Created by Adrián on 8/2/24.
+//
+
+#include <sdsl/int_vector.hpp>
+#include <unordered_set>
+
+
+
+void generate(uint64_t size, double ratio, sdsl::bit_vector &bv){
+
+    bv = sdsl::bit_vector(size, 0);
+
+    std::random_device r;
+    std::mt19937_64 rng(r());
+    std::uniform_int_distribution<uint64_t> distribution(0, bv.size()-1);
+    auto dice = bind(distribution, rng);
+    // populate vectors with some other bits
+    std::unordered_set<uint64_t> table;
+    auto n_ones = static_cast<uint64_t>((double) bv.size()*ratio);
+    while(table.size() < n_ones){
+        uint64_t x = dice();
+        if(table.find(x) == table.end()){
+            bv[x] = true;
+            table.insert(x);
+        }
+    }
+}
+
+
+void generate_runs(uint64_t size, double mean_1, double stdev_1, double mean_0, double stdev_0, sdsl::bit_vector &bv){
+
+    bv = sdsl::bit_vector(size);
+
+    std::random_device r;
+    std::mt19937_64 rng(r());
+    std::normal_distribution<double> dis_z(mean_0, stdev_0);
+    std::normal_distribution<double> dis_o(mean_1, stdev_1);
+    auto dice_z = bind(dis_z, rng);
+    auto dice_o = bind(dis_o, rng);
+
+    uint64_t min = 1, max = size-1;
+    auto int_z = [&dice_z, min, max]{ return std::min(std::max(static_cast<uint64_t>(dice_z()), min), max); };
+    auto int_o = [&dice_o, min, max]{ return std::min(std::max(static_cast<uint64_t>(dice_o()), min), max); };
+
+    uint64_t i = 0;
+    bool value = false;
+    while (i < size){
+        uint64_t r_size;
+        r_size = (value) ? int_o() : int_z();
+        for (uint64_t j = 0; j < r_size; ++j) {
+            bv[i++] = value;
+            if (i >= bv.size()) break;
+        }
+        value = !value;
+    }
+
+}
+
+void stats_vector(const sdsl::bit_vector &bv){
+    if (bv.empty()) return;
+    uint64_t cnt_1s = 0, cnt_r1s = 0, cnt_r0s = 0;
+    bool run1 = bv[0];
+    for(uint64_t i = 0; i < bv.size(); ++i){
+        bool v = bv[i];
+        //std::cout << v << ", ";
+        if(v) ++cnt_1s;
+        if(v != run1){
+            if(run1) ++cnt_r1s; else ++cnt_r0s;
+            run1 = !run1;
+        }
+    }
+    if(run1) ++cnt_r1s; else ++cnt_r0s;
+    //std::cout << std::endl << std::endl;
+
+    std::cout << "Stats" << std::endl;
+    std::cout << " - Ones: " << cnt_1s << std::endl;
+    std::cout << " - Zeroes: " << (bv.size()-cnt_1s) << std::endl;
+    std::cout << " - Avg(len-r1): " << cnt_1s/(double) cnt_r1s << std::endl;
+    std::cout << " - Avg(len-r0): " << (bv.size()-cnt_1s)/(double) cnt_r0s << std::endl;
+    std::cout << std::endl;
+}
+
+//Bitvectors of sizes 10^7, 10^8 and 10^9 with different percentages of runs.
+// - R: [1,2...10]
+// - R: [20,30...90]
+void exp1(){
+    std::vector<double> ratios = {0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09,
+                                  0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+    std::vector<uint64_t> sizes = {10000000, 100000000, 1000000000};
+
+    for(uint64_t s : sizes){
+        for(double r : ratios){
+            sdsl::bit_vector bv;
+            generate(s, r, bv);
+            std::string file_name = "bit-vector-exp1." + std::to_string(s) + "." + std::to_string(r) + ".bin";
+            sdsl::store_to_file(bv, file_name);
+            std::cout << file_name << std::endl;
+            stats_vector(bv);
+        }
+    }
+}
+
+int main(int argc, char* argv[])
+{
+   /* sdsl::bit_vector bv_sparse, bv_dense, bv_runs;
+    generate(1000, 0.05, bv_sparse);
+    generate(1000, 0.85, bv_dense);
+    generate_runs(1000, 100, 15, 50, 10, bv_runs);
+
+    std::cout << "Sparse" << std::endl;
+    print_vector(bv_sparse);
+
+    std::cout << "Dense" << std::endl;
+    print_vector(bv_dense);
+
+    std::cout << "Runs" << std::endl;
+    print_vector(bv_runs);*/
+
+   exp1();
+
+}

@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sdsl/rank_support.hpp>
 #include <algorithm>
 #include <cstdint>
-#include <sdsl/succ_support_v.hpp>
+#include "succ_support_v.hpp"
 #include <sdsl/select_support.hpp>
 
 namespace runs_vectors {
