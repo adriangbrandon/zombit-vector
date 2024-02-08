@@ -93,7 +93,8 @@ void exp1(){
         for(double r : ratios){
             sdsl::bit_vector bv;
             generate(s, r, bv);
-            std::string file_name = "bit-vector-exp1." + std::to_string(s) + "." + std::to_string(r) + ".bin";
+            uint64_t ratio = r * 100;
+            std::string file_name = "bit-vector-exp1." + std::to_string(s) + "." + std::to_string(ratio) + ".bin";
             sdsl::store_to_file(bv, file_name);
             std::cout << file_name << std::endl;
             stats_vector(bv);
