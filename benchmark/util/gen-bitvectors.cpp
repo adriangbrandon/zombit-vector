@@ -102,6 +102,46 @@ void exp1(){
     }
 }
 
+void exp2(){
+    std::vector<uint64_t> sizes = {10000000, 100000000, 1000000000};
+
+    uint64_t mean = 10;
+    uint64_t stdev = 2;
+    for(uint64_t s : sizes){
+        sdsl::bit_vector bv;
+        while(mean < s){
+            generate_runs(s, mean, stdev , mean, stdev, bv);
+            std::string file_name = "bit-vector-exp2.equal." + std::to_string(mean) + "." + std::to_string(stdev) + ".bin";
+            sdsl::store_to_file(bv, file_name);
+            std::cout << file_name << std::endl;
+            stats_vector(bv);
+            mean *= 10;
+            stdev *= 5;
+        }
+    }
+    mean = 10;
+    stdev = 2;
+    for(uint64_t s : sizes){
+        sdsl::bit_vector bv;
+        while(mean < s){
+            auto mean_1 = std::max(1ULL, mean/8);
+            auto stdev_1 = std::max(1ULL, stdev/8);
+            generate_runs(s, mean, stdev , mean_1, stdev_1, bv);
+            std::string file_name = "bit-vector-exp2.notequal." + std::to_string(mean) + "." + std::to_string(stdev) + ".bin";
+            sdsl::store_to_file(bv, file_name);
+            std::cout << file_name << std::endl;
+            stats_vector(bv);
+            mean *= 10;
+            stdev *= 5;
+        }
+    }
+}
+
+void help(const std::string &ex){
+    std::cout << ex << " <exp>" << std::endl;
+    std::cout << "<exp> can take values 1 (exp1) and 2 (exp2)." << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
    /* sdsl::bit_vector bv_sparse, bv_dense, bv_runs;
@@ -118,6 +158,16 @@ int main(int argc, char* argv[])
     std::cout << "Runs" << std::endl;
     print_vector(bv_runs);*/
 
-   exp1();
-
+   if(argc != 2){
+       help(argv[0]);
+   }else{
+       int exp = std::atoi(argv[1]);
+       if(exp == 1){
+           exp1();
+       }else if (exp == 2){
+           exp2();
+       }else{
+           std::cout << "Exp " << exp << " is not supported.";
+       }
+   }
 }
