@@ -1,6 +1,8 @@
 dataset*
 build/
 cmake-build-debug/
+cmake-build-release/
+cmake-build-release-event-trace/
 .idea*
 .DS_Store/
 data/

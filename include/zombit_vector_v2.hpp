@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sdsl/rank_support.hpp>
 #include <algorithm>
 #include <cstdint>
-#include "succ_support_v.hpp"
+#include <sdsl/succ_support_v.hpp>
 #include <sdsl/select_support.hpp>
 
 namespace runs_vectors {
@@ -494,9 +494,9 @@ namespace runs_vectors {
     private:
         const zombit_vector* m_v = nullptr;
         sdsl::bit_vector::select_1_type m_select_full;
-        succ_support_v<0>   m_succ_no_full;
-        succ_support_v<t_b> m_succ_full_type;
-        succ_support_v<t_b> m_succ_mixed;
+        sdsl::succ_support_v<0>   m_succ_no_full;
+        sdsl::succ_support_v<t_b> m_succ_full_type;
+        sdsl::succ_support_v<t_b> m_succ_mixed;
 
 
         void copy(const succ_support_zombit& ss){
@@ -678,8 +678,8 @@ namespace runs_vectors {
     private:
         const zombit_vector* m_v;
         sdsl::bit_vector m_check_block;
-        succ_support_v<1> m_next_check;
-        succ_support_v<t_b> m_succ_mixed;
+        sdsl::succ_support_v<1> m_next_check;
+        sdsl::succ_support_v<t_b> m_succ_mixed;
 
 
         void copy(const succ_support_zombit_naive& ss){
