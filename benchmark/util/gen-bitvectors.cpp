@@ -167,6 +167,7 @@ int main(int argc, char* argv[])
        }else if (exp == 2){
            exp2();
        }else{
+           help(argv[0]);
            std::cout << "Exp " << exp << " is not supported.";
        }
    }
