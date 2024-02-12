@@ -35,7 +35,7 @@ int run(sdsl::bit_vector &bv, std::string index_file) {
     std::cout << "Storing " << index_file << " ..." << std::flush;
     std::string rank_file_name = index_file + ".rank";
     std::string succ_file_name = index_file + ".succ";
-    sdsl::store_to_file(bv, index_file);
+    sdsl::store_to_file(bitmap, index_file);
     sdsl::store_to_file(rank, rank_file_name);
     sdsl::store_to_file(succ, succ_file_name);
     std::cout << "[done]" << std::endl;
