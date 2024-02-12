@@ -111,3 +111,9 @@ target_link_libraries(test-dac sdsl divsufsort divsufsort64)
 
 add_executable(gen-bitvectors benchmark/util/gen-bitvectors.cpp)
 target_link_libraries(gen-bitvectors sdsl divsufsort divsufsort64)
+
+add_executable(exp1-build benchmark/exp1/exp1-build.cpp)
+target_link_libraries(exp1-build sdsl divsufsort divsufsort64)
+
+add_executable(exp1-bench benchmark/exp1/exp1-bench.cpp)
+target_link_libraries(exp1-bench sdsl divsufsort divsufsort64)

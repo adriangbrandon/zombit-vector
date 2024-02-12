@@ -653,7 +653,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const succ_support_zombit_v3* v=nullptr)
+        void load(std::istream& in, const zombit_vector_v3<t_mixed>* v=nullptr)
         {
             m_v = v;
             if(m_v != nullptr){
