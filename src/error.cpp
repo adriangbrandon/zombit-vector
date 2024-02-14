@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sdsl/int_vector.hpp>
 #include <sdsl/rank_support.hpp>
 #include <zombit_vector_v3.hpp>
+#include <partitioned_zombit_vector.hpp>
 
 int main(int argc, char** argv) {
 
@@ -45,7 +46,8 @@ int main(int argc, char** argv) {
     sdsl::util::init_support(rank_bv, &bv);
     sdsl::util::init_support(succ_bv, &bv);
 
-    typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_type;
+    //typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_type;
+    typedef runs_vectors::partitioned_zombit_vector<sdsl::bit_vector> zombit_type;
     typedef typename zombit_type::rank_1_type rank_zombit_type;
     typedef typename zombit_type::succ_1_type succ_zombit_type;
     {
@@ -89,10 +91,15 @@ int main(int argc, char** argv) {
         succ_zombit_type succ_zombit;
 
         sdsl::load_from_file(zombit, "zombit");
+        std::cout << "a" << std::endl;
         sdsl::load_from_file(rank_zombit, "rank_zombit");
+        std::cout << "a" << std::endl;
         sdsl::load_from_file(succ_zombit, "succ_zombit");
+        std::cout << "a" << std::endl;
         rank_zombit.set_vector(&zombit);
+        std::cout << "a" << std::endl;
         succ_zombit.set_vector(&zombit);
+        std::cout << "a" << std::endl;
 
         std::cout << "==== From disk to memory ====" << std::endl;
         for (uint64_t i = 0; i < bv.size(); ++i) {

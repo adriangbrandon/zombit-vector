@@ -704,6 +704,7 @@ namespace runs_vectors {
             m_v = v;
             if(m_v != nullptr){
                 sdsl::util::init_support(m_rank_mixed, &(m_v->mixed));
+                sdsl::util::init_support(m_rank_info, &(m_v->info));
             }
 
         }
@@ -762,22 +763,24 @@ namespace runs_vectors {
         void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
         {
             m_v = v;
+            m_length_o.load(in);
+            m_select_length_o.load(in, &m_length_o);
             if(v != nullptr){
                 m_rank_mixed.load(in, &(m_v->mixed));
                 m_rank_info.load(in, &(m_v->info));
             }
-            m_length_o.load(in);
-            m_select_length_o.load(in, &m_length_o);
+
+
         }
 
         size_type serialize(std::ostream& out, sdsl::structure_tree_node* v=nullptr, std::string name="")const
         {
             sdsl::structure_tree_node* child = sdsl::structure_tree::add_child(v, name, sdsl::util::class_name(*this));
             size_type written_bytes = 0;
-            written_bytes += m_rank_mixed.serialize(out, child, "rank_mixed");
-            written_bytes += m_rank_info.serialize(out, child, "rank_info");
             written_bytes += m_length_o.serialize(out, child, "length_o");
             written_bytes += m_select_length_o.serialize(out, child, "select_length_o");
+            written_bytes += m_rank_mixed.serialize(out, child, "rank_mixed");
+            written_bytes += m_rank_info.serialize(out, child, "rank_info");
             sdsl::structure_tree::add_size(child, written_bytes);
             return written_bytes;
         }
