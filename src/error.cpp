@@ -31,23 +31,91 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Created by Adrián on 2/1/23.
 //
 #include <time.hpp>
-#include <succ-vec/hyb_vector.hpp>
+#include <sdsl/int_vector.hpp>
+#include <sdsl/rank_support.hpp>
+#include <zombit_vector_v3.hpp>
 
 int main(int argc, char** argv) {
 
     sdsl::bit_vector bv;
-    sdsl::load_from_file(bv, "erro.bin");
+    sdsl::load_from_file(bv, "bit-vector-exp2.notequal.100000000.10000.250.bin");
 
-    const uint8_t* data = (uint8_t*) bv.data();
-    std::cout << (uint64_t) data[11] << std::endl;
+    sdsl::rank_support_v<1> rank_bv;
+    sdsl::succ_support_v<1> succ_bv;
+    sdsl::util::init_support(rank_bv, &bv);
+    sdsl::util::init_support(succ_bv, &bv);
 
-    sdsl_v2::hyb_vector<> pz(bv);
-    sdsl_v2::hyb_vector<>::succ_1_type rank_pz;
-    sdsl::util::init_support(rank_pz, &pz);
+    typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_type;
+    typedef typename zombit_type::rank_1_type rank_zombit_type;
+    typedef typename zombit_type::succ_1_type succ_zombit_type;
+    {
+        zombit_type zombit(bv);
+        rank_zombit_type rank_zombit;
+        succ_zombit_type succ_zombit;
+        sdsl::util::init_support(rank_zombit, &zombit);
+        sdsl::util::init_support(succ_zombit, &zombit);
 
-    std::cout << rank_pz(4091) << std::endl;
-    std::cout << rank_pz(0) << std::endl;
+        std::cout << "==== In memory ====" << std::endl;
+        for (uint64_t i = 0; i < bv.size(); ++i) {
+            if (rank_zombit(i + 1) != rank_bv(i + 1)) {
+                std::cout << "Error [i=" << i << "] " << std::endl;
+                std::cout << "BV rank= " << rank_bv(i + 1) << std::endl;
+                std::cout << "ZB rank= " << rank_zombit(i + 1) << std::endl;
+                return 0;
+            }
+        }
+        std::cout << "Rank: Everything is ok!" << std::endl;
 
+        for (uint64_t i = 0; i < bv.size(); ++i) {
+            if (succ_zombit(i) != succ_bv(i)) {
+                std::cout << "Error [i=" << i << "] " << std::endl;
+                std::cout << "BV succ= " << succ_bv(i) << std::endl;
+                std::cout << "ZB succ= " << succ_zombit(i) << std::endl;
+                return 0;
+            }
+        }
+        std::cout << "Succ: Everything is ok!" << std::endl;
+        std::cout << "===================" << std::endl;
+        std::cout << std::endl;
 
+        sdsl::store_to_file(zombit, "zombit");
+        sdsl::store_to_file(rank_zombit, "rank_zombit");
+        sdsl::store_to_file(succ_zombit, "succ_zombit");
+    }
+
+    {
+        zombit_type zombit;
+        rank_zombit_type rank_zombit;
+        succ_zombit_type succ_zombit;
+
+        sdsl::load_from_file(zombit, "zombit");
+        sdsl::load_from_file(rank_zombit, "rank_zombit");
+        sdsl::load_from_file(succ_zombit, "succ_zombit");
+        rank_zombit.set_vector(&zombit);
+        succ_zombit.set_vector(&zombit);
+
+        std::cout << "==== From disk to memory ====" << std::endl;
+        for (uint64_t i = 0; i < bv.size(); ++i) {
+            if (rank_zombit(i + 1) != rank_bv(i + 1)) {
+                std::cout << "Error [i=" << i << "] " << std::endl;
+                std::cout << "BV rank= " << rank_bv(i + 1) << std::endl;
+                std::cout << "ZB rank= " << rank_zombit(i + 1) << std::endl;
+                return 0;
+            }
+        }
+        std::cout << "Rank: Everything is ok!" << std::endl;
+
+        for (uint64_t i = 0; i < bv.size(); ++i) {
+            if (succ_zombit(i) != succ_bv(i)) {
+                std::cout << "Error [i=" << i << "] " << std::endl;
+                std::cout << "BV succ= " << succ_bv(i) << std::endl;
+                std::cout << "ZB succ= " << succ_zombit(i) << std::endl;
+                return 0;
+            }
+        }
+        std::cout << "Succ: Everything is ok!" << std::endl;
+        std::cout << "===================" << std::endl;
+        std::cout << std::endl;
+    }
 
 }

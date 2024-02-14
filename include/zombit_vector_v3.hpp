@@ -409,7 +409,7 @@ namespace runs_vectors {
             size_type full_ones = full-(j-m_rank_info(j));
             size_type r = full_ones * m_v->sample;
             if(m_v->m_full[j]){
-                r = (m_v->m_info[j]) ? m_rank_mixed(mixed*m_v->sample) + ((i-1) % m_v->sample)+1 : m_rank_mixed(mixed*m_v->sample);
+                r = (m_v->m_info[j]) ? r + m_rank_mixed(mixed*m_v->sample) + ((i-1) % m_v->sample)+1 : r + m_rank_mixed(mixed*m_v->sample);
                 /*if(m_v->m_info[j]){
                     // r contains all the ones in O blocks
                     // mixed*sample= position where the mixed-th mixed block ends+1
@@ -606,6 +606,7 @@ namespace runs_vectors {
             m_v = v;
             if(v != nullptr){
                 sdsl::util::init_support(m_succ_mixed, &(m_v->m_mixed));
+                sdsl::util::init_support(m_next_check, &(m_v->m_info));
             }
         }
 
