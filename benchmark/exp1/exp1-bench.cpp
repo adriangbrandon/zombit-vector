@@ -48,6 +48,8 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
     rank.set_vector(&bitmap);
     succ.set_vector(&bitmap);
 
+    auto size = sdsl::size_in_bytes(bitmap) + sdsl::size_in_bytes(rank) + sdsl::size_in_bytes(succ);
+
     uint64_t sum = 0;
     double avg = 0;
     for(uint64_t i = 0; i < qs.size(); ++i){
@@ -64,6 +66,7 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
         avg += time / (double) qs.size();
         std::cout << "Access " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
     }
+    auto avg_access = avg / TIMES;
     std::cout << "Access avg per query: " << avg / TIMES << " ns." << std::endl;
     std::cout << std::endl;
 
@@ -82,6 +85,7 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
         avg += time / (double) qs.size();
         std::cout << "Rank " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
     }
+    auto avg_rank = avg / TIMES;
     std::cout << "Rank avg per query: " << avg / TIMES << " ns." << std::endl;
     std::cout << std::endl;
 
@@ -103,6 +107,9 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
     }
     std::cout << "Succ avg per query: " << avg / TIMES << " ns." << std::endl;
     std::cout << std::endl;
+    auto avg_succ = avg / TIMES;
+
+    std::cerr << size << ";" << avg_access << ";" << avg_rank << ";" << avg_succ << std::endl;
 }
 
 int main(int argc, char** argv)
