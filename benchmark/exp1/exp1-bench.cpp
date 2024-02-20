@@ -8,9 +8,11 @@
 #include <sdsl/rrr_vector.hpp>
 
 typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
+typedef runs_vectors::succ_support_zombit_v3_naive zombit_plain_succ_naive_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<127>> zombit_rrr_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::hyb_vector<>> zombit_hyb_type;
 typedef runs_vectors::partitioned_zombit_vector<> pzombit_plain_type;
+typedef runs_vectors::succ_support_partitioned_zombit_naive pzombit_plain_succ_naive_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<127>> pzombit_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_type;
 typedef sdsl::rrr_vector<127> rrr_type;
@@ -112,6 +114,166 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
     std::cerr << size << ";" << avg_access << ";" << avg_rank << ";" << avg_succ << std::endl;
 }
 
+void run_naive(std::vector<uint64_t> &qs, std::string index_file){
+
+    typedef typename zombit_plain_type::rank_1_type Rank;
+    typedef typename zombit_plain_type::select_1_type Select; //TODO: revisar o select cos zombit (dependen do rank non do bitmap)
+    typedef zombit_plain_succ_naive_type Succ;
+
+    zombit_plain_type bitmap;
+    Rank rank;
+    Succ succ;
+
+    std::string rank_file_name = index_file + ".rank";
+    sdsl::load_from_file(bitmap, index_file);
+    sdsl::load_from_file(rank, rank_file_name);
+    rank.set_vector(&bitmap);
+    sdsl::util::init_support(succ, &bitmap);
+
+    auto size = sdsl::size_in_bytes(bitmap) + sdsl::size_in_bytes(rank) + sdsl::size_in_bytes(succ);
+
+    uint64_t sum = 0;
+    double avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += bitmap[qs[i]];
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += bitmap[qs[i]];
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Access " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    auto avg_access = avg / TIMES;
+    std::cout << "Access avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+
+    sum = 0; avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += rank(qs[i]+1);
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += rank(qs[i]+1);
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Rank " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    auto avg_rank = avg / TIMES;
+    std::cout << "Rank avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+
+
+    sum = 0; avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += succ(qs[i]);
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += succ(qs[i]);
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Succ " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    std::cout << "Succ avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+    auto avg_succ = avg / TIMES;
+
+    std::cerr << size << ";" << avg_access << ";" << avg_rank << ";" << avg_succ << std::endl;
+}
+
+void run_p_naive(std::vector<uint64_t> &qs, std::string index_file){
+
+    typedef typename pzombit_plain_type::rank_1_type Rank;
+    typedef typename pzombit_plain_type::select_1_type Select; //TODO: revisar o select cos zombit (dependen do rank non do bitmap)
+    typedef pzombit_plain_succ_naive_type Succ;
+
+    pzombit_plain_type bitmap;
+    Rank rank;
+    Succ succ;
+
+    std::string rank_file_name = index_file + ".rank";
+    sdsl::load_from_file(bitmap, index_file);
+    sdsl::load_from_file(rank, rank_file_name);
+    rank.set_vector(&bitmap);
+    sdsl::util::init_support(succ, &bitmap);
+
+    auto size = sdsl::size_in_bytes(bitmap) + sdsl::size_in_bytes(rank) + sdsl::size_in_bytes(succ);
+
+    uint64_t sum = 0;
+    double avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += bitmap[qs[i]];
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += bitmap[qs[i]];
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Access " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    auto avg_access = avg / TIMES;
+    std::cout << "Access avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+
+    sum = 0; avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += rank(qs[i]+1);
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += rank(qs[i]+1);
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Rank " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    auto avg_rank = avg / TIMES;
+    std::cout << "Rank avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+
+
+    sum = 0; avg = 0;
+    for(uint64_t i = 0; i < qs.size(); ++i){
+        sum += succ(qs[i]);
+    }
+    for(uint64_t t = 0; t < TIMES; ++t){
+        sum = 0;
+        auto t1 = std::chrono::high_resolution_clock::now();
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            sum += succ(qs[i]);
+        }
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+        avg += time / (double) qs.size();
+        std::cout << "Succ " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+    }
+    std::cout << "Succ avg per query: " << avg / TIMES << " ns." << std::endl;
+    std::cout << std::endl;
+    auto avg_succ = avg / TIMES;
+
+    std::cerr << size << ";" << avg_access << ";" << avg_rank << ";" << avg_succ << std::endl;
+}
+
 int main(int argc, char** argv)
 {
     std::string file_name = argv[1];
@@ -131,6 +293,10 @@ int main(int argc, char** argv)
     index_file = file_name + ".zombit";
     run<zombit_plain_type>(q, index_file);
 
+    std::cout << "---- Zombit Naive ----" << std::endl;
+    index_file = file_name + ".zombit";
+    run_naive(q, index_file);
+
     std::cout << "---- Zombit RRR----" << std::endl;
     index_file = file_name + ".zombit.rrr";
     run<zombit_rrr_type>(q, index_file);
@@ -143,6 +309,10 @@ int main(int argc, char** argv)
     index_file = file_name + ".pzombit";
     run<pzombit_plain_type>(q, index_file);
 
+    std::cout << "---- PZombit Naive ----" << std::endl;
+    index_file = file_name + ".pzombit";
+    run_p_naive(q, index_file);
+
     std::cout << "---- PZombit RRR----" << std::endl;
     index_file = file_name + ".pzombit.rrr";
     run<pzombit_rrr_type>(q, index_file);
@@ -150,6 +320,8 @@ int main(int argc, char** argv)
     std::cout << "---- PZombit HYB----" << std::endl;
     index_file = file_name + ".pzombit.hyb";
     run<pzombit_hyb_type>(q, index_file);
+
+
 
 }
 

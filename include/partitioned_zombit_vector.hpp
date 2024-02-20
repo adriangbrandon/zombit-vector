@@ -54,7 +54,7 @@ namespace runs_vectors {
     template<uint8_t t_b, class t_mixed> class rank_support_partitioned_zombit_v;
     template<uint8_t t_b, class t_mixed> class rank_support_rec_partitioned_zombit;
     template<uint8_t t_b, class t_mixed> class select_support_zombit_v4;
-    template<uint8_t t_b, class t_mixed> class succ_support_partitioned_zombit_naive;
+     class succ_support_partitioned_zombit_naive;
     template<uint8_t t_b, class t_mixed> class succ_support_partitioned_zombit;
     template<class t_mixed> class rec_partitioned_zombit_vector;
     class succ_support_rec_partitioned_zombit;
@@ -86,7 +86,7 @@ namespace runs_vectors {
         friend class rank_support_partitioned_zombit_simple<0, t_mixed>;
         friend class rank_support_partitioned_zombit_v<1, t_mixed>;
         friend class rank_support_rec_partitioned_zombit<0, t_mixed>;
-        friend class succ_support_partitioned_zombit_naive<1, t_mixed>;
+        friend class succ_support_partitioned_zombit_naive;
         friend class succ_support_partitioned_zombit<1, t_mixed>;
         friend class rec_partitioned_zombit_vector<mixed_bitmap_type>;
         friend class rank_support_rec_partitioned_zombit<1, t_mixed>;
@@ -973,14 +973,14 @@ namespace runs_vectors {
 
 
     //Only with t_b=1
-    template<uint8_t t_b, class t_mixed = sdsl::bit_vector>
+    //template<uint8_t t_b, class t_mixed = sdsl::bit_vector>
     class succ_support_partitioned_zombit_naive {
 
     public:
         typedef sdsl::bit_vector::size_type size_type;
         typedef sdsl::bit_vector::value_type value_type;
     private:
-        const partitioned_zombit_vector<t_mixed>* m_v;
+        const partitioned_zombit_vector<sdsl::bit_vector>* m_v;
 
 
         void copy(const succ_support_partitioned_zombit_naive& ss){
@@ -1023,7 +1023,7 @@ namespace runs_vectors {
             copy(hybrid);
         }
 
-        succ_support_partitioned_zombit_naive(const partitioned_zombit_vector<t_mixed>* v = nullptr)
+        succ_support_partitioned_zombit_naive(const partitioned_zombit_vector<sdsl::bit_vector>* v = nullptr)
         {
             m_v = v;
             if(m_v == nullptr) return;
@@ -1063,7 +1063,7 @@ namespace runs_vectors {
             return m_v->size();
         }
 
-        void set_vector(const partitioned_zombit_vector<t_mixed>* v=nullptr)
+        void set_vector(const partitioned_zombit_vector<sdsl::bit_vector>* v=nullptr)
         {
             m_v = v;
         }
@@ -1090,7 +1090,7 @@ namespace runs_vectors {
             }
         }
 
-        void load(std::istream& in, const partitioned_zombit_vector<t_mixed>* v=nullptr)
+        void load(std::istream& in, const partitioned_zombit_vector<sdsl::bit_vector>* v=nullptr)
         {
             m_v = v;
         }
