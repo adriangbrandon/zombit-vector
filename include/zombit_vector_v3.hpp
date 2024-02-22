@@ -812,6 +812,14 @@ namespace runs_vectors {
 
     public:
         //! Standard constructor
+
+        select_support_zombit_v3() = default;
+
+
+        explicit select_support_zombit_v3(const zombit_vector_v3<t_mixed>* bv)
+        {
+        }
+
         explicit select_support_zombit_v3(const rank_zombit_type* rank)
         {
             m_rank = rank;
@@ -864,6 +872,10 @@ namespace runs_vectors {
         void load(std::istream&, const rank_zombit_type* rank)
         {
             m_rank = rank;
+        }
+
+        void set_vector(const zombit_vector_v3<t_mixed>* bv){
+
         }
 
         //! Serializes the data structure into a stream

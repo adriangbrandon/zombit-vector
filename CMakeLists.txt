@@ -116,3 +116,9 @@ target_link_libraries(exp1-build sdsl divsufsort divsufsort64)
 
 add_executable(exp1-bench benchmark/exp1/exp1-bench.cpp)
 target_link_libraries(exp1-bench sdsl divsufsort divsufsort64)
+
+add_executable(exp-rep-bwt benchmark/exp-repdata/build-bwt.cpp)
+target_link_libraries(exp-rep-bwt sdsl divsufsort divsufsort64)
+
+add_executable(exp-rep-wm benchmark/exp-repdata/build-wm.cpp)
+target_link_libraries(exp-rep-wm sdsl divsufsort divsufsort64)
