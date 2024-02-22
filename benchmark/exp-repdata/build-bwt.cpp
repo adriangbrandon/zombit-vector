@@ -12,6 +12,7 @@ void build_bwt(const sdsl::int_vector<8> &text, sdsl::int_vector<8> &bwt){
     sdsl::qsufsort::construct_sa(sa, text);
     std::cout << " [done]." << std::endl;
     std::cout << "Building BWT... " << std::flush;
+    bwt.resize(text.size());
     for (uint64_t i = 0; i < sa.size(); ++i) {
         if (sa[i] == 0){
             bwt[i] = text[text.size()-1];
