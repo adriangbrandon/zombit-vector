@@ -46,6 +46,8 @@ void run(const std::string &file_name, const std::string &index_name){
 
 
     std::cout << "sigma: " << wm_bv.sigma << std::endl;
+    std::cout << "size: " << wm_bv.size() << std::endl;
+    std::cout << "max_level: " << wm_bv.max_level << std::endl,
     std::cout << "Size in Bytes : " << sdsl::size_in_bytes(wm_bv) << std::endl;
     std::ofstream out(index_name + ".html");
     sdsl::write_structure<sdsl::HTML_FORMAT>(wm_bv, out);
