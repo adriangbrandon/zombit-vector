@@ -30,6 +30,8 @@ void run(const std::string &file_name, const std::string &index_name){
         sdsl::int_vector<> bwt;
         sdsl::load_from_file(bwt, file_name);
         std::cout << " [done]." << std::endl;
+        std::cout << bwt.size() << std::endl;
+        std::cout << bwt.width() << std::endl;
         std::cout << "Building WM... " << std::flush;
         sdsl::construct_im(wm_bv, bwt);
         sdsl::store_to_file(wm_bv, index_name);
