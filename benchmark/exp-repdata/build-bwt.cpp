@@ -29,7 +29,7 @@ void read_file(const std::string &file_name, sdsl::int_vector<8> &text){
     sdsl::load_vector_from_file(text, file_name);
     std::cout << " [done]." << std::endl;
     std::cout << "Mapping alphabet... " << std::flush;
-    /*uint8_t id = 1;
+    uint8_t id = 1;
     std::unordered_map<uint8_t, uint8_t > map;
     for(uint64_t i = 0; i < text.size(); ++i){
         auto it = map.find(text[i]);
@@ -40,7 +40,7 @@ void read_file(const std::string &file_name, sdsl::int_vector<8> &text){
             text[i] = id;
             ++id;
         }
-    }*/
+    }
     sdsl::append_zero_symbol(text);
     std::cout << " [done]." << std::endl;
 }
