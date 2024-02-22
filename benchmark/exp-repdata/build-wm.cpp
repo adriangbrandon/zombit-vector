@@ -27,7 +27,7 @@ void run(const std::string &file_name, const std::string &index_name){
     if(!sdsl::load_from_file(wm_bv, index_name)){
         std::cout << " [fail]." << std::endl;
         std::cout << "Loading bwt... " << std::flush;
-        sdsl::int_vector<8> bwt;
+        sdsl::int_vector<> bwt;
         sdsl::load_from_file(bwt, file_name);
         std::cout << " [done]." << std::endl;
         std::cout << "Building WM... " << std::flush;
