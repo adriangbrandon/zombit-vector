@@ -874,6 +874,11 @@ namespace runs_vectors {
             m_rank = rank;
         }
 
+        //! Load the data structure from a stream and set the supported vector
+        void load(std::istream&, const zombit_vector_v3<t_mixed>* bv)
+        {
+        }
+
         void set_vector(const zombit_vector_v3<t_mixed>* bv){
 
         }
