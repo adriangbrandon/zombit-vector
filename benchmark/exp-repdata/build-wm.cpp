@@ -20,14 +20,22 @@ typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 
 template <class BV>
-void run(const std::string &file_name, const std::string index_name){
-
-    sdsl::int_vector<> bwt;
-    sdsl::load_from_file(bwt, file_name);
+void run(const std::string &file_name, const std::string &index_name){
 
     sdsl::wm_int<BV> wm_bv;
-    sdsl::construct_im(wm_bv, bwt);
-    sdsl::store_to_file(wm_bv, index_name);
+    std::cout << "Reading WM... " << std::flush;
+    if(!sdsl::load_from_file(wm_bv, index_name)){
+        std::cout << " [fail]." << std::endl;
+        std::cout << "Loading bwt... " << std::flush;
+        sdsl::int_vector<8> bwt;
+        sdsl::load_from_file(bwt, file_name);
+        std::cout << " [done]." << std::endl;
+        std::cout << "Building WM... " << std::flush;
+        sdsl::construct_im(wm_bv, bwt);
+        sdsl::store_to_file(wm_bv, index_name);
+    }
+    std::cout << " [done]." << std::endl;
+
 
     std::cout << "sigma: " << wm_bv.sigma << std::endl;
     std::cout << "Size in Bytes : " << sdsl::size_in_bytes(wm_bv) << std::endl;
