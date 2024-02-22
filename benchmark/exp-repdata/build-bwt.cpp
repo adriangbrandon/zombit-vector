@@ -29,7 +29,7 @@ void read_file(const std::string &file_name, sdsl::int_vector<8> &text){
     sdsl::load_vector_from_file(text, file_name);
     std::cout << " [done]." << std::endl;
     std::cout << "Mapping alphabet... " << std::flush;
-    uint8_t id = 1;
+    /*uint8_t id = 1;
     std::unordered_map<uint8_t, uint8_t > map;
     for(uint64_t i = 0; i < text.size(); ++i){
         auto it = map.find(text[i]);
@@ -40,20 +40,23 @@ void read_file(const std::string &file_name, sdsl::int_vector<8> &text){
             text[i] = id;
             ++id;
         }
-    }
+    }*/
     sdsl::append_zero_symbol(text);
     std::cout << " [done]." << std::endl;
 }
 
-void run(const std::string &file_name){
+void write_file(const std::string &file_name, const sdsl::int_vector<8> &text){
+    std::ofstream of(file_name, std::ios::binary);
+    of.write((char*) text.data(), text.size());
+    of.close();
+}
 
+void run(const std::string &file_name){
     sdsl::int_vector<8> text, bwt;
     read_file(file_name, text);
     build_bwt(text, bwt);
-
     std::string bwt_file = file_name + ".bwt";
-    sdsl::store_to_file(bwt, bwt_file);
-
+    write_file(bwt_file, bwt);
 }
 
 int main(int argc, char** argv){
