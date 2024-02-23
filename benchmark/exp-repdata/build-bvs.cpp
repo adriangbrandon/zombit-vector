@@ -38,17 +38,23 @@ void store_bitmaps(std::vector<BV> &bitmaps, const std::string &name){
 
 template<class BV>
 void construct(std::vector<BV> &bitmaps, const std::string &file){
-    std::ifstream f(file);
-    sdsl::int_vector_buffer<8> text_buf(file, std::ios::in, 1024*1024, 8, true);
-    std::cout << "Size: " << text_buf.size() << std::endl;
+    uint64_t sigma = 0;
+    uint64_t size = sdsl::util::file_size(file);
+    std::vector<uint8_t> input(size);
+    std::ifstream in(file);
+    in.read((char*) input.data(), size);
+    in.close();
 
-    std::vector<sdsl::bit_vector> aux;
-    for(uint64_t i = 0; i < text_buf.size()-1; ++i){
-        auto v = text_buf[i];
-        if(aux.size() < text_buf[i]){
-            aux.emplace_back(sdsl::bit_vector(text_buf.size(), 0));
-        }
-        aux[v-1][i] = 1;
+    for(const auto& c : input){
+        if(sigma < c) sigma = c;
+    }
+    ++sigma;
+
+    //sdsl::int_vector_buffer<8> text_buf(file, std::ios::in, 1024 * 1024, 8, true);
+    std::vector<sdsl::bit_vector> aux(sigma, sdsl::bit_vector(size, 0));
+    for(uint64_t i = 0; i < input.size(); ++i){
+        uint8_t v = input[i];
+        aux[v][i] = 1;
     }
     bitmaps.resize(aux.size());
     for(uint64_t i = 0; i < bitmaps.size(); ++i){
