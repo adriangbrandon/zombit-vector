@@ -127,27 +127,36 @@ namespace runs_vectors {
             const uint8_t* data = (uint8_t*) c.data();
             uint64_t blocks = sdsl::util::math::ceil_div(c.size(), ZOMBIT_SMALL_BLOCK);
             blocks_vec.resize(blocks);
+            uint64_t r0 = 0, r1=0, m = 0;
             for(uint64_t i = 0; i < blocks; ++i){
                 if(i < blocks-1){
                     if(data[i] == 0){
                         blocks_vec[i] = partition::block_t::run0;
+                        ++r0;
                     }else if (data[i] == 255){
                         blocks_vec[i] = partition::block_t::run1;
+                        ++r1;
                     }else{
                         blocks_vec[i] = partition::block_t::mixed;
+                        ++m;
                     }
                 }else{
                     uint8_t mask = sdsl::bits::lo_set[c.size()-i*ZOMBIT_SMALL_BLOCK];
                     uint8_t aux = data[i] & mask;
                     if(aux == 0){
                         blocks_vec[i] = partition::block_t::run0;
+                        ++r0;
                     }else if (aux == mask){
                         blocks_vec[i] = partition::block_t::run1;
+                        ++r1;
                     }else{
                         blocks_vec[i] = partition::block_t::mixed;
+                        ++m;
                     }
                 }
             }
+
+            std::cout << std::endl << "blocks: " << blocks << " r0: " << r0 << " r1: " << r1 << " m: " << m << std::endl;
         }
 
         inline size_type pos_to_block(const size_type pos) const{
