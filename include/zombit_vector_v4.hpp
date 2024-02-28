@@ -497,14 +497,6 @@ namespace runs_vectors {
             }else{
                 m_rank_mixed.set_vector(nullptr);
             }
-            if(o.m_v != nullptr){
-                o.m_rank_mixed.set_vector(&(o.m_v->mixed));
-                o.m_rank_info.set_vector(&(o.m_v->m_info));
-            }else{
-                o.m_rank_mixed.set_vector(nullptr);
-                o.m_rank_info.set_vector(nullptr);
-            }
-
 
         }
 
