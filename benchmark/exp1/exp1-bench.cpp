@@ -240,10 +240,6 @@ int main(int argc, char** argv)
     index_file = file_name + ".zombit.hyb";
     run<zombit_hyb_type>(q, index_file);
 
-    std::cout << "---- PZombit ----" << std::endl;
-    index_file = file_name + ".pzombit.naive";
-    run<pzombit_plain_type>(q, index_file);
-
     std::cout << "---- Zombit v2 ----" << std::endl;
     index_file = file_name + ".zombit.v2";
     run<zombit_v2_plain_type>(q, index_file);
