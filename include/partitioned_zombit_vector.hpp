@@ -1121,7 +1121,7 @@ namespace runs_vectors {
  * \tparam k_sblock_rate  Superblock rate (number of blocks inside superblock)
  * TODO: implement select queries, currently this is dummy class.
  */
-    template<uint8_t t_b, class t_mixed>
+  /*  template<uint8_t t_b, class t_mixed>
     class select_support_zombit_v4
     {
     public:
@@ -1189,7 +1189,7 @@ namespace runs_vectors {
             sdsl::structure_tree::add_size(child, 0);
             return 0;
         }
-    };
+    };*/
 
 }
 

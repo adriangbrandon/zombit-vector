@@ -10,7 +10,7 @@ set(PROJECT_CONTACT "adrian.gbrandon@udc.es")
 
 
 #Change to "Debug" when you need it
-set(CMAKE_BUILD_TYPE "Debug")
+set(CMAKE_BUILD_TYPE "Release")
 
 # C++11 compiler Check
 if(NOT CMAKE_CXX_COMPILER_VERSION) # work around for cmake versions smaller than 2.8.10
@@ -125,3 +125,6 @@ target_link_libraries(exp-rep-wm sdsl divsufsort divsufsort64)
 
 add_executable(exp-rep-bvs benchmark/exp-repdata/build-bvs.cpp)
 target_link_libraries(exp-rep-bvs sdsl divsufsort divsufsort64)
+
+add_executable(exp-roaring-bvs benchmark/exp-roaring/build-roaring-bvs.cpp)
+target_link_libraries(exp-roaring-bvs sdsl divsufsort divsufsort64)

@@ -67,6 +67,28 @@ namespace util {
             return v;
         }
 
+        std::vector<std::string> read_directory(const std::string& name, const std::string& ext)
+        {
+            struct dirent **namelist;
+            int n;
+            std::vector<std::string> v;
+            n = scandir(name.c_str(), &namelist, 0, alphasort);
+            if (n > 0){
+                while (n--) {
+                    if(namelist[n]->d_type == DT_REG){
+                        std::string file_name = namelist[n]->d_name;
+                        auto lp = file_name.find_last_of('.');
+                        if(ext == file_name.substr(lp)){
+                            v.push_back(namelist[n]->d_name);
+                        }
+                    }
+                    free(namelist[n]);
+                }
+                free(namelist);
+            }
+            return v;
+        }
+
         bool create_directory(const std::string& name){
             int status;
             status = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
