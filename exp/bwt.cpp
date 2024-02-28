@@ -82,7 +82,6 @@ int run(std::string file_name, std::string index_file) {
         read_file(file_name, 1, text);
         bwt.resize(text.size());
         build_bwt(text, bwt);
-        sdsl::construct_im(wm_bv, bwt);
         sdsl::store_to_file(wm_bv, index_file);
         std::cout << "[done]" << std::endl;
     }else{
