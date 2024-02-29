@@ -193,7 +193,7 @@ namespace runs_vectors {
                 }else{
                     // [ -------------- ]
                     //full
-                    bool w_ones = (ith_run + c[0]) % 2;
+                    bool w_ones = (ith_run + c[0] +1) % 2;
                     m_info[ith_block] = w_ones;
                     if(w_ones){
                         m_full[ith_info_type] = 1;

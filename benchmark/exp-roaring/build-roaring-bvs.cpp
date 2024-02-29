@@ -9,11 +9,13 @@
 #include <sdsl/suffix_arrays.hpp>
 #include <zombit_vector_v3.hpp>
 #include <zombit_vector_v4.hpp>
+#include <zombit_vector_v5.hpp>
 #include <partitioned_zombit_vector.hpp>
 #include <rec_partitioned_zombit_vector.hpp>
 
-typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
-typedef runs_vectors::zombit_vector_v4<sdsl::bit_vector> zombit_v2_plain_type;
+typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type; //original
+typedef runs_vectors::zombit_vector_v4<sdsl::bit_vector> zombit_v2_plain_type; //version sparse
+typedef runs_vectors::zombit_vector_v5<sdsl::bit_vector> zombit_v5_plain_type; //quita estadisticas
 typedef runs_vectors::succ_support_zombit_v3_naive zombit_plain_succ_naive_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<127>> zombit_rrr_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::hyb_vector<>> zombit_hyb_type;
@@ -129,6 +131,8 @@ int main(int argc, char** argv){
         run<zombit_hyb_type>(folder, type);
     }else if(type == "zombit-v2-plain"){
         run<zombit_v2_plain_type>(folder, type);
+    }else if(type == "zombit-v5-plain"){
+        run<zombit_v5_plain_type>(folder, type);
     }else if (type == "pzombit-plain"){
         run<pzombit_plain_type>(folder, type);
     }else if (type == "pzombit-rrr"){
