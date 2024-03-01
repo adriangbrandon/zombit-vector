@@ -31,8 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Created by Adrián on 5/1/23.
 //
 
-#include <sdsl/rrr_vector.hpp>
-#include <succ_support_v.hpp>
+#include <zombit_vector_v4.hpp>
 
 uint64_t check_succ(uint64_t i, sdsl::bit_vector &bm){
     for(uint64_t j = i; j < bm.size(); ++j){
@@ -90,18 +89,20 @@ sdsl::bit_vector generate_runs(uint64_t size, double mean_1, double stdev_1, dou
 void test(sdsl::bit_vector &bm) {
 
     sdsl::rank_support_v<1> bm_rank;
-    runs_vectors::succ_support_v<1> bm_succ;
+    sdsl::succ_support_v<1> bm_succ;
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    sdsl_v2::rrr_vector<> pz(bm);
-    sdsl_v2::rrr_vector<>::succ_1_type pz_succ;
+    runs_vectors::zombit_vector_v4<sdsl::bit_vector> pz(bm);
+    runs_vectors::zombit_vector_v4<sdsl::bit_vector>::succ_1_type pz_succ;
+    runs_vectors::zombit_vector_v4<sdsl::bit_vector>::rank_1_type pz_rank;
     sdsl::util::init_support(pz_succ, &pz);
+    sdsl::util::init_support(pz_rank, &pz);
 
     for(size_t i = 0; i < bm.size(); ++i){
         if(pz[i] != bm[i]){
             sdsl::store_to_file(bm, "erro.bin");
-            std::cout << "Error in Access Partitioned zombit at i=" << i << std::endl;
+            std::cout << "Error in Access zombit at i=" << i << std::endl;
             std::cout << "Expected=" << bm[i] << std::endl;
             std::cout << "Obtained=" << pz[i] << std::endl;
             exit(0);
@@ -112,9 +113,19 @@ void test(sdsl::bit_vector &bm) {
     for(size_t i = 0; i < bm.size(); ++i){
         if(bm_succ(i) != pz_succ(i)){
             sdsl::store_to_file(bm, "erro.bin");
-            std::cout << "Error in Succ Partitioned zombit at i=" << i << std::endl;
+            std::cout << "Error in Succ zombit at i=" << i << std::endl;
             std::cout << "Expected=" << bm_succ(i) << std::endl;
             std::cout << "Obtained=" << pz_succ(i) << std::endl;
+            exit(0);
+        }
+    }
+
+    for(size_t i = 1; i <= bm.size(); ++i){
+        if(bm_rank(i) != pz_rank(i)){
+            sdsl::store_to_file(bm, "erro.bin");
+            std::cout << "Error in Rank zombit at i=" << i << std::endl;
+            std::cout << "Expected=" << bm_rank(i) << std::endl;
+            std::cout << "Obtained=" << pz_rank(i) << std::endl;
             exit(0);
         }
     }

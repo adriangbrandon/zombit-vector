@@ -282,7 +282,7 @@ namespace runs_vectors {
             if(!m_info[j]) return 0;
             auto i_wo = m_rank_info(j+1) - 1;
             if(m_full[i_wo]) return 1;
-            auto i_mixed = i_wo - m_rank_info(i_wo + 1);
+            auto i_mixed = i_wo - m_rank_full(i_wo + 1);
             return m_mixed[i_mixed*sample + i%sample];
 
         }
@@ -427,23 +427,13 @@ namespace runs_vectors {
             auto mixed = w_o - full_ones;
             size_type r = full_ones * m_v->sample;
             if(m_v->m_info[j]){
-                r = (m_v->m_full[w_o]) ? r + m_rank_mixed(mixed*m_v->sample) + ((i-1) % m_v->sample)+1 : r + m_rank_mixed(mixed*m_v->sample);
-                /*if(m_v->m_info[j]){
-                    // r contains all the ones in O blocks
-                    // mixed*sample= position where the mixed-th mixed block ends+1
-                    // (i-1)%sample position of the (i-1) bit inside the full block
-                    // +1 because we are counting
-                    r = r + m_rank_mixed(mixed*m_v->sample) + ((i-1) % m_v->sample)+1;
-                }else{
-                    //r contains all the ones in O blocks
-                    // mixed*sample= position where the (mixed+1)-th M block starts
-                    r = r + m_rank_mixed(mixed*m_v->sample);
-                }*/
+                r = (m_v->m_full[w_o]) ? r + m_rank_mixed(mixed*m_v->sample) + ((i-1) % m_v->sample)+1 :
+                        r + m_rank_mixed(mixed*m_v->sample + (i-1) % m_v->sample + 1);
             }else{
                 //r contains all the ones in O blocks
                 // (i-1)%sample position of the (i-1) bit inside the block
                 // +1 because we need an inclusive rank
-                r = r + m_rank_mixed(mixed*m_v->sample + (i-1) % m_v->sample + 1);
+                r = r + m_rank_mixed(mixed*m_v->sample);
             }
             return rank_support_zombit_v4_trait<t_b>::adjust_rank(r, i);
         }
