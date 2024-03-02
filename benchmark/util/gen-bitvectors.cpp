@@ -33,21 +33,24 @@ void generate_runs(uint64_t size, double mean_1, double stdev_1, double mean_0, 
     bv = sdsl::bit_vector(size);
 
     std::random_device r;
-    std::mt19937_64 rng(r());
+    std::mt19937_64 rngz(r());
+    std::mt19937_64 rngo(r());
     std::normal_distribution<double> dis_z(mean_0, stdev_0);
     std::normal_distribution<double> dis_o(mean_1, stdev_1);
-    auto dice_z = bind(dis_z, rng);
-    auto dice_o = bind(dis_o, rng);
+    auto dice_z = bind(dis_z, rngz);
+    auto dice_o = bind(dis_o, rngo);
 
-    uint64_t min = 1, max = size-1;
-    auto int_z = [&dice_z, min, max]{ return std::min(std::max(static_cast<uint64_t>(dice_z()), min), max); };
-    auto int_o = [&dice_o, min, max]{ return std::min(std::max(static_cast<uint64_t>(dice_o()), min), max); };
+    double min1 = mean_1-stdev_1, max1 = mean_1+stdev_1;
+    double min0 = mean_0-stdev_0, max0 = mean_0+stdev_0;
+    auto int_z = [&dice_z, min0, max0]{ return static_cast<uint64_t>(std::min(std::max(dice_z(), min0), max0)); };
+    auto int_o = [&dice_o, min1, max1]{ return static_cast<uint64_t>(std::min(std::max(dice_o(), min1), max1)); };
 
     uint64_t i = 0;
     bool value = false;
     while (i < size){
         uint64_t r_size;
         r_size = (value) ? int_o() : int_z();
+        std::cout << "run of " << (uint64_t) value << "s with length=" << r_size << std::endl;
         for (uint64_t j = 0; j < r_size; ++j) {
             bv[i++] = value;
             if (i >= bv.size()) break;
@@ -104,6 +107,7 @@ void exp1(){
 
 void exp2(){
     std::vector<uint64_t> sizes = {10000000, 100000000, 1000000000};
+    //std::vector<uint64_t> sizes = {10000000};
 
     uint64_t mean, stdev;
     for(uint64_t s : sizes){
