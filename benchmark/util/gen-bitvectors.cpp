@@ -50,7 +50,7 @@ void generate_runs(uint64_t size, double mean_1, double stdev_1, double mean_0, 
     while (i < size){
         uint64_t r_size;
         r_size = (value) ? int_o() : int_z();
-        std::cout << "run of " << (uint64_t) value << "s with length=" << r_size << std::endl;
+        //std::cout << "run of " << (uint64_t) value << "s with length=" << r_size << std::endl;
         for (uint64_t j = 0; j < r_size; ++j) {
             bv[i++] = value;
             if (i >= bv.size()) break;
