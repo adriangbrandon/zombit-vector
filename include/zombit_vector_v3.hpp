@@ -720,23 +720,19 @@ namespace runs_vectors {
             }else {
                 const uint64_t* mixed_data = m_v->mixed.data();
                 auto next_in_mixed = sdsl::bits_more::next_limit(mixed_data,(q - 1) * m_v->sample + i % m_v->sample,
-                                                            m_v->mixed.size());
-                //auto next_in_mixed = sdsl::bits::next(mixed_data,(q - 1) * m_v->sample + i % m_v->sample );
-                //std::cout << next_in_mixed << std::endl;
-                if (next_in_mixed < m_v->mixed.size() && next_in_mixed < q * m_v->sample) {
+                                                            q * m_v->sample);
+                if (next_in_mixed < q * m_v->sample) {
                     return next_in_mixed - (q - 1) * m_v->sample + j * m_v->sample;
                 }
             }
             const uint64_t* info_data = m_v->m_info.data();
             j = sdsl::bits_more::next_limit(info_data, j+1, m_v->m_info.size());
-            //std::cout << "next block1: " << j << " (" << m_v->m_info.size() << ") " << std::endl;
             if(j >= m_v->m_info.size()-1) return m_v->size();
             if(m_v->m_full[j]){
                 return j * m_v->sample;
             }else{
                 const uint64_t* mixed_data = m_v->mixed.data();
                 size_type succ_mixed = sdsl::bits_more::next_limit(mixed_data, q*m_v->sample, m_v->mixed.size());
-                if(succ_mixed == m_v->mixed.size()) return m_v->size();
                 return j * m_v->sample + succ_mixed - q*m_v->sample;
             }
         };

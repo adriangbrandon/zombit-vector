@@ -64,7 +64,7 @@ namespace sdsl {
 
     namespace bits_more {
 
-        inline uint64_t next_limit(const uint64_t* word, uint64_t idx, uint64_t limit)
+        static inline uint64_t next_limit(const uint64_t* word, uint64_t idx, uint64_t limit)
         {
             word += (idx>>6);
             if (*word & ~sdsl::bits::lo_set[idx&0x3F]) {
