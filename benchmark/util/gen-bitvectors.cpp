@@ -108,7 +108,7 @@ void exp2(){
     uint64_t mean, stdev;
     for(uint64_t s : sizes){
         mean = 10;
-        stdev = 2;
+        stdev = 5;
         while(mean < s){
             sdsl::bit_vector bv;
             generate_runs(s, mean, stdev , mean, stdev, bv);
@@ -117,12 +117,12 @@ void exp2(){
             std::cout << file_name << std::endl;
             stats_vector(bv);
             mean *= 10;
-            stdev *= 5;
+            stdev *= 10;
         }
     }
     for(uint64_t s : sizes){
         mean = 10;
-        stdev = 2;
+        stdev = 5;
         while(mean < s){
             sdsl::bit_vector bv;
             auto mean_1 = std::max(1.0, (double) mean/8);
@@ -133,7 +133,7 @@ void exp2(){
             std::cout << file_name << std::endl;
             stats_vector(bv);
             mean *= 10;
-            stdev *= 5;
+            stdev *= 10;
         }
     }
 }
