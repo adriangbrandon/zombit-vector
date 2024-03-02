@@ -127,7 +127,7 @@ void exp2(){
             sdsl::bit_vector bv;
             auto mean_1 = std::max(1.0, (double) mean/8);
             auto stdev_1 = std::max(1.0, (double) stdev/8);
-            generate_runs(s, mean, stdev , mean_1, stdev_1, bv);
+            generate_runs(s, mean_1, stdev_1 , mean, stdev, bv);
             std::string file_name = "bit-vector-exp2.notequal." + std::to_string(s) + "." + std::to_string(mean) + "." + std::to_string(stdev) + ".bin";
             sdsl::store_to_file(bv, file_name);
             std::cout << file_name << std::endl;
