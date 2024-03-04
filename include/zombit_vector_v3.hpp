@@ -568,29 +568,25 @@ namespace runs_vectors {
 
         inline size_type succ(size_type i) const{
             auto j = i /m_v->sample;
-            auto p = m_v->m_rank_full(j+1);
-            auto q = j+1-p;
+            auto q = j+1-m_v->m_rank_full(j+1);
+            size_type r;
             if(m_v->m_full[j]) {
-                if (m_v->m_info[j] == t_b) {
-                    return i;
-                }
+                if (m_v->m_info[j]) return i;
+                j = m_next_check(j+1);
+                if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[j]) ? j * m_v->sample :
+                    j * m_v->sample + m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample) - q*m_v->sample;
             }else {
-                auto next_in_mixed = m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample);
-                if (next_in_mixed < q * m_v->sample) {
-                    return next_in_mixed - (q - 1) * m_v->sample + j * m_v->sample;
-                }
+                auto s_m = m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample);
+                if (s_m < q * m_v->sample) return s_m - (q - 1) * m_v->sample + j * m_v->sample;
+                j = m_next_check(j+1);
+                if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[j]) ? j * m_v->sample : j  * m_v->sample + s_m - q*m_v->sample;
             }
-            j = m_next_check(j+1);
-            //std::cout << "next block1: " << j << " (" << m_check_block.size() << ") " << std::endl;
-            if(j >= m_v->m_info.size()-1) return m_v->size();
-            if(m_v->m_full[j]){
-                return j * m_v->sample;
-            }else{
-                size_type succ_mixed = m_succ_mixed(q*m_v->sample);
-                if(succ_mixed == m_v->mixed.size()) return m_v->size();
-                return j * m_v->sample + succ_mixed - q*m_v->sample;
-            }
+            return r;
         };
+
+
 
         size_type operator()(size_type i)const
         {
@@ -729,8 +725,6 @@ namespace runs_vectors {
                 r = (m_v->m_full[j]) ? j * m_v->sample : j  * m_v->sample + n_m - q*m_v->sample;
             }
             return r;
-
-
         };
 
         size_type operator()(size_type i)const
