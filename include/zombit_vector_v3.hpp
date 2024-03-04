@@ -711,30 +711,26 @@ namespace runs_vectors {
 
         inline size_type succ(size_type i) const{
             auto j = i /m_v->sample;
-            auto p = m_v->m_rank_full(j+1);
-            auto q = j+1-p;
+            auto q = j+1-m_v->m_rank_full(j+1);
+            size_type r;
             if(m_v->m_full[j]) {
-                if (m_v->m_info[j]) {
-                    return i;
-                }
+                if (m_v->m_info[j]) return i;
+                j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
+                if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[j]) ? j * m_v->sample :
+                        j * m_v->sample + sdsl::bits_more::next_limit(m_v->mixed.data(), q*m_v->sample,(q+1)*m_v->sample) - q*m_v->sample;
             }else {
-                const uint64_t* mixed_data = m_v->mixed.data();
-                auto next_in_mixed = sdsl::bits_more::next_limit(mixed_data,(q - 1) * m_v->sample + i % m_v->sample,
-                                                            q * m_v->sample);
-                if (next_in_mixed < q * m_v->sample) {
-                    return next_in_mixed - (q - 1) * m_v->sample + j * m_v->sample;
-                }
+                auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),(q - 1) * m_v->sample + i % m_v->sample,
+                                                                 (q+1)*m_v->sample);
+
+                if (n_m < q * m_v->sample) return n_m - (q - 1) * m_v->sample + j * m_v->sample;
+                j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
+                if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[j]) ? j * m_v->sample : j  * m_v->sample + n_m - q*m_v->sample;
             }
-            const uint64_t* info_data = m_v->m_info.data();
-            j = sdsl::bits_more::next_limit(info_data, j+1, m_v->m_info.size());
-            if(j >= m_v->m_info.size()-1) return m_v->size();
-            if(m_v->m_full[j]){
-                return j * m_v->sample;
-            }else{
-                const uint64_t* mixed_data = m_v->mixed.data();
-                size_type succ_mixed = sdsl::bits_more::next_limit(mixed_data, q*m_v->sample, m_v->mixed.size());
-                return j * m_v->sample + succ_mixed - q*m_v->sample;
-            }
+            return r;
+
+
         };
 
         size_type operator()(size_type i)const
