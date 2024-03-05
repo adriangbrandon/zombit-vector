@@ -149,9 +149,9 @@ namespace runs_vectors {
             //std::cout << "sample: " << m_sample << std::endl;
 
             //Computing full and mixed blocks
-            auto n_blocks = static_cast<size_type >(std::ceil(m_size/ (double_t) sample));
-            m_full = sdsl::bit_vector(n_blocks, 0);
-            m_info = sdsl::bit_vector(n_blocks, 0);
+            auto n_blocks = (m_size + sample -1) / sample;
+            m_full = sdsl::bit_vector(n_blocks+1, 0);
+            m_info = sdsl::bit_vector(n_blocks+1, 0);
 
             //Computing full and mixed blocks
             size_type start_block = 0, end_block = sample;
@@ -206,13 +206,11 @@ namespace runs_vectors {
 
                 start_block = end_block;
                 end_block += sample;
+                if(end_block > m_size) end_block = m_size;
             }
             //tricks for avoiding if statements in succ
-            m_info.resize(m_info.size()+1);
-            m_info[m_info.size()-1] = 1;
-
-            m_full.resize(ith_info_type+2);
-            m_full[m_full.size()-2] = 0;
+            m_info[n_blocks] = 1;
+            m_full.resize(ith_info_type+1);
             m_full[m_full.size()-1] = 1;
             //Storing info of mixed blocks
             auto aux = sdsl::bit_vector(mixed_blocks.size()*sample);
@@ -570,13 +568,12 @@ namespace runs_vectors {
                     return s_m - (q - 1) * m_v->sample + j * m_v->sample;
                 }
                 j = m_next_check(j+1);
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[w_o]) ? j * m_v->sample : j * m_v->sample + s_m - q*m_v->sample;
             }else {
                 j = m_next_check(j+1);
-                if(j >= m_v->m_info.size()-1) return m_v->size();
-                r = (m_v->m_full[w_o]) ? j * m_v->sample :
-                    j * m_v->sample + m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample) - q*m_v->sample;
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[w_o]) ? j * m_v->sample : j * m_v->sample + m_succ_mixed(q * m_v->sample) - q*m_v->sample;
             }
             return r;
         };
@@ -705,19 +702,19 @@ namespace runs_vectors {
             size_type r;
             if(m_v->m_info[j]) {
                 if (m_v->m_full[w_o-1]) return i;
-                auto next_in_mixed = sdsl::bits_more::next_limit(m_v->mixed.data(), (q - 1) * m_v->sample + i % m_v->sample,
-                                                                 q * m_v->sample);
-                if (next_in_mixed < q * m_v->sample) {
-                    return next_in_mixed - (q - 1) * m_v->sample + j * m_v->sample;
+                auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(), (q - 1) * m_v->sample + i % m_v->sample,
+                                                                 (q+1) * m_v->sample);
+                if (n_m < q * m_v->sample) {
+                    return n_m - (q - 1) * m_v->sample + j * m_v->sample;
                 }
                 j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
-                if(j >= m_v->m_info.size()-1) return m_v->size();
-                r = (m_v->m_full[w_o]) ? j * m_v->sample : j * m_v->sample + next_in_mixed - q*m_v->sample;
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
+                r = (m_v->m_full[w_o]) ? j * m_v->sample : j * m_v->sample + n_m - q * m_v->sample;
             }else {
                 j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[w_o]) ? j * m_v->sample :
-                        j * m_v->sample + sdsl::bits_more::next_limit(m_v->mixed.data(),(q - 1) * m_v->sample + i % m_v->sample,(q+1)*m_v->sample) - q*m_v->sample;
+                        j * m_v->sample + sdsl::bits_more::next_limit(m_v->mixed.data(),q * m_v->sample,(q+1)*m_v->sample) - q*m_v->sample;
             }
             return r;
         };

@@ -146,9 +146,9 @@ namespace runs_vectors {
             //std::cout << "sample: " << m_sample << std::endl;
 
             //Computing full and mixed blocks
-            auto n_blocks = static_cast<size_type >(std::ceil(m_size/ (double_t) sample));
-            m_full = sdsl::bit_vector(n_blocks, 0);
-            m_info = sdsl::bit_vector(n_blocks, 0);
+            auto n_blocks = (m_size + sample - 1)/ sample;
+            m_full = sdsl::bit_vector(n_blocks+1, 0);
+            m_info = sdsl::bit_vector(n_blocks+1, 0);
 
 
             //Computing full and mixed blocks
@@ -156,9 +156,9 @@ namespace runs_vectors {
             size_type start_block = 0, end_block = sample;
             size_type ith_run = 0;
             std::vector<size_type> mixed_blocks;
-            for(size_type ith_block = 0; ith_block <n_blocks; ++ith_block){
+            for(size_type ith_block = 0; ith_block < n_blocks; ++ith_block){
                 if(runs[ith_run] > start_block && runs[ith_run] < end_block){
-                    // [ ___------______ ]
+                       // [ ___------______ ]
                     //mixed
                     /*while(ith_run < runs.size() && runs[ith_run] < end_block){
                         ++ith_run;
@@ -195,13 +195,11 @@ namespace runs_vectors {
 
                 start_block = end_block;
                 end_block += sample;
+                if(end_block > m_size) end_block = m_size;
             }
             //tricks for avoiding if statements in succ
-            m_info.resize(m_info.size()+1);
-            m_info[m_info.size()-1] = 1;
-            m_full.resize(m_full.size()+2);
-            m_full[m_full.size()-2] = 0;
-            m_full[m_full.size()-1] = 1;
+            m_info[n_blocks] = 1;
+            m_full[n_blocks] = 1;
             //Storing info of mixed blocks
             auto aux = sdsl::bit_vector(mixed_blocks.size()*sample);
             size_type ith_mixed = 0;
@@ -573,14 +571,14 @@ namespace runs_vectors {
             if(m_v->m_full[j]) {
                 if (m_v->m_info[j]) return i;
                 j = m_next_check(j+1);
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[j]) ? j * m_v->sample :
-                    j * m_v->sample + m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample) - q*m_v->sample;
+                    j * m_v->sample + m_succ_mixed(q* m_v->sample) - q*m_v->sample;
             }else {
                 auto s_m = m_succ_mixed((q - 1) * m_v->sample + i % m_v->sample);
                 if (s_m < q * m_v->sample) return s_m - (q - 1) * m_v->sample + j * m_v->sample;
                 j = m_next_check(j+1);
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[j]) ? j * m_v->sample : j  * m_v->sample + s_m - q*m_v->sample;
             }
             return r;
@@ -712,16 +710,14 @@ namespace runs_vectors {
             if(m_v->m_full[j]) {
                 if (m_v->m_info[j]) return i;
                 j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[j]) ? j * m_v->sample :
                         j * m_v->sample + sdsl::bits_more::next_limit(m_v->mixed.data(), q*m_v->sample,(q+1)*m_v->sample) - q*m_v->sample;
             }else {
-                auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),(q - 1) * m_v->sample + i % m_v->sample,
-                                                                 (q+1)*m_v->sample);
-
+                auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),(q - 1) * m_v->sample + i % m_v->sample, (q+1)*m_v->sample);
                 if (n_m < q * m_v->sample) return n_m - (q - 1) * m_v->sample + j * m_v->sample;
                 j = sdsl::bits_more::next_limit(m_v->m_info.data(), j+1, m_v->m_info.size());
-                if(j >= m_v->m_info.size()-1) return m_v->size();
+                //if(j >= m_v->m_info.size()-1) return m_v->size();
                 r = (m_v->m_full[j]) ? j * m_v->sample : j  * m_v->sample + n_m - q*m_v->sample;
             }
             return r;
