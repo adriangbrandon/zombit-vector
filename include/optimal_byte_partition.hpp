@@ -28,7 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 //
-// Created by Adrián on 26/12/22.
+// Created by Adrián on 26/12/18.
 //
 
 #ifndef SUCC_VECTORS_OPTIMAL_PARTITION_HPP
@@ -73,6 +73,11 @@ namespace partition {
             bool is_mixed() const
             {
                 return (cnt_mixed > 0) || (cnt_run1 > 0 && cnt_run0 > 0);
+            }
+
+            bool is_run1() const
+            {
+                return cnt_mixed == 0 && cnt_run0 == 0 && cnt_run1 > 0;
             }
 
             void advance_start()
@@ -160,6 +165,131 @@ namespace partition {
 
             pos_t curr_pos = blocks;
             while( curr_pos != 0 ) {
+                partition.push_back(curr_pos);
+                curr_pos = path[curr_pos];
+            }
+            std::reverse(partition.begin(), partition.end());
+            cost_opt = min_cost[blocks];
+        }
+    };
+
+    struct optimal_sparse_variable {
+
+        std::vector<pos_t> partition;
+        cost_t cost_opt = 0; // the costs are in bits!
+
+        template<class Iterator>
+        struct cost_byte_window {
+            Iterator beg_it;
+            Iterator end_it;
+            // starting and ending position of the window
+            uint64_t beg = 0;
+            uint64_t end = 0;
+            uint64_t cnt_run0 = 0;
+            uint64_t cnt_run1 = 0;
+            uint64_t cnt_mixed = 0;
+
+            cost_t cost_upper_bound; // The maximum cost for this window
+
+            cost_byte_window(Iterator begin, cost_t cost_upper_bound)
+                    : beg_it(begin), end_it(begin), cost_upper_bound(cost_upper_bound) {}
+
+
+            uint64_t size() const {
+                return end - beg;
+            }
+
+            bool is_mixed() const {
+                return (cnt_mixed > 0) || (cnt_run1 > 0 && cnt_run0 > 0);
+            }
+
+            bool is_run1() const {
+                return cnt_mixed == 0 && cnt_run0 == 0 && cnt_run1 > 0;
+            }
+
+            void advance_start() {
+                if (*beg_it == block_t::mixed) {
+                    --cnt_mixed;
+                } else if (*beg_it == block_t::run0) {
+                    --cnt_run0;
+                } else {
+                    --cnt_run1;
+                }
+                ++beg_it;
+                ++beg;
+            }
+
+            void advance_end() {
+                if (*end_it == block_t::mixed) {
+                    ++cnt_mixed;
+                } else if (*end_it == block_t::run0) {
+                    ++cnt_run0;
+                } else {
+                    ++cnt_run1;
+                }
+                ++end_it;
+                ++end;
+            }
+
+
+        };
+
+
+        optimal_sparse_variable() {}
+
+        template<typename Iterator>
+        optimal_sparse_variable(Iterator begin, uint64_t blocks, uint64_t size,
+                                double eps1 = 0.03, double eps2 = 0.3) {
+            cost_t single_block_cost = size; //in bits
+            std::vector<cost_t> min_cost(blocks + 1, single_block_cost);
+            min_cost[0] = 0;
+            cost_t cost_length = sdsl::bits::hi(blocks) + 1;
+            // create the required window: one for each power of approx_factor
+            std::vector<cost_byte_window<Iterator>> windows;
+            cost_t cost_lb = 2 + cost_length; // minimum cost (2 + log_2(size) bits)
+            cost_t cost_bound = cost_lb;
+            while (eps1 == 0 || cost_bound < cost_lb / eps1) {
+                windows.emplace_back(begin, cost_bound);
+                if (cost_bound >= single_block_cost) break;
+                cost_bound = cost_bound * (1 + eps2);
+            }
+
+            std::vector<pos_t> path(blocks + 1, 0);
+            for (pos_t i = 0; i < blocks; i++) {
+                size_t last_end = i + 1;
+                for (auto &window: windows) {
+
+                    assert(window.beg == i);
+                    while (window.end < last_end) {
+                        window.advance_end();
+                    }
+
+                    cost_t window_cost;
+                    while (true) {
+                        if (window.is_mixed()) {
+                            window_cost = 2 + 2 * cost_length + window.size() * 8;
+                        } else if (window.is_run1()) {
+                            window_cost = 2 + cost_length;
+                        } else {
+                            window_cost = 1 + cost_length;
+                        }
+
+                        if ((min_cost[i] + window_cost < min_cost[window.end])) {
+                            min_cost[window.end] = min_cost[i] + window_cost;
+                            path[window.end] = i;
+                        }
+                        last_end = window.end;
+                        if (window.end == blocks) break;
+                        if (window_cost >= window.cost_upper_bound) break;
+                        window.advance_end();
+                    }
+
+                    window.advance_start();
+                }
+            }
+
+            pos_t curr_pos = blocks;
+            while (curr_pos != 0) {
                 partition.push_back(curr_pos);
                 curr_pos = path[curr_pos];
             }

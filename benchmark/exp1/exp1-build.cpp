@@ -5,6 +5,7 @@
 #include <zombit_vector_v3.hpp>
 #include <zombit_vector_v4.hpp>
 #include <partitioned_zombit_vector.hpp>
+#include <partitioned_zombit_vector_sparse.hpp>
 #include <sdsl/hyb_vector.hpp>
 #include <sdsl/rrr_vector.hpp>
 #include <succ_support_sd.hpp>
@@ -24,6 +25,13 @@ typedef runs_vectors::succ_support_partitioned_zombit_naive pzombit_plain_succ_n
 typedef typename runs_vectors::partitioned_zombit_vector<>::rank_1_type pzombit_plain_rank_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<127>> pzombit_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_type;
+
+typedef runs_vectors::partitioned_zombit_vector_sparse<> pzombit_sparse_plain_type;
+typedef runs_vectors::succ_support_partitioned_zombit_sparse_naive pzombit_sparse_plain_succ_naive_type;
+typedef typename runs_vectors::partitioned_zombit_vector_sparse<>::rank_1_type pzombit_sparse_plain_rank_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<127>> pzombit_sparse_rrr_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::hyb_vector<>> pzombit_sparse_hyb_type;
+
 typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 typedef sdsl::sd_vector<> sd_type;
@@ -155,5 +163,21 @@ int main(int argc, char** argv)
     std::cout << "---- PZombit HYB----" << std::endl;
     index_file = file_name + ".pzombit.hyb";
     run<pzombit_hyb_type>(bv, index_file);
+
+    std::cout << "---- PZombit v2 ----" << std::endl;
+    index_file = file_name + ".pzombit.v2";
+    run<pzombit_sparse_plain_type>(bv, index_file);
+
+    std::cout << "---- PZombit v2 Naive ----" << std::endl;
+    index_file = file_name + ".pzombit.v2.naive";
+    run<pzombit_sparse_plain_type, pzombit_sparse_plain_rank_type, pzombit_sparse_plain_succ_naive_type> (bv, index_file);
+
+    std::cout << "---- PZombit v2 RRR----" << std::endl;
+    index_file = file_name + ".pzombit.v2.rrr";
+    run<pzombit_sparse_rrr_type>(bv, index_file);
+
+    std::cout << "---- PZombit v2 HYB----" << std::endl;
+    index_file = file_name + ".pzombit.v2.hyb";
+    run<pzombit_sparse_hyb_type>(bv, index_file);
 
 }
