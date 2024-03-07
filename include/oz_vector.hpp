@@ -431,6 +431,21 @@ namespace runs_vectors {
             return written_bytes;
         }
 
+        void load(std::istream& in)
+        {
+            sdsl::read_member(m_size, in);
+            sdsl::read_member(m_z_1, in);
+            sdsl::read_member(m_ones, in);
+            sdsl::read_member(m_zeroes, in);
+            sdsl::read_member(m_right_bsearch, in);
+            m_bit_vector_o.load(in);
+            m_bit_vector_z.load(in);
+            m_support_select_o.load(in, &m_bit_vector_o);
+            m_support_select_z.load(in, &m_bit_vector_z);
+            m_support_rank_o.load(in, &m_bit_vector_o);
+            m_support_rank_z.load(in, &m_bit_vector_z);
+        }
+
     };
 
     template<uint8_t t_b>
