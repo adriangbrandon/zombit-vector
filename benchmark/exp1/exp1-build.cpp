@@ -9,6 +9,7 @@
 #include <sdsl/hyb_vector.hpp>
 #include <sdsl/rrr_vector.hpp>
 #include <succ_support_sd.hpp>
+#include <oz_vector.hpp>
 
 typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
 typedef runs_vectors::succ_support_zombit_v3_naive zombit_plain_succ_naive_type;
@@ -16,27 +17,29 @@ typedef typename runs_vectors::zombit_vector_v3<sdsl::bit_vector>::rank_1_type z
 typedef runs_vectors::zombit_vector_v4<sdsl::bit_vector> zombit_v2_plain_type;
 typedef runs_vectors::succ_support_zombit_v4_naive zombit_v2_plain_succ_naive_type;
 typedef typename runs_vectors::zombit_vector_v4<sdsl::bit_vector>::rank_1_type zombit_v2_plain_rank_type;
-typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<127>> zombit_rrr_type;
+typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<15>> zombit_rrr_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::hyb_vector<>> zombit_hyb_type;
-typedef runs_vectors::zombit_vector_v4<sdsl::rrr_vector<127>> zombit_v2_rrr_type;
+typedef runs_vectors::zombit_vector_v4<sdsl::rrr_vector<15>> zombit_v2_rrr_type;
 typedef runs_vectors::zombit_vector_v4<sdsl::hyb_vector<>> zombit_v2_hyb_type;
 typedef runs_vectors::partitioned_zombit_vector<> pzombit_plain_type;
 typedef runs_vectors::succ_support_partitioned_zombit_naive pzombit_plain_succ_naive_type;
 typedef typename runs_vectors::partitioned_zombit_vector<>::rank_1_type pzombit_plain_rank_type;
-typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<127>> pzombit_rrr_type;
+typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<15>> pzombit_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_type;
 
 typedef runs_vectors::partitioned_zombit_vector_sparse<> pzombit_sparse_plain_type;
 typedef runs_vectors::succ_support_partitioned_zombit_sparse_naive pzombit_sparse_plain_succ_naive_type;
 typedef typename runs_vectors::partitioned_zombit_vector_sparse<>::rank_1_type pzombit_sparse_plain_rank_type;
-typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<127>> pzombit_sparse_rrr_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<25>> pzombit_sparse_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::hyb_vector<>> pzombit_sparse_hyb_type;
 
-typedef sdsl::rrr_vector<127> rrr_type;
+typedef sdsl::rrr_vector<15> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 typedef sdsl::sd_vector<> sd_type;
 typedef sdsl::sd_vector<>::rank_1_type sd_rank_type;
 typedef sdsl::succ_support_sd<> sd_succ_type;
+
+typedef runs_vectors::oz_vector<> oz_type;
 
 
 template <class BV>
@@ -107,6 +110,10 @@ int main(int argc, char** argv)
     index_file = file_name + ".rrr";
     std::cout << "---- RRR ----" << std::endl;
     run<rrr_type>(bv, index_file);
+
+    index_file = file_name + ".oz";
+    std::cout << "---- OZ ----" << std::endl;
+    run<oz_type>(bv, index_file);
 
     index_file = file_name + ".sd";
     std::cout << "---- SD ----" << std::endl;

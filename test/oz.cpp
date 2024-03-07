@@ -31,10 +31,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Created by Adrián on 5/1/23.
 //
 
-#include <zombit_vector_v4.hpp>
-#include <zombit_vector_v3.hpp>
-#include <partitioned_zombit_vector.hpp>
-#include <partitioned_zombit_vector_sparse.hpp>
+#include <oz_vector.hpp>
+#include <succ_support_v.hpp>
 
 uint64_t check_succ(uint64_t i, sdsl::bit_vector &bm){
     for(uint64_t j = i; j < bm.size(); ++j){
@@ -92,47 +90,43 @@ sdsl::bit_vector generate_runs(uint64_t size, double mean_1, double stdev_1, dou
 void test(sdsl::bit_vector &bm) {
 
     sdsl::rank_support_v<1> bm_rank;
-    sdsl::succ_support_v<1> bm_succ;
+    runs_vectors::succ_support_v<1> bm_succ;
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    runs_vectors::partitioned_zombit_vector<sdsl::bit_vector> pz(bm);
-    runs_vectors::succ_support_partitioned_zombit_naive pz_succ;
-    runs_vectors::partitioned_zombit_vector<sdsl::bit_vector>::rank_1_type pz_rank;
-    //runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector>::succ_1_type pz_succ;
-    sdsl::util::init_support(pz_succ, &pz);
-    sdsl::util::init_support(pz_rank, &pz);
+    runs_vectors::oz_vector<> oz(bm);
+    runs_vectors::rank_support_oz<1> oz_rank;
+    runs_vectors::succ_support_oz<1> oz_succ;
+    sdsl::util::init_support(oz_rank, &oz);
+    sdsl::util::init_support(oz_succ, &oz);
+
     for(size_t i = 0; i < bm.size(); ++i){
-        if(pz[i] != bm[i]){
+        if(oz[i] != bm[i]){
             sdsl::store_to_file(bm, "erro.bin");
-            std::cout << "Error in Access zombit at i=" << i << std::endl;
+            std::cout << "Error in Access Partitioned zombit at i=" << i << std::endl;
             std::cout << "Expected=" << bm[i] << std::endl;
-            std::cout << "Obtained=" << pz[i] << std::endl;
-            exit(0);
-        }
-    }
-
-
-    for(size_t i = 0; i < bm.size(); ++i){
-        auto se = bm_succ(i);
-        auto so = pz_succ(i);
-        if(!((se >= bm.size() and so >= bm.size()) or se == so)){
-            sdsl::store_to_file(bm, "erro.bin");
-            std::cout << std::endl;
-            std::cout << "Error in Succ zombit at i=" << i << std::endl;
-            std::cout << "Expected=" << bm_succ(i) << std::endl;
-            std::cout << "Obtained=" << pz_succ(i) << std::endl;
+            std::cout << "Obtained=" << oz[i] << std::endl;
             exit(0);
         }
     }
 
     for(size_t i = 1; i <= bm.size(); ++i){
-        if(bm_rank(i) != pz_rank(i)){
+        if(oz_rank(i) != bm_rank(i)){
             sdsl::store_to_file(bm, "erro.bin");
-            std::cout << std::endl;
-            std::cout << "Error in Rank zombit at i=" << i << std::endl;
+            std::cout << "Error in Access Partitioned zombit at i=" << i << std::endl;
             std::cout << "Expected=" << bm_rank(i) << std::endl;
-            std::cout << "Obtained=" << pz_rank(i) << std::endl;
+            std::cout << "Obtained=" << oz_rank(i) << std::endl;
+            exit(0);
+        }
+    }
+
+
+    for(size_t i = 0; i < bm.size(); ++i){
+        if(bm_succ(i) != oz_succ(i)){
+            sdsl::store_to_file(bm, "erro.bin");
+            std::cout << "Error in Succ Partitioned zombit at i=" << i << std::endl;
+            std::cout << "Expected=" << bm_succ(i) << std::endl;
+            std::cout << "Obtained=" << oz_succ(i) << std::endl;
             exit(0);
         }
     }
@@ -164,7 +158,7 @@ int main(int argc, char** argv) {
     } else if (type == "runs") {
         std::cout << "--- Benchmark ---" << std::endl;
         auto mean = 10;
-        auto stdev = 5;
+        auto stdev = 8;
         while (mean < size) {
             std::cout << "Exp (mean_1=" << mean << ", stdev_1=" << stdev << ", mean_0="
                       << mean << ", stdev_0=" << stdev << ", size=" << size << ")" << std::endl;
@@ -175,7 +169,7 @@ int main(int argc, char** argv) {
             test(bv);
             std::cout << "------------------" << std::endl;
             mean = mean * 10;
-            stdev = stdev * 10;
+            stdev = stdev * 8;
         }
 
         for (auto ratio = 2; ratio < 100; ratio *= 2) {
