@@ -96,10 +96,10 @@ void test(sdsl::bit_vector &bm) {
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    runs_vectors::partitioned_zombit_vector<sdsl::bit_vector> pz(bm);
-    runs_vectors::succ_support_partitioned_zombit_naive pz_succ;
-    runs_vectors::partitioned_zombit_vector<sdsl::bit_vector>::rank_1_type pz_rank;
-    //runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector>::succ_1_type pz_succ;
+    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>> pz(bm);
+    //runs_vectors::succ_support_partitioned_zombit_sparse_naive pz_succ;
+    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::rank_1_type pz_rank;
+    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::succ_1_type pz_succ;
     sdsl::util::init_support(pz_succ, &pz);
     sdsl::util::init_support(pz_rank, &pz);
     for(size_t i = 0; i < bm.size(); ++i){

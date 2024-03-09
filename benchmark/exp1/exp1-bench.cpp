@@ -292,11 +292,11 @@ int main(int argc, char** argv)
     index_file = file_name + ".pzombit.v2.naive";
     run_naive<pzombit_sparse_plain_type, pzombit_sparse_plain_rank_type, pzombit_sparse_plain_succ_naive_type> (q, index_file);
 
-    std::cout << "---- PZombit RRR----" << std::endl;
+    std::cout << "---- PZombit v2 RRR----" << std::endl;
     index_file = file_name + ".pzombit.v2.rrr";
     run<pzombit_sparse_rrr_type>(q, index_file);
 
-    std::cout << "---- PZombit HYB----" << std::endl;
+    std::cout << "---- PZombit v2 HYB----" << std::endl;
     index_file = file_name + ".pzombit.v2.hyb";
     run<pzombit_sparse_hyb_type>(q, index_file);
 
