@@ -446,7 +446,6 @@ namespace runs_vectors {
         typedef typename t_mixed::rank_1_type rank_mixed_type;
         typedef typename sdsl::bit_vector::rank_1_type rank_type;
         typedef sdsl::rank_support_trait<t_b, 1> trait_type;
-        friend class rank_support_rec_partitioned_zombit<t_b, t_mixed>;
     private:
         const partitioned_zombit_vector_sparse<t_mixed>* m_v = nullptr;
 

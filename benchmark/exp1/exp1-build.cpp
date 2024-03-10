@@ -30,7 +30,7 @@ typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_
 typedef runs_vectors::partitioned_zombit_vector_sparse<> pzombit_sparse_plain_type;
 typedef runs_vectors::succ_support_partitioned_zombit_sparse_naive pzombit_sparse_plain_succ_naive_type;
 typedef typename runs_vectors::partitioned_zombit_vector_sparse<>::rank_1_type pzombit_sparse_plain_rank_type;
-typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<25>> pzombit_sparse_rrr_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>> pzombit_sparse_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::hyb_vector<>> pzombit_sparse_hyb_type;
 
 typedef sdsl::rrr_vector<15> rrr_type;
