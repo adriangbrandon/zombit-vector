@@ -83,6 +83,7 @@ template<class BV, class Succ>
 void build_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std::string &folder){
     auto files = util::file::read_directory(folder, ".txt");
     bitmaps.resize(files.size());
+    succs.resize(files.size());
     uint64_t i = 0;
     for(const auto &f : files){
         std::string path = folder + "/" + f;
