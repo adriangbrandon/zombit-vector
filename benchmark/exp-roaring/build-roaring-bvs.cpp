@@ -10,24 +10,42 @@
 #include <zombit_vector_v3.hpp>
 #include <zombit_vector_v4.hpp>
 #include <partitioned_zombit_vector.hpp>
-#include <rec_partitioned_zombit_vector.hpp>
+#include <partitioned_zombit_vector_sparse.hpp>
+#include <succ_support_sd.hpp>
+#include <oz_vector.hpp>
 
-typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type; //original
-typedef runs_vectors::zombit_vector_v4<sdsl::bit_vector> zombit_v2_plain_type; //version sparse
+typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
 typedef runs_vectors::succ_support_zombit_v3_naive zombit_plain_succ_naive_type;
-typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<127>> zombit_rrr_type;
+typedef typename runs_vectors::zombit_vector_v3<sdsl::bit_vector>::rank_1_type zombit_plain_rank_type;
+typedef runs_vectors::zombit_vector_v4<sdsl::bit_vector> zombit_v2_plain_type;
+typedef runs_vectors::succ_support_zombit_v4_naive zombit_v2_plain_succ_naive_type;
+typedef typename runs_vectors::zombit_vector_v4<sdsl::bit_vector>::rank_1_type zombit_v2_plain_rank_type;
+typedef runs_vectors::zombit_vector_v3<sdsl::rrr_vector<15>> zombit_rrr_type;
 typedef runs_vectors::zombit_vector_v3<sdsl::hyb_vector<>> zombit_hyb_type;
+typedef runs_vectors::zombit_vector_v4<sdsl::rrr_vector<15>> zombit_v2_rrr_type;
+typedef runs_vectors::zombit_vector_v4<sdsl::hyb_vector<>> zombit_v2_hyb_type;
 typedef runs_vectors::partitioned_zombit_vector<> pzombit_plain_type;
-typedef runs_vectors::rec_partitioned_zombit_vector<> rec_pzombit_plain_type;
 typedef runs_vectors::succ_support_partitioned_zombit_naive pzombit_plain_succ_naive_type;
-typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<127>> pzombit_rrr_type;
+typedef typename runs_vectors::partitioned_zombit_vector<>::rank_1_type pzombit_plain_rank_type;
+typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<15>> pzombit_rrr_type;
 typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_type;
-typedef sdsl::rrr_vector<127> rrr_type;
+
+typedef runs_vectors::partitioned_zombit_vector_sparse<> pzombit_sparse_plain_type;
+typedef runs_vectors::succ_support_partitioned_zombit_sparse_naive pzombit_sparse_plain_succ_naive_type;
+typedef typename runs_vectors::partitioned_zombit_vector_sparse<>::rank_1_type pzombit_sparse_plain_rank_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>> pzombit_sparse_rrr_type;
+typedef runs_vectors::partitioned_zombit_vector_sparse<sdsl::hyb_vector<>> pzombit_sparse_hyb_type;
+
+typedef sdsl::rrr_vector<15> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 typedef sdsl::sd_vector<> sd_type;
+typedef sdsl::sd_vector<>::rank_1_type sd_rank_type;
+typedef sdsl::succ_support_sd<> sd_succ_type;
+typedef runs_vectors::oz_vector<> oz_type;
 
-template<class BV>
-void build_bitmap(BV &bitmap, const std::string &file){
+
+template<class BV, class Succ>
+void build_bitmap(BV &bitmap, Succ &succ, const std::string &file){
 
     sdsl::bit_vector aux;
     {
@@ -56,45 +74,52 @@ void build_bitmap(BV &bitmap, const std::string &file){
    // std::cout << aux.size() << std::endl;
    // std::cout << file << std::endl;
     bitmap = BV(aux);
+    sdsl::util::init_support(succ, &bitmap);
    // std::cout << " done." << std::endl;
 
 }
 
-template<class BV>
-void build_bitmaps(std::vector<BV> &bitmaps, const std::string &folder){
+template<class BV, class Succ>
+void build_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std::string &folder){
     auto files = util::file::read_directory(folder, ".txt");
     bitmaps.resize(files.size());
     uint64_t i = 0;
     for(const auto &f : files){
         std::string path = folder + "/" + f;
-        build_bitmap(bitmaps[i], path);
+        build_bitmap(bitmaps[i], succs[i], path);
         ++i;
     }
 }
 
-template<class BV>
-bool load_bitmaps(std::vector<BV> &bitmaps, const std::string &name){
+template<class BV, class Succ>
+bool load_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std::string &name){
     std::ifstream f(name);
     if(!f.good()) return false;
     sdsl::load(bitmaps, f);
+    sdsl::load(succs, f);
+    for(uint64_t i = 0; i < succs.size(); ++i){
+        succs[i].set_vector(&bitmaps[i]);
+    }
     f.close();
     return true;
 }
 
-template<class BV>
-void store_bitmaps(std::vector<BV> &bitmaps, const std::string &name){
+template<class BV, class Succ>
+void store_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std::string &name){
     std::ofstream f(name);
     sdsl::serialize(bitmaps, f);
+    sdsl::serialize(succs, f);
     f.close();
 }
 
-template <class BV>
+template <class BV, class Succ>
 void run(const std::string &folder, const std::string &type){
 
     std::vector<BV> bitmaps;
-    std::string index_name = folder + "/" + folder + ".bvs." + type;
+    std::vector<Succ> succs;
+    std::string index_name = folder + "/bvs/" + folder + ".bvs." + type;
     std::cout << "Reading BVS... " << std::flush;
-    if(!load_bitmaps(bitmaps, index_name)){
+    if(!load_bitmaps(bitmaps, succs, index_name)){
         std::cout << " [fail]." << std::endl;
         /*std::cout << "Loading bwt... " << std::flush;
         sdsl::int_vector<8> bwt;
@@ -108,9 +133,9 @@ void run(const std::string &folder, const std::string &type){
         std::cout << bwt.size() << std::endl;
         std::cout << (uint64_t) bwt.width() << std::endl;*/
         std::cout << "Building BVS... " << std::flush;
-        build_bitmaps(bitmaps, folder);
+        build_bitmaps(bitmaps, succs, folder);
         //sdsl::construct_im(wm_bv, bwt.data(), 1);
-        store_bitmaps(bitmaps, index_name);
+        store_bitmaps(bitmaps, succs, index_name);
     }
     std::cout << " [done]." << std::endl;
     std::cout << "Size in Bytes : " << sdsl::size_in_bytes(bitmaps) << std::endl;
@@ -122,24 +147,24 @@ int main(int argc, char** argv){
     std::string folder = argv[1];
     std::string type = argv[2];
     if(type == "zombit-plain"){
-        run<zombit_plain_type>(folder, type);
+        run<zombit_plain_type, zombit_plain_succ_naive_type>(folder, type);
     }else if (type == "zombit-rrr"){
-        run<zombit_rrr_type>(folder, type);
+        run<zombit_rrr_type, typename zombit_rrr_type::succ_1_type>(folder, type);
     }else if (type == "zombit-hyb") {
-        run<zombit_hyb_type>(folder, type);
-    }else if(type == "zombit-v2-plain"){
-        run<zombit_v2_plain_type>(folder, type);
+        run<zombit_hyb_type,  typename zombit_hyb_type::succ_1_type>(folder, type);
+    }else if(type == "zombit-s-plain"){
+        run<zombit_v2_plain_type, zombit_v2_plain_succ_naive_type>(folder, type);
     }else if (type == "pzombit-plain"){
-        run<pzombit_plain_type>(folder, type);
-    }else if (type == "pzombit-rrr"){
-        run<pzombit_rrr_type>(folder, type);
-    }else if (type == "pzombit-hyb"){
-        run<pzombit_hyb_type>(folder, type);
+        run<pzombit_plain_type, pzombit_plain_succ_naive_type>(folder, type);
+    }else if (type == "pzombit-s-plain"){
+        run<pzombit_sparse_plain_type, pzombit_sparse_plain_succ_naive_type>(folder, type);
     }else if (type == "hyb"){
-        run<hyb_type>(folder, type);
+        run<hyb_type, typename hyb_type::succ_1_type>(folder, type);
     }else if (type == "rrr"){
-        run<rrr_type>(folder, type);
+        run<rrr_type, typename rrr_type::succ_1_type>(folder, type);
     }else if (type == "sd"){
-        run<sd_type>(folder, type);
+        run<sd_type, sd_succ_type>(folder, type);
+    }else if (type == "oz"){
+        run<oz_type, typename oz_type::succ_1_type>(folder, type);
     }
 }

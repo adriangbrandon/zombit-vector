@@ -74,7 +74,9 @@ namespace sdsl {
         }
     public:
 
-        explicit succ_support_sd(const bit_vector_type* v=nullptr)
+        succ_support_sd() = default;
+
+        explicit succ_support_sd(const bit_vector_type* v)
         {
             set_vector(v);
             if(v != nullptr){
@@ -124,6 +126,14 @@ namespace sdsl {
         {
             m_v = v;
         }
+
+        succ_support_sd(const succ_support_sd& p){
+            copy(p);
+        };
+
+        succ_support_sd(succ_support_sd&& p){
+            *this = std::move(p);
+        };
 
         succ_support_sd& operator=(const succ_support_sd& ss)
         {
