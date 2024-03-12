@@ -92,8 +92,9 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
     uint64_t sum = 0;
     double avg = 0;
     std::vector<uint64_t> mem_queries;
+    mem_queries.reserve(qrandom.size());
     for(auto i : qrandom){
-        mem_queries.push_back(i % max);
+        mem_queries.emplace_back(i % max);
     }
 
     for(uint64_t k = 0; k < bitmaps.size(); ++k){
@@ -127,6 +128,7 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
         uint64_t i = 0;
         while(i < bitmaps[k].size()){
             i = succs[k](i);
+            ++i;
         }
     }
     for(uint64_t t = 0; t < TIMES; ++t){
@@ -137,6 +139,7 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
             while(i < bitmaps[k].size()){
                 i = succs[k](i);
                 sum += i;
+                ++i;
             }
         }
         auto t2 = std::chrono::high_resolution_clock::now();
@@ -156,6 +159,7 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
         uint64_t i = 0;
         while(i < bitmaps[k].size()){
             i = succs[k](i);
+            ++i;
         }
     }
     for(uint64_t t = 0; t < TIMES; ++t){
