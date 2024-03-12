@@ -170,8 +170,13 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
             while(true){
                 c_l = succs[l](c);
                 if(c_l >= bitmaps[l].size()) break;
-                if(c_l == prev_c) sum += c_l;
-                c = prev_c = c_l;
+                if(c_l == prev_c) {
+                    sum += c_l;
+                    c = c_l + 1;
+                }else{
+                    c = c_l;
+                }
+                prev_c = c_l;
                 l = (l == k) ? k+1 : k;
             }
         }
