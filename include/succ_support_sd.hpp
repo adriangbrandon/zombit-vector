@@ -178,6 +178,8 @@ namespace sdsl {
             set_vector(v);
             if(m_v != nullptr){
                 m_succ_high.load(in, &(m_v->high));
+            }else{
+                m_succ_high.load(in);
             }
 
         }
