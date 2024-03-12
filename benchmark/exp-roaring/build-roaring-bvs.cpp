@@ -114,11 +114,13 @@ void store_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std
 }
 
 template <class BV, class Succ>
-void run(const std::string &folder, const std::string &type){
+void run(const std::string &path, const std::string &type){
 
     std::vector<BV> bitmaps;
     std::vector<Succ> succs;
-    std::string index_name = folder + "/bvs/" + folder + ".bvs." + type;
+
+    std::string folder = util::file::remove_path(path);
+    std::string index_name = path + "/bvs/" + folder + ".bvs." + type;
     std::cout << "Reading BVS... " << std::flush;
     if(!load_bitmaps(bitmaps, succs, index_name)){
         std::cout << " [fail]." << std::endl;
@@ -134,7 +136,7 @@ void run(const std::string &folder, const std::string &type){
         std::cout << bwt.size() << std::endl;
         std::cout << (uint64_t) bwt.width() << std::endl;*/
         std::cout << "Building BVS... " << std::flush;
-        build_bitmaps(bitmaps, succs, folder);
+        build_bitmaps(bitmaps, succs, path);
         //sdsl::construct_im(wm_bv, bwt.data(), 1);
         store_bitmaps(bitmaps, succs, index_name);
     }
