@@ -167,9 +167,10 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
         auto t1 = std::chrono::high_resolution_clock::now();
         for(uint64_t k = 0; k < bitmaps.size()-1; ++k){
             uint64_t c = 0, prev_c = -1, c_l, l = k;
+            auto length = std::min(bitmaps[k].size(), bitmaps[k+1].size());
             while(true){
                 c_l = succs[l](c);
-                if(c_l >= bitmaps[l].size()) break;
+                if(c_l >= length) break;
                 if(c_l == prev_c) {
                     sum += c_l;
                     c = c_l + 1;
