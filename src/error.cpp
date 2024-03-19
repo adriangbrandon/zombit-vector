@@ -40,7 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main(int argc, char** argv) {
 
     sdsl::bit_vector bv;
-    sdsl::load_from_file(bv, "bit-vector-exp2.notequal.100000000.10000.250.bin");
+    sdsl::load_from_file(bv, "bit-vector-exp2.equal.100000000.100.50.bin");
 
     sdsl::rank_support_v<1> rank_bv;
     sdsl::succ_support_v<1> succ_bv;

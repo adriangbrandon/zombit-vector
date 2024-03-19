@@ -8,7 +8,7 @@
 #include <partitioned_zombit_vector_sparse.hpp>
 #include <sdsl/hyb_vector.hpp>
 #include <sdsl/rrr_vector.hpp>
-#include <succ_support_sd.hpp>
+#include <sdsl/succ_support_sd.hpp>
 #include <oz_vector.hpp>
 
 typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
