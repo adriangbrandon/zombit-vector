@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <time.hpp>
 #include <sdsl/int_vector.hpp>
 #include <sdsl/rank_support.hpp>
+#include <sdsl/succ_support_sd.hpp>
 #include <zombit_vector_v3.hpp>
 #include <partitioned_zombit_vector.hpp>
 
@@ -47,9 +48,9 @@ int main(int argc, char** argv) {
     sdsl::util::init_support(succ_bv, &bv);
 
     //typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_type;
-    typedef runs_vectors::partitioned_zombit_vector<sdsl::bit_vector> zombit_type;
+    typedef sdsl::sd_vector<> zombit_type;
     typedef typename zombit_type::rank_1_type rank_zombit_type;
-    typedef typename zombit_type::succ_1_type succ_zombit_type;
+    typedef sdsl::succ_support_sd<> succ_zombit_type;
     {
         zombit_type zombit(bv);
         rank_zombit_type rank_zombit;
