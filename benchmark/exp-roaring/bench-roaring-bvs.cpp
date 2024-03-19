@@ -201,7 +201,7 @@ int main(int argc, char** argv){
     run<hyb_type, typename hyb_type::succ_1_type>(folder, "hyb", random);
     run<rrr_type, typename rrr_type::succ_1_type>(folder, "rrr", random);
     run<sd_type, sd_succ_type>(folder, "sd", random);
-    run<oz_type, typename oz_type::succ_1_type>(folder, "oz", random);
+//    run<oz_type, typename oz_type::succ_1_type>(folder, "oz", random);
     run<zombit_plain_type, zombit_plain_succ_naive_type>(folder, "zombit-plain", random);
     run<zombit_v2_plain_type, zombit_v2_plain_succ_naive_type>(folder, "zombit-s-plain", random);
     run<pzombit_plain_type, pzombit_plain_succ_naive_type>(folder, "pzombit-plain", random);
