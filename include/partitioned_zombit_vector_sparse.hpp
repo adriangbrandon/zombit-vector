@@ -54,6 +54,7 @@ namespace runs_vectors {
     template<uint8_t t_b, class t_mixed> class select_support_zombit_v4;
     class succ_support_partitioned_zombit_sparse_naive;
     template<uint8_t t_b, class t_mixed> class succ_support_partitioned_zombit_sparse;
+    class partitioned_zombit_sparse_iterator;
 
 
     template <class t_mixed = sdsl::bit_vector>
@@ -82,6 +83,7 @@ namespace runs_vectors {
         friend class succ_support_partitioned_zombit_sparse_naive;
         friend class succ_support_partitioned_zombit_sparse<1, t_mixed>;
         friend class succ_support_partitioned_zombit_sparse<0, t_mixed>;
+        friend class partitioned_zombit_sparse_iterator;
 
     private:
 
@@ -783,6 +785,68 @@ namespace runs_vectors {
     };
 
 
+    class partitioned_zombit_sparse_iterator {
+
+    public:
+        typedef sdsl::bit_vector::size_type size_type;
+        typedef sdsl::bit_vector::value_type value_type;
+    private:
+        const partitioned_zombit_vector_sparse<sdsl::bit_vector>* m_v;
+        size_type i_info;
+        size_type i_full;
+        size_type i_mixed;
+
+        size_type b_mixed, b_block;
+        size_type e_mixed, e_block;
+        bool is_full;
+        value_type answer;
+
+    public:
+        explicit partitioned_zombit_sparse_iterator(partitioned_zombit_vector_sparse<sdsl::bit_vector>* v){
+            m_v = v;
+            i_info = i_full = i_mixed = answer = -1ULL;
+            e_mixed = e_block = 0;
+
+        }
+
+        value_type operator*() const{
+            return answer;
+        }
+
+        bool next(){
+            if(is_full and answer < e_block-1){
+                ++answer;
+                return true;
+            }
+            size_type n_m;
+            if(!is_full and answer < e_block-1){
+                n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                  b_mixed + (answer - b_block) + 1,
+                                                  e_mixed);
+                if(n_m < e_mixed){
+                    answer = b_block + (n_m - b_mixed);
+                    return true;
+                }
+            }
+            i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i_info+1, m_v->m_info.size());
+            if(i_info >= m_v->m_info.size()-1) return false;
+            is_full = m_v->m_full[++i_full];
+            b_block = m_v->begin_block(i_info);
+            e_block = m_v->begin_block(i_info+1);
+            if(is_full){
+                answer = b_block;
+            }else{
+                ++i_mixed;
+                b_mixed = e_mixed;//m_v->begin_mixed_block(i_full);
+                e_mixed = m_v->begin_mixed_block(i_mixed+1);
+                n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                  b_mixed,
+                                                  e_mixed);
+                answer = b_block + (n_m - b_mixed);
+            }
+            return true;
+        }
+    };
 
     //Only with t_b=1
     //template<uint8_t t_b, class t_mixed = sdsl::bit_vector>

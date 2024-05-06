@@ -79,6 +79,8 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
 
     std::string folder = util::file::remove_path(path);
     std::string index_name = path + "/bvs/" + folder + ".bvs." + type;
+    std::cout << folder << std::endl;
+    std::cout << index_name << std::endl;
     std::cout << "Reading BVS... " << std::flush;
     auto max = load_bitmaps(bitmaps, succs, index_name);
     if(!max){
@@ -188,7 +190,7 @@ void run(const std::string &path, const std::string &type, const std::vector<uin
         std::cout << "Intersection " << time << " ns (per operation: " << per_list << " ns.)[sum=" << sum << "]" << std::endl;
     }
     auto avg_intersection = avg / TIMES;
-    std::cout << "Sequential avg per list: " << avg_intersection << " ns." << std::endl;
+    std::cout << "Intersection avg per list: " << avg_intersection << " ns." << std::endl;
     std::cout << std::endl;
 
     std::cerr << bytes << ";" << avg_member << ";" << avg_sequential << ";" << avg_intersection << std::endl;
@@ -198,14 +200,14 @@ int main(int argc, char** argv){
     std::string folder = argv[1];
 
     auto random = queries(100000, 1000);
-    run<hyb_type, typename hyb_type::succ_1_type>(folder, "hyb", random);
-    run<rrr_type, typename rrr_type::succ_1_type>(folder, "rrr", random);
-    run<sd_type, sd_succ_type>(folder, "sd", random);
+   // run<hyb_type, typename hyb_type::succ_1_type>(folder, "hyb", random);
+   // run<rrr_type, typename rrr_type::succ_1_type>(folder, "rrr", random);
+   // run<sd_type, sd_succ_type>(folder, "sd", random);
 //    run<oz_type, typename oz_type::succ_1_type>(folder, "oz", random);
     run<zombit_plain_type, zombit_plain_succ_naive_type>(folder, "zombit-plain", random);
-    run<zombit_v2_plain_type, zombit_v2_plain_succ_naive_type>(folder, "zombit-s-plain", random);
-    run<pzombit_plain_type, pzombit_plain_succ_naive_type>(folder, "pzombit-plain", random);
-    run<pzombit_sparse_plain_type, pzombit_sparse_plain_succ_naive_type>(folder, "pzombit-s-plain", random);
+    //run<zombit_v2_plain_type, zombit_v2_plain_succ_naive_type>(folder, "zombit-s-plain", random);
+    //run<pzombit_plain_type, pzombit_plain_succ_naive_type>(folder, "pzombit-plain", random);
+    //run<pzombit_sparse_plain_type, pzombit_sparse_plain_succ_naive_type>(folder, "pzombit-s-plain", random);
 
 
 }

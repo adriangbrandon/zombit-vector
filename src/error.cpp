@@ -39,6 +39,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main(int argc, char** argv) {
 
+
     sdsl::bit_vector bv;
     sdsl::load_from_file(bv, "bit-vector-exp2.equal.100000000.100.50.bin");
 

@@ -96,13 +96,22 @@ void test(sdsl::bit_vector &bm) {
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>> pz(bm);
-    //runs_vectors::succ_support_partitioned_zombit_sparse_naive pz_succ;
-    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::rank_1_type pz_rank;
-    runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::succ_1_type pz_succ;
+    /*runs_vectors::zombit_vector_v4<sdsl::bit_vector> pz(bm);
+    runs_vectors::succ_support_zombit_v4_naive pz_succ;
+    runs_vectors::zombit_vector_v4<sdsl::bit_vector>::rank_1_type pz_rank;*/
+
+   /*runs_vectors::partitioned_zombit_vector<sdsl::bit_vector> pz(bm);
+    runs_vectors::succ_support_partitioned_zombit_naive pz_succ;
+    runs_vectors::partitioned_zombit_vector<sdsl::bit_vector>::rank_1_type pz_rank;*/
+
+     runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector> pz(bm);
+     runs_vectors::succ_support_partitioned_zombit_sparse_naive pz_succ;
+     runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector>::rank_1_type pz_rank;
+
+    //runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::succ_1_type pz_succ;
     sdsl::util::init_support(pz_succ, &pz);
     sdsl::util::init_support(pz_rank, &pz);
-    for(size_t i = 0; i < bm.size(); ++i){
+   /* for(size_t i = 0; i < bm.size(); ++i){
         if(pz[i] != bm[i]){
             sdsl::store_to_file(bm, "erro.bin");
             std::cout << "Error in Access zombit at i=" << i << std::endl;
@@ -126,6 +135,7 @@ void test(sdsl::bit_vector &bm) {
         }
     }
 
+
     for(size_t i = 1; i <= bm.size(); ++i){
         if(bm_rank(i) != pz_rank(i)){
             sdsl::store_to_file(bm, "erro.bin");
@@ -133,6 +143,36 @@ void test(sdsl::bit_vector &bm) {
             std::cout << "Error in Rank zombit at i=" << i << std::endl;
             std::cout << "Expected=" << bm_rank(i) << std::endl;
             std::cout << "Obtained=" << pz_rank(i) << std::endl;
+            exit(0);
+        }
+    }*/
+
+    runs_vectors::partitioned_zombit_sparse_iterator iterator_v4(&pz);
+    size_t a = 0, v;
+    size_t iter = 0;
+    while(iterator_v4.next()){
+        v = *iterator_v4;
+       // std::cout << "V: " << v << std::endl;
+        a = pz_succ(a);
+        if(v != a){
+            std::cout << "Error in Iterator zombit at a=" << a << std::endl;
+            std::cout << "Iter=" << iter << std::endl;
+            std::cout << "Expected=" << pz_succ(a) << std::endl;
+            std::cout << "Obtained=" << v << std::endl;
+            exit(0);
+        }
+        ++a;
+        ++iter;
+    }
+    for(size_t i = 0; i < bm.size(); ++i){
+        auto se = bm_succ(i);
+        auto so = pz_succ(i);
+        if(!((se >= bm.size() and so >= bm.size()) or se == so)){
+            sdsl::store_to_file(bm, "erro.bin");
+            std::cout << std::endl;
+            std::cout << "Error in Succ zombit at i=" << i << std::endl;
+            std::cout << "Expected=" << bm_succ(i) << std::endl;
+            std::cout << "Obtained=" << pz_succ(i) << std::endl;
             exit(0);
         }
     }

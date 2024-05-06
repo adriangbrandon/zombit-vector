@@ -175,7 +175,7 @@ namespace sdsl {
 
         void load(std::istream& in, const bit_vector_type* v=nullptr)
         {
-            set_vector(v);
+            m_v = v;
             if(m_v != nullptr){
                 m_succ_high.load(in, &(m_v->high));
             }else{

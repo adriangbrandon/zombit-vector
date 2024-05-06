@@ -10,6 +10,7 @@
 #include <sdsl/rrr_vector.hpp>
 #include <sdsl/succ_support_sd.hpp>
 #include <oz_vector.hpp>
+#include <file.hpp>
 
 typedef runs_vectors::zombit_vector_v3<sdsl::bit_vector> zombit_plain_type;
 typedef runs_vectors::succ_support_zombit_v3_naive zombit_plain_succ_naive_type;
@@ -40,16 +41,7 @@ typedef runs_vectors::oz_vector<> oz_type;
 
 #define TIMES 5
 
-std::vector<uint64_t> queries(uint64_t max, uint64_t size){
-    std::mt19937_64 rng;
-    std::uniform_int_distribution<uint64_t> distribution(0, max);
-    auto dice = bind(distribution, rng);
-    std::vector<uint64_t> res;
-    while(res.size() < size){
-        res.push_back(dice());
-    }
-    return res;
-}
+
 
 template <class BV>
 void run(std::vector<uint64_t> &qs, std::string index_file){
@@ -216,9 +208,9 @@ void run_naive(std::vector<uint64_t> &qs, std::string &index_file){
 int main(int argc, char** argv)
 {
     std::string file_name = argv[1];
-    uint64_t max = atoll(argv[2]);
-    uint64_t size = atoll(argv[3]);
-    auto q = queries(max, size);
+    std::string file_q = argv[2];
+    std::vector<uint64_t> q;
+    util::file::read_from_file(file_q, q);
 
     std::cout << "---- HYB ----" << std::endl;
     std::string index_file = file_name + ".hyb";
