@@ -140,3 +140,6 @@ target_link_libraries(exp-roaring-bvs sdsl divsufsort divsufsort64)
 
 add_executable(exp-bench-roaring-bvs benchmark/exp-roaring/bench-roaring-bvs.cpp)
 target_link_libraries(exp-bench-roaring-bvs sdsl divsufsort divsufsort64)
+
+add_executable(bitvector2roaring benchmark/util/bitvector2roaring.cpp)
+target_link_libraries(bitvector2roaring sdsl divsufsort divsufsort64)
