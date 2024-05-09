@@ -27,6 +27,6 @@ int main(int argc, char* argv[])
             comma = true;
         }
     }
-    out << bv.size();
+    out << "," << bv.size() << std::endl;
     out.close();
 }
