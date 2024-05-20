@@ -30,8 +30,8 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     uint64_t max = std::atoll(argv[1]);
-    uint64_t size = std::atoll(argv[2]);
-    auto res = queries(max, size);
+    uint64_t size = std::atoll(argv[2]); //1000000
+    auto res = queries(max-1, size);
     util::file::write_to_file(argv[3], res);
 
 }

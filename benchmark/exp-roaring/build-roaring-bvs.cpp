@@ -79,14 +79,42 @@ void build_bitmap(BV &bitmap, Succ &succ, const std::string &file){
 
 }
 
+
+uint64_t get_number_file(const std::string  &s1){
+    uint64_t p1 = 0;
+    uint64_t units = 0;
+    for(int64_t i = s1.size(); i >= 0; --i){
+        if(isdigit(s1[i])){
+            units = std::max(1UL, units*10);
+            p1 += (s1[i]-'0') * units;
+        }else{
+            if(units) break;
+        }
+    }
+    return p1;
+}
+
+bool compare_file(const std::string &s1, const std::string &s2){
+    uint64_t p1 = get_number_file(s1);
+    uint64_t p2 = get_number_file(s2);
+    return p1 < p2;
+
+}
+
+
 template<class BV, class Succ>
 void build_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std::string &folder){
     auto files = util::file::read_directory(folder, ".txt");
     bitmaps.resize(files.size());
     succs.resize(files.size());
+
+    //Sort correctly the files
+    std::sort(files.begin(), files.end(), compare_file);
+
     uint64_t i = 0;
     for(const auto &f : files){
         std::string path = folder + "/" + f;
+        std::cout << path << std::endl;
         build_bitmap(bitmaps[i], succs[i], path);
         ++i;
     }
@@ -122,7 +150,7 @@ void run(const std::string &path, const std::string &type){
     std::string folder = util::file::remove_path(path);
     std::string index_name = path + "/bvs/" + folder + ".bvs." + type;
     std::cout << "Reading BVS... " << std::flush;
-    if(!load_bitmaps(bitmaps, succs, index_name)){
+    if(true or !load_bitmaps(bitmaps, succs, index_name)){
         std::cout << " [fail]." << std::endl;
         /*std::cout << "Loading bwt... " << std::flush;
         sdsl::int_vector<8> bwt;

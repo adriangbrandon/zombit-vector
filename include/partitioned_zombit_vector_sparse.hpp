@@ -70,7 +70,7 @@ namespace runs_vectors {
         typedef typename sdsl::bit_vector::size_type size_type;
         typedef typename sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::difference_type difference_type;
-        typedef sdsl::random_access_const_iterator<partitioned_zombit_vector_sparse> iterator;
+        typedef partitioned_zombit_sparse_iterator plain_iterator_type;
         typedef rank_support_partitioned_zombit_sparse_v<1, t_mixed> rank_1_type;
         typedef rank_support_partitioned_zombit_sparse_v<0, t_mixed> rank_0_type;
         typedef select_support_zombit_v4<1, t_mixed> select_1_type;
@@ -349,16 +349,6 @@ namespace runs_vectors {
 
         inline size_type size() const {
             return m_size;
-        }
-
-        iterator begin() const
-        {
-            return iterator(this, 0);
-        }
-
-        iterator end() const
-        {
-            return iterator(this, size());
         }
 
         //! Serializes the data structure into the given ostream
@@ -801,12 +791,32 @@ namespace runs_vectors {
         bool is_full;
         value_type answer;
 
+        void copy(const partitioned_zombit_sparse_iterator& other){
+            i_info = other.i_info;
+            i_full = other.i_full;
+            b_mixed = other.b_mixed;
+            e_mixed = other.e_mixed;
+            b_block = other.b_block;
+            e_block = other.e_block;
+            is_full = other.is_full;
+            answer = other.answer;
+            m_v = other.m_v;
+        }
+
     public:
         explicit partitioned_zombit_sparse_iterator(partitioned_zombit_vector_sparse<sdsl::bit_vector>* v){
             m_v = v;
             i_info = i_full = i_mixed = answer = -1ULL;
             e_mixed = e_block = 0;
 
+        }
+
+        partitioned_zombit_sparse_iterator() = default;
+
+        //! Copy constructor
+        partitioned_zombit_sparse_iterator(const partitioned_zombit_sparse_iterator& other)
+        {
+            copy(other);
         }
 
         value_type operator*() const{
@@ -816,7 +826,7 @@ namespace runs_vectors {
         bool next(){
             if(is_full and answer < e_block-1){
                 ++answer;
-                return true;
+                return answer < m_v->size();
             }
             size_type n_m;
             if(!is_full and answer < e_block-1){
@@ -825,7 +835,7 @@ namespace runs_vectors {
                                                   e_mixed);
                 if(n_m < e_mixed){
                     answer = b_block + (n_m - b_mixed);
-                    return true;
+                    return answer < m_v->size();
                 }
             }
             i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i_info+1, m_v->m_info.size());
@@ -844,7 +854,92 @@ namespace runs_vectors {
                                                   e_mixed);
                 answer = b_block + (n_m - b_mixed);
             }
-            return true;
+            return answer < m_v->size();
+        }
+
+        bool next(size_type lb){ //with lower bound
+            if(lb >= m_v->size()) return false;
+            if(b_block <= lb && lb < e_block){
+                size_type n_m;
+                if(is_full){
+                    answer = lb;
+                    return true;
+                }else{
+                    n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                      b_mixed + (lb - b_block),
+                                                      e_mixed);
+                    if(n_m < e_mixed){
+                        answer = b_block + (n_m - b_mixed);
+                        //std::cout << 2 << std::endl;
+                        return true;
+                    }
+                }
+                i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i_info+1, m_v->m_info.size());
+                if(i_info >= m_v->m_info.size()-1) return false;
+                is_full = m_v->m_full[++i_full];
+                b_block = m_v->begin_block(i_info);
+                e_block = m_v->begin_block(i_info+1);
+                if(is_full){
+                    answer = b_block;
+                }else{
+                    ++i_mixed;
+                    b_mixed = e_mixed;//m_v->begin_mixed_block(i_full);
+                    e_mixed = m_v->begin_mixed_block(i_mixed+1);
+                    n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                      b_mixed,
+                                                      e_mixed);
+                    answer = b_block + (n_m - b_mixed);
+                }
+            }else{
+                //Compute i_info of lb
+                size_type n_m;
+
+                auto i = m_v->pos_to_block(lb);
+                i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i, m_v->m_info.size());
+                if(i_info >= m_v->m_info.size()) return false;
+                i_full = m_v->m_rank_info(i_info);
+                is_full = m_v->m_full[i_full];
+                b_block = m_v->begin_block(i_info);
+                e_block = m_v->begin_block(i_info+1);
+                if(is_full){
+                    //std::cout << 3 << std::endl;
+                    answer = (i == i_info) ? lb : b_block;
+                }else{
+                    i_mixed = i_full - m_v->m_rank_full(i_full+1);
+                    b_mixed = m_v->begin_mixed_block(i_mixed);
+                    e_mixed = m_v->begin_mixed_block(i_mixed+1);
+                    n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                      (i == i_info) ?  b_mixed + (lb - b_block) : b_mixed,
+                                                      e_mixed);
+                    answer = b_block + (n_m - b_mixed);
+                    //  std::cout << 4 << std::endl;
+                }
+            }
+            return answer < m_v->size();
+        }
+
+        partitioned_zombit_sparse_iterator& operator=(const partitioned_zombit_sparse_iterator& ss)
+        {
+            if (this != &ss) {
+                copy(ss);
+            }
+            return *this;
+        }
+
+        partitioned_zombit_sparse_iterator& operator=(partitioned_zombit_sparse_iterator& other)
+        {
+
+            if (this != &other) {
+                i_info = other.i_info;
+                b_mixed = other.b_mixed;
+                e_mixed = other.e_mixed;
+                b_block = other.b_block;
+                e_block = other.e_block;
+                is_full = other.is_full;
+                answer = other.answer;
+                m_v = other.m_v;
+            }
+            return *this;
         }
     };
 

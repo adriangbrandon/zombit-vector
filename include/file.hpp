@@ -41,6 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <cctype>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <algorithm>
 #include <stdint.h>
 
 
@@ -88,6 +89,8 @@ namespace util {
             }
             return v;
         }
+
+
 
         bool create_directory(const std::string& name){
             int status;

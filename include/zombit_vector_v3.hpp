@@ -51,6 +51,7 @@ namespace runs_vectors {
     class rec_zombit_vector_v3;
     template<uint8_t t_b> class rank_support_zombit_rec_v3;
     template<uint8_t t_b> class succ_support_zombit_rec_v3;
+    class zombit_iterator_v3;
 
 
     template <class t_mixed = sdsl::bit_vector>
@@ -63,7 +64,7 @@ namespace runs_vectors {
         typedef typename sdsl::bit_vector::size_type size_type;
         typedef typename sdsl::bit_vector::value_type value_type;
         typedef typename sdsl::bit_vector::difference_type difference_type;
-        typedef sdsl::random_access_const_iterator<zombit_vector_v3> iterator;
+        typedef zombit_iterator_v3 plain_iterator_type;
         typedef rank_support_zombit_v3<1, t_mixed> rank_1_type;
         typedef rank_support_zombit_v3<0, t_mixed> rank_0_type;
         typedef select_support_zombit_v3<1, t_mixed> select_1_type;
@@ -81,6 +82,7 @@ namespace runs_vectors {
         friend class rank_support_zombit_v3<0, t_mixed>;
         friend class succ_support_zombit_v3_naive;
         friend class succ_support_zombit_v3<1, t_mixed >;
+        friend class zombit_iterator_v3;
 
     private:
 
@@ -275,15 +277,6 @@ namespace runs_vectors {
             return m_size;
         }
 
-        iterator begin() const
-        {
-            return iterator(this, 0);
-        }
-
-        iterator end() const
-        {
-            return iterator(this, size());
-        }
 
         //! Serializes the data structure into the given ostream
         size_type serialize(std::ostream& out, sdsl::structure_tree_node* v=nullptr, std::string name="")const
@@ -519,6 +512,196 @@ namespace runs_vectors {
     };
 
 
+
+    class zombit_iterator_v3 {
+
+    public:
+        typedef sdsl::bit_vector::size_type size_type;
+        typedef sdsl::bit_vector::value_type value_type;
+    private:
+        const zombit_vector_v3<sdsl::bit_vector>* m_v;
+        size_type i_info;
+        size_type b_mixed;
+        size_type e_mixed;
+        bool is_full;
+        value_type answer;
+
+        void copy(const zombit_iterator_v3& other){
+            i_info = other.i_info;
+            b_mixed = other.b_mixed;
+            e_mixed = other.e_mixed;
+            is_full = other.is_full;
+            answer = other.answer;
+            m_v = other.m_v;
+        }
+
+    public:
+        explicit zombit_iterator_v3(zombit_vector_v3<sdsl::bit_vector>* v){
+            m_v = v;
+            i_info  = answer = -1ULL;
+            b_mixed = -m_v->sample;
+            e_mixed = 0;
+            is_full = false;
+        }
+
+        zombit_iterator_v3() = default;
+
+        //! Copy constructor
+        zombit_iterator_v3(const zombit_iterator_v3& other)
+        {
+            copy(other);
+        }
+
+        value_type operator*() const{
+            return answer;
+        }
+
+        bool next(){
+            if(is_full and answer < (i_info+1) * m_v->sample-1){
+                ++answer;
+                // std::cout << 1 << std::endl;
+                return answer < m_v->size();
+            }
+            size_type n_m;
+            if(!is_full and answer < (i_info+1) * m_v->sample-1){
+                n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                  b_mixed + answer % m_v->sample + 1,
+                                                  e_mixed);
+                if(n_m < e_mixed){
+                    answer = i_info * m_v->sample + (n_m - b_mixed);
+                    //std::cout << 2 << std::endl;
+                    return answer < m_v->size();
+                }
+            }
+            i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i_info+1, m_v->m_info.size());
+            if(i_info >= m_v->m_info.size()) return false;
+            is_full = m_v->m_full[i_info];
+            if(is_full){
+                //std::cout << 3 << std::endl;
+                answer = i_info * m_v->sample;
+            }else{
+                b_mixed += m_v->sample;
+                e_mixed += m_v->sample;
+                n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                  b_mixed,
+                                                  e_mixed);
+                answer = i_info * m_v->sample + (n_m - b_mixed);
+                //  std::cout << 4 << std::endl;
+            }
+            return answer < m_v->size();
+        }
+
+        bool next(size_type lb){ //with lower bound
+            if(lb >= m_v->m_size) return false;
+            if(i_info * m_v->sample <= lb && lb <= (i_info+1) * m_v->sample-1){
+                if(is_full){
+                    answer = lb;
+                    return true;
+                }else{
+                    auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                      b_mixed + lb % m_v->sample,
+                                                      e_mixed);
+                    if(n_m < e_mixed){
+                        answer = i_info * m_v->sample + (n_m - b_mixed);
+                        //std::cout << 2 << std::endl;
+                        return true;
+                    }
+                }
+                i_info = sdsl::bits_more::next_limit(m_v->m_info.data(), i_info+1, m_v->m_info.size());
+                if(i_info >= m_v->m_info.size()) return false;
+                is_full = m_v->m_full[i_info];
+                if(is_full){
+                    answer = i_info * m_v->sample;
+                }else{
+                    b_mixed += m_v->sample;
+                    e_mixed += m_v->sample;
+                    auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                      b_mixed,
+                                                      e_mixed);
+                    answer = i_info * m_v->sample + (n_m - b_mixed);
+                    //  std::cout << 4 << std::endl;
+                }
+            }else {
+                //Compute i_info of lb
+                auto j = lb / m_v->sample;
+                is_full = m_v->m_full[j];
+                if (is_full) {
+                    if (m_v->m_info[j]) {
+                        i_info = j;
+                        answer = lb;
+                        return true;
+                    }
+                    j = sdsl::bits_more::next_limit(m_v->m_info.data(), j + 1, m_v->m_info.size());
+                    i_info = j;
+                    //if(j >= m_v->m_info.size()-1) return m_v->size();
+                    is_full = m_v->m_full[j];
+                    if(is_full){
+                        answer = j * m_v->sample;
+                    }else{
+                        auto q = j + 1 - m_v->m_rank_full(j + 1);
+                        b_mixed = (q-1) * m_v->sample;
+                        e_mixed = q * m_v->sample;
+                        auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(), b_mixed, e_mixed);
+                        answer = j * m_v->sample + (n_m - b_mixed);
+                    }
+                } else {
+                    auto q = j + 1 - m_v->m_rank_full(j + 1);
+                    b_mixed = (q-1) * m_v->sample;
+                    e_mixed =  q * m_v->sample;
+                    auto n_m = sdsl::bits_more::next_limit(m_v->mixed.data(),
+                                                           b_mixed + lb % m_v->sample,
+                                                           e_mixed);
+                    if (n_m < e_mixed){
+                        i_info = j;
+                        answer =  n_m - b_mixed + j * m_v->sample;
+                        return true;
+                    }
+                    j = sdsl::bits_more::next_limit(m_v->m_info.data(), j + 1, m_v->m_info.size());
+                    is_full = m_v->m_full[j];
+                    if(is_full){
+                        answer = j * m_v->sample;
+                    }else{
+                        b_mixed = e_mixed;
+                        e_mixed += m_v->sample;
+                        n_m = sdsl::bits_more::next_limit(m_v->mixed.data(), b_mixed, e_mixed);
+                        answer = j * m_v->sample + (n_m - b_mixed);
+                    }
+                }
+            }
+            return answer < m_v->size();
+        }
+
+        zombit_iterator_v3& operator=(const zombit_iterator_v3& ss)
+        {
+            if (this != &ss) {
+                copy(ss);
+            }
+            return *this;
+        }
+
+        zombit_iterator_v3& operator=(zombit_iterator_v3& other)
+        {
+
+            if (this != &other) {
+                i_info = other.i_info;
+                b_mixed = other.b_mixed;
+                e_mixed = other.e_mixed;
+                is_full = other.is_full;
+                answer = other.answer;
+                m_v = other.m_v;
+            }
+            return *this;
+        }
+
+        void swap(zombit_iterator_v3& o) {
+            std::swap(m_v, o.m_v);
+            std::swap(i_info, o.i_info);
+            std::swap(b_mixed, o.b_mixed);
+            std::swap(e_mixed, o.e_mixed);
+            std::swap(is_full, o.is_full);
+            std::swap(answer, o.answer);
+        }
+    };
 
     template <uint8_t t_b, class t_mixed>
     class succ_support_zombit_v3 {
