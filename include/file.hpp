@@ -75,15 +75,15 @@ namespace util {
             std::vector<std::string> v;
             n = scandir(name.c_str(), &namelist, 0, alphasort);
             if (n > 0){
-                while (n--) {
-                    if(namelist[n]->d_type == DT_REG){
-                        std::string file_name = namelist[n]->d_name;
+                for (int i = 0; i < n; ++i) {
+                    if(namelist[i]->d_type == DT_REG){
+                        std::string file_name = namelist[i]->d_name;
                         auto lp = file_name.find_last_of('.');
                         if(ext == file_name.substr(lp)){
-                            v.push_back(namelist[n]->d_name);
+                            v.push_back(namelist[i]->d_name);
                         }
                     }
-                    free(namelist[n]);
+                    free(namelist[i]);
                 }
                 free(namelist);
             }

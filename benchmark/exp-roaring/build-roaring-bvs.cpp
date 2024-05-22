@@ -109,7 +109,7 @@ void build_bitmaps(std::vector<BV> &bitmaps, std::vector<Succ> &succs, const std
     succs.resize(files.size());
 
     //Sort correctly the files
-    std::sort(files.begin(), files.end(), compare_file);
+    //std::sort(files.begin(), files.end(), compare_file);
 
     uint64_t i = 0;
     for(const auto &f : files){
