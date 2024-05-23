@@ -380,6 +380,12 @@ void run_basic(const std::string &path, const std::string &type, const std::vect
     auto avg_member = avg / TIMES;
     std::cout << "Membership avg per list: " << avg_member << " ns." << std::endl;
     std::cout << std::endl;
+
+    if(type == "oz"){
+        std::cerr << bytes << ";" << avg_member << ";" << ";" << ";;" << std::endl;
+        return;
+    }
+
     sum = 0; avg = 0;
 
     std::cout << "--- Sequential queries ---" << std::endl;
