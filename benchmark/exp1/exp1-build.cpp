@@ -8,6 +8,7 @@
 #include <partitioned_zombit_vector_sparse.hpp>
 #include <sdsl/hyb_vector.hpp>
 #include <sdsl/rrr_vector.hpp>
+#include <sdsl/sd_vector.hpp>
 #include <succ_support_sd.hpp>
 #include <oz_vector.hpp>
 
