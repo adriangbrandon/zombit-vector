@@ -63,7 +63,6 @@ void run(std::vector<uint64_t> &qs, std::string index_file){
     sdsl::load_from_file(bitmap, index_file);
     sdsl::load_from_file(rank, rank_file_name);
     sdsl::load_from_file(succ, succ_file_name);
-    sdsl::load_from_file(select, select_file_name);
     rank.set_vector(&bitmap);
     succ.set_vector(&bitmap);
     select.set_vector(&bitmap);
@@ -270,7 +269,7 @@ int main(int argc, char** argv)
 
     std::cout << "---- HYB ----" << std::endl;
     std::string index_file = file_name + ".hyb";
-    run<hyb_type, typename hyb_type::rank_1_type, typename hyb_type::select_1_type, typename hyb_type::succ_1_type>(q, index_file);
+    run_zombit<hyb_type, typename hyb_type::rank_1_type, typename hyb_type::select_1_type, typename hyb_type::succ_1_type>(q, index_file);
 
     index_file = file_name + ".rrr";
     std::cout << "---- RRR ----" << std::endl;
