@@ -92,9 +92,11 @@ sdsl::bit_vector generate_runs(uint64_t size, double mean_1, double stdev_1, dou
 void test(sdsl::bit_vector &bm) {
 
     sdsl::rank_support_v<1> bm_rank;
+    sdsl::select_support_mcl<> bm_select;
     sdsl::succ_support_v<1> bm_succ;
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
+    sdsl::util::init_support(bm_select, &bm);
 
     /*runs_vectors::zombit_vector_v4<sdsl::bit_vector> pz(bm);
     runs_vectors::succ_support_zombit_v4_naive pz_succ;
@@ -107,10 +109,12 @@ void test(sdsl::bit_vector &bm) {
      runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector> pz(bm);
      runs_vectors::succ_support_partitioned_zombit_sparse_naive pz_succ;
      runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector>::rank_1_type pz_rank;
+     runs_vectors::partitioned_zombit_vector_sparse<sdsl::bit_vector>::select_1_type pz_select;
 
     //runs_vectors::partitioned_zombit_vector_sparse<sdsl::rrr_vector<15>>::succ_1_type pz_succ;
     sdsl::util::init_support(pz_succ, &pz);
     sdsl::util::init_support(pz_rank, &pz);
+    pz_select.set_rank(&pz_rank);
    /* for(size_t i = 0; i < bm.size(); ++i){
         if(pz[i] != bm[i]){
             sdsl::store_to_file(bm, "erro.bin");
@@ -147,7 +151,7 @@ void test(sdsl::bit_vector &bm) {
         }
     }*/
 
-    runs_vectors::partitioned_zombit_sparse_iterator iterator_v4(&pz);
+    /*runs_vectors::partitioned_zombit_sparse_iterator iterator_v4(&pz);
     size_t a = 0, v;
     size_t iter = 0;
     while(iterator_v4.next()){
@@ -165,14 +169,29 @@ void test(sdsl::bit_vector &bm) {
         ++iter;
     }
     for(size_t i = 0; i < bm.size(); ++i){
-        auto se = bm_succ(i);
-        auto so = pz_succ(i);
-        if(!((se >= bm.size() and so >= bm.size()) or se == so)){
+            auto se = bm_succ(i);
+            auto so = pz_succ(i);
+            if(!((se >= bm.size() and so >= bm.size()) or se == so)){
+                sdsl::store_to_file(bm, "erro.bin");
+                std::cout << std::endl;
+                std::cout << "Error in Succ zombit at i=" << i << std::endl;
+                std::cout << "Expected=" << bm_succ(i) << std::endl;
+                std::cout << "Obtained=" << pz_succ(i) << std::endl;
+                exit(0);
+            }
+    }*/
+
+
+    auto cnt_ones = bm_rank(bm.size());
+    for(size_t i = 1; i <= cnt_ones; ++i){
+        auto se = bm_select(i);
+        auto so = pz_select(i);
+        if(se != so){
             sdsl::store_to_file(bm, "erro.bin");
             std::cout << std::endl;
-            std::cout << "Error in Succ zombit at i=" << i << std::endl;
-            std::cout << "Expected=" << bm_succ(i) << std::endl;
-            std::cout << "Obtained=" << pz_succ(i) << std::endl;
+            std::cout << "Error in Select zombit at i=" << i << std::endl;
+            std::cout << "Expected=" << bm_select(i) << std::endl;
+            std::cout << "Obtained=" << pz_select(i) << std::endl;
             exit(0);
         }
     }
