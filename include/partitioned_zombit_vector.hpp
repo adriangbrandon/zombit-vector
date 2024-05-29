@@ -53,7 +53,7 @@ namespace runs_vectors {
     template<uint8_t t_b, class t_mixed> class rank_support_partitioned_zombit_simple;
     template<uint8_t t_b, class t_mixed> class rank_support_partitioned_zombit_v;
     template<uint8_t t_b, class t_mixed> class rank_support_rec_partitioned_zombit;
-    template<uint8_t t_b, class t_mixed> class select_support_zombit_v4;
+    template<uint8_t t_b, class t_mixed> class select_support_partitioned_zombit;
      class succ_support_partitioned_zombit_naive;
     template<uint8_t t_b, class t_mixed> class succ_support_partitioned_zombit;
     template<class t_mixed> class rec_partitioned_zombit_vector;
@@ -77,12 +77,12 @@ namespace runs_vectors {
         typedef partitioned_zombit_iterator plain_iterator_type;
         typedef rank_support_partitioned_zombit_v<1, t_mixed> rank_1_type;
         typedef rank_support_partitioned_zombit_v<0, t_mixed> rank_0_type;
-        typedef select_support_zombit_v4<1, t_mixed> select_1_type;
-        typedef select_support_zombit_v4<0, t_mixed> select_0_type;
+        typedef select_support_partitioned_zombit<1, t_mixed> select_1_type;
+        typedef select_support_partitioned_zombit<0, t_mixed> select_0_type;
         typedef succ_support_partitioned_zombit<1, t_mixed> succ_1_type;
 
-        friend class select_support_zombit_v4<1, t_mixed>;
-        friend class select_support_zombit_v4<0, t_mixed>;
+        friend class select_support_partitioned_zombit<1, t_mixed>;
+        friend class select_support_partitioned_zombit<0, t_mixed>;
         friend class rank_support_partitioned_zombit_simple<1, t_mixed>;
         friend class rank_support_partitioned_zombit_simple<0, t_mixed>;
         friend class rank_support_partitioned_zombit_v<1, t_mixed>;
@@ -1233,6 +1233,106 @@ namespace runs_vectors {
         }
 
 
+    };
+
+    template<uint8_t t_b, class t_mixed>
+    class select_support_partitioned_zombit
+    {
+    public:
+        typedef partitioned_zombit_vector<t_mixed> bit_vector_type;
+        typedef rank_support_partitioned_zombit_v<t_b, t_mixed> rank_zombit_type;
+        typedef typename bit_vector_type::size_type size_type;
+        enum { bit_pat = t_b };
+        enum { bit_pat_len = (uint8_t)1 };
+    private:
+        //const bit_vector_type* m_v;
+        const rank_zombit_type* m_rank;
+
+    public:
+        //! Standard constructor
+
+        select_support_partitioned_zombit() = default;
+
+
+        explicit select_support_partitioned_zombit(const partitioned_zombit_vector<t_mixed>* bv)
+        {
+        }
+
+        explicit select_support_partitioned_zombit(const rank_zombit_type* rank)
+        {
+            m_rank = rank;
+        }
+
+        //! Answers select queries
+        size_type select(size_type i) const
+        {
+            //fprintf(stderr, "\nzombit_vector: select queries are not currently supported\n");
+            //std::exit(EXIT_FAILURE);
+
+            uint64_t l = 0, r = m_rank->size()-1;
+            uint64_t mid, cnt;
+            while(l < r){
+                mid = (l + r) >> 1;
+                cnt = m_rank->rank(mid+1);
+                if(cnt < i){
+                    l = mid + 1;
+                }else{
+                    r = mid;
+                }
+            }
+            return l;
+        }
+
+        //! Shorthand for select(i)
+        size_type operator()(size_type i) const
+        {
+            return select(i);
+        }
+
+        //! Return the size of the original vector
+        size_type size() const
+        {
+            return m_rank->size();
+        }
+
+        void set_rank(const rank_zombit_type* rank){
+            m_rank = rank;
+        }
+
+        //! Assignment operator
+        select_support_partitioned_zombit& operator=(const select_support_partitioned_zombit& rs)
+        {
+            if (this != &rs) {
+                m_rank = rs.m_rank;
+            }
+            return *this;
+        }
+
+        //! Swap method
+        void swap(select_support_partitioned_zombit&) {}
+
+        //! Load the data structure from a stream and set the supported vector
+        void load(std::istream&, const rank_zombit_type* rank)
+        {
+            m_rank = rank;
+        }
+
+        //! Load the data structure from a stream and set the supported vector
+        void load(std::istream&, const partitioned_zombit_vector<t_mixed>* bv)
+        {
+        }
+
+        void set_vector(const partitioned_zombit_vector<t_mixed>* bv){
+
+        }
+
+        //! Serializes the data structure into a stream
+        size_type serialize(std::ostream&, sdsl::structure_tree_node* v = nullptr, std::string name = "") const
+        {
+            sdsl::structure_tree_node* child = sdsl::structure_tree::add_child(v, name, sdsl::util::class_name(*this));
+            sdsl::structure_tree::add_size(child, 0);
+            return 0;
+        }
     };
 
     //! Select support for the hyb_vector class

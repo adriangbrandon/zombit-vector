@@ -538,7 +538,7 @@ namespace runs_vectors {
         zombit_iterator_v4() = default;
 
         //! Copy constructor
-        zombit_iterator_v4(const zombit_iterator_v3& other)
+        zombit_iterator_v4(const zombit_iterator_v4& other)
         {
             copy(other);
         }
@@ -962,10 +962,11 @@ namespace runs_vectors {
             //fprintf(stderr, "\nzombit_vector: select queries are not currently supported\n");
             //std::exit(EXIT_FAILURE);
 
-            auto l = 0; auto r = m_rank->size()-1;
-            auto mid = (l + r) >> 1;
+            uint64_t l = 0, r = m_rank->size()-1;
+            uint64_t mid, cnt;
             while(l < r){
-                auto cnt = m_rank(mid+1);
+                mid = (l + r) >> 1;
+                cnt = m_rank->rank(mid+1);
                 if(cnt < i){
                     l = mid + 1;
                 }else{
@@ -985,6 +986,10 @@ namespace runs_vectors {
         size_type size() const
         {
             return m_rank->size();
+        }
+
+        void set_rank(const rank_zombit_type* rank){
+            m_rank = rank;
         }
 
         //! Assignment operator
