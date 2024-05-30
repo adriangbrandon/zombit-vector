@@ -215,27 +215,33 @@ void run_zombit(std::vector<uint64_t> &qs, std::string &index_file){
 
     sum = 0; avg = 0;
     uint64_t cnt = rank(qs.size());
-    std::vector<uint64_t> pos_sel;
-    for(uint64_t i = 0; i < qs.size(); ++i){
-        pos_sel.push_back(qs[i] % cnt);
-        sum += select(pos_sel.back()+1);
-    }
-    for(uint64_t t = 0; t < TIMES; ++t){
-        sum = 0;
-        auto t1 = std::chrono::high_resolution_clock::now();
-        for(uint64_t i = 0; i < pos_sel.size(); ++i){
-            sum += select(pos_sel[i]+1);
+    double avg_select;
+    if(cnt == 0){
+        avg_select = 0;
+    }else{
+        std::vector<uint64_t> pos_sel;
+        for(uint64_t i = 0; i < qs.size(); ++i){
+            pos_sel.push_back(qs[i] % cnt);
+            sum += select(pos_sel.back()+1);
         }
-        auto t2 = std::chrono::high_resolution_clock::now();
-        auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
-        avg += time / (double) qs.size();
-        std::cout << "Select " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+        for(uint64_t t = 0; t < TIMES; ++t){
+            sum = 0;
+            auto t1 = std::chrono::high_resolution_clock::now();
+            for(uint64_t i = 0; i < pos_sel.size(); ++i){
+                sum += select(pos_sel[i]+1);
+            }
+            auto t2 = std::chrono::high_resolution_clock::now();
+            auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(t2-t1).count();
+            avg += time / (double) qs.size();
+            std::cout << "Select " << time << " ns (per query: " << time / (double) qs.size() << " ns.)[sum=" << sum << "]" << std::endl;
+        }
+        avg_select = avg / TIMES;
+        std::cout << "Select avg per query: " << avg / TIMES << " ns." << std::endl;
+        std::cout << std::endl;
+        pos_sel.clear();
+        pos_sel.shrink_to_fit();
     }
-    auto avg_select = avg / TIMES;
-    std::cout << "Select avg per query: " << avg / TIMES << " ns." << std::endl;
-    std::cout << std::endl;
-    pos_sel.clear();
-    pos_sel.shrink_to_fit();
+
 
 
     sum = 0; avg = 0;
