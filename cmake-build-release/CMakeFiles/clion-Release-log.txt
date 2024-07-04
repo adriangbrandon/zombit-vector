@@ -1,25 +1,46 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/ninja -G Ninja -S /Users/adrian/CLionProjects/succ-vectors -B /Users/adrian/CLionProjects/succ-vectors/cmake-build-release
+/Applications/CLion.app/Contents/bin/cmake/mac/x64/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/x64/ninja -G Ninja -S /Users/adrian/CLionProjects/succ-vectors -B /Users/adrian/CLionProjects/succ-vectors/cmake-build-release
 CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  Compatibility with CMake < 3.5 will be removed from a future version of
   CMake.
 
   Update the VERSION argument <min> value or use a ...<max> suffix to tell
   CMake that the project does not need compatibility with older versions.
 
 
+-- The C compiler identification is AppleClang 14.0.0.14000029
+-- The CXX compiler identification is AppleClang 14.0.0.14000029
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 -- Compiler is recent enough to support C++11.
 -- Performing Test HAVE_CLANG_STD=C__11
 -- Performing Test HAVE_CLANG_STD=C__11 - Success
 -- Performing Test HAVE_CLANG_STDLIB=LIBC__
 -- Performing Test HAVE_CLANG_STDLIB=LIBC__ - Success
--- Could not find support for SSE2 on this machine.
--- Could not find support for SSE3 on this machine.
--- Could not find support for SSSE3 on this machine.
--- Could not find support for SSE4.1 on this machine.
--- Could not find support for SSE4.2 on this machine.
--- CPU does NOT support SSE4.2
+-- Performing Test HAVE_CLANG_MSSE4.2__O3___FFAST_MATH__FUNROLL_LOOPS__DNDEBUG
+-- Performing Test HAVE_CLANG_MSSE4.2__O3___FFAST_MATH__FUNROLL_LOOPS__DNDEBUG - Success
+CMake Warning (dev) at CMakeModules/CheckSSE.cmake:56 (EXEC_PROGRAM):
+  Policy CMP0153 is not set: The exec_program command should not be called.
+  Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  Use execute_process() instead.
+Call Stack (most recent call first):
+  CMakeLists.txt:37 (FindSSE)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Performing Test HAVE_CLANG_MSSE4.2
+-- Performing Test HAVE_CLANG_MSSE4.2 - Success
+-- CPU does support SSE4.2.
 CMake Deprecation Warning at external/sdsl-lite/CMakeLists.txt:1 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  Compatibility with CMake < 3.5 will be removed from a future version of
   CMake.
 
   Update the VERSION argument <min> value or use a ...<max> suffix to tell
@@ -31,10 +52,13 @@ CMake Deprecation Warning at external/sdsl-lite/CMakeLists.txt:1 (cmake_minimum_
 -- Performing Test HAVE_CLANG_STD=C__11__DNDEBUG - Success
 -- Performing Test HAVE_CLANG_O3__FFAST_MATH__FUNROLL_LOOPS__D__EXTERN_ALWAYS_INLINE="EXTERN___ALWAYS_INLINE"_
 -- Performing Test HAVE_CLANG_O3__FFAST_MATH__FUNROLL_LOOPS__D__EXTERN_ALWAYS_INLINE="EXTERN___ALWAYS_INLINE"_ - Success
+-- Performing Test HAVE_CXA_DEMANGLE
+-- Performing Test HAVE_CXA_DEMANGLE - Failed
 -- Could NOT find CxaDemangle (missing: HAVE_CXA_DEMANGLE) 
-git found: /opt/homebrew/bin/git
+-- Found Git: /usr/local/bin/git (found version "2.45.2") 
+git found: /usr/local/bin/git
 CMake Deprecation Warning at external/sdsl-lite/external/libdivsufsort/CMakeLists.txt:2 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  Compatibility with CMake < 3.5 will be removed from a future version of
   CMake.
 
   Update the VERSION argument <min> value or use a ...<max> suffix to tell
@@ -54,6 +78,46 @@ CMake Warning (dev) at external/sdsl-lite/external/libdivsufsort/CMakeLists.txt:
     PROJECT_VERSION_PATCH
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
+-- Performing Test HAVE_UNKNOWN_WALL
+-- Performing Test HAVE_UNKNOWN_WALL - Success
+-- Performing Test HAVE_UNKNOWN_FOMIT_FRAME_POINTER
+-- Performing Test HAVE_UNKNOWN_FOMIT_FRAME_POINTER - Success
+-- Looking for inttypes.h
+-- Looking for inttypes.h - found
+-- Looking for memory.h
+-- Looking for memory.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stdlib.h
+-- Looking for stdlib.h - found
+-- Looking for string.h
+-- Looking for string.h - found
+-- Looking for strings.h
+-- Looking for strings.h - found
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Performing Test HAVE_INLINE
+-- Performing Test HAVE_INLINE - Success
+-- Performing Test HAVE___INLINE
+-- Performing Test HAVE___INLINE - Success
+-- Performing Test HAVE___INLINE__
+-- Performing Test HAVE___INLINE__ - Success
+-- Performing Test HAVE___DECLSPEC_DLLEXPORT_
+-- Performing Test HAVE___DECLSPEC_DLLEXPORT_ - Failed
+-- Performing Test HAVE___DECLSPEC_DLLIMPORT_
+-- Performing Test HAVE___DECLSPEC_DLLIMPORT_ - Failed
+-- Check size of uint8_t
+-- Check size of uint8_t - done
+-- Check size of int32_t
+-- Check size of int32_t - done
+-- Looking for PRId32
+-- Looking for PRId32 - found
+-- Check size of int64_t
+-- Check size of int64_t - done
+-- Looking for PRId64
+-- Looking for PRId64 - found
 CMake Warning (dev) at external/sdsl-lite/external/googletest/googletest/CMakeLists.txt:47 (project):
   Policy CMP0048 is not set: project() command manages VERSION variables.
   Run "cmake --help-policy CMP0048" for policy details.  Use the cmake_policy
@@ -68,22 +132,39 @@ CMake Warning (dev) at external/sdsl-lite/external/googletest/googletest/CMakeLi
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 CMake Deprecation Warning at external/sdsl-lite/external/googletest/googletest/CMakeLists.txt:48 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  Compatibility with CMake < 3.5 will be removed from a future version of
   CMake.
 
   Update the VERSION argument <min> value or use a ...<max> suffix to tell
   CMake that the project does not need compatibility with older versions.
 
 
+CMake Warning (dev) at external/sdsl-lite/external/googletest/googletest/cmake/internal_utils.cmake:211 (find_package):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  external/sdsl-lite/external/googletest/googletest/CMakeLists.txt:60 (include)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Could NOT find PythonInterp (missing: PYTHON_EXECUTABLE) 
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Looking for C++ include cstdio
+-- Looking for C++ include cstdio - found
 -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+CMake Error at external/sdsl-lite/test/CMakeLists.txt:27 (CONFIGURE_FILE):
+  No such file or directory
+
+
 CMake Deprecation Warning at external/malloc_count/CMakeLists.txt:1 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  Compatibility with CMake < 3.5 will be removed from a future version of
   CMake.
 
   Update the VERSION argument <min> value or use a ...<max> suffix to tell
   CMake that the project does not need compatibility with older versions.
 
 
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/adrian/CLionProjects/succ-vectors/cmake-build-release
+-- Configuring incomplete, errors occurred!

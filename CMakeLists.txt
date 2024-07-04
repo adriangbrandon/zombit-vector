@@ -90,6 +90,10 @@ target_link_libraries(test_rrr sdsl divsufsort divsufsort64)
 add_executable(test_oz test/oz.cpp)
 target_link_libraries(test_oz sdsl divsufsort divsufsort64)
 
+add_executable(test_sd test/sd.cpp)
+target_link_libraries(test_sd sdsl divsufsort divsufsort64)
+
+
 add_executable(test_zombit_s test/zombit-s.cpp)
 target_link_libraries(test_zombit_s sdsl divsufsort divsufsort64)
 
@@ -149,3 +153,9 @@ target_link_libraries(bitvector2roaring sdsl divsufsort divsufsort64)
 
 add_executable(intersection test/intersection.cpp)
 target_link_libraries(intersection sdsl divsufsort divsufsort64)
+
+add_executable(build_traj benchmark/exp-trajectories/build-traj.cpp)
+target_link_libraries(build_traj sdsl divsufsort divsufsort64)
+
+add_executable(traj-build-bvs benchmark/exp-trajectories/traj-build-bvs.cpp)
+target_link_libraries(traj-build-bvs sdsl divsufsort divsufsort64)

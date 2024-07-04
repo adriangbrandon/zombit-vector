@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/Library/Developer/CommandLineTools/usr/bin/objdump")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -166,6 +166,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/definitions.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/enc_vector.hpp")
 endif()
 
@@ -175,6 +179,10 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/hyb_vector.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/init_array.hpp")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -266,6 +274,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/math.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/memory_management.hpp")
 endif()
 
@@ -275,6 +287,10 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/nn_dict_dynamic.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/prev_support_v.hpp")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -375,6 +391,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/structure_tree.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/succ_support_sd.hpp")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/sdsl" TYPE FILE FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release-event-trace/external/sdsl-lite/include/sdsl/succ_support_v.hpp")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

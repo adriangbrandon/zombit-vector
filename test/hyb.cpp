@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // Created by Adrián on 5/1/23.
 //
 
-#include <succ-vec/hyb_vector.hpp>
+#include <sdsl/hyb_vector.hpp>
 #include <succ_support_v.hpp>
 
 uint64_t check_succ(uint64_t i, sdsl::bit_vector &bm){
@@ -94,9 +94,13 @@ void test(sdsl::bit_vector &bm) {
     sdsl::util::init_support(bm_rank, &bm);
     sdsl::util::init_support(bm_succ, &bm);
 
-    sdsl_v2::hyb_vector<> pz(bm);
-    sdsl_v2::hyb_vector<>::succ_1_type pz_succ;
+    sdsl::hyb_vector<> pz(bm);
+    sdsl::hyb_vector<>::succ_1_type pz_succ;
+    sdsl::hyb_vector<>::rank_1_type pz_rank;
+    sdsl::hyb_vector<>::select_1_type pz_select;
     sdsl::util::init_support(pz_succ, &pz);
+    sdsl::util::init_support(pz_rank, &pz);
+    pz_select.set_rank(&pz_rank);
 
     for(size_t i = 0; i < bm.size(); ++i){
         if(pz[i] != bm[i]){

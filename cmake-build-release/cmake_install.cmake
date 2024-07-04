@@ -1,4 +1,4 @@
-# Install script for directory: /Users/adrian/CLionProjects/succ-vectors
+# Install script for directory: /tmp/tmp.PlJhwQnzku
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -27,6 +27,11 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
+# Install shared libraries without execute permission?
+if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
+  set(CMAKE_INSTALL_SO_NO_EXE "1")
+endif()
+
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
@@ -34,13 +39,13 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/cmake_install.cmake")
-  include("/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/malloc_count/cmake_install.cmake")
+  include("/tmp/tmp.PlJhwQnzku/cmake-build-release/external/sdsl-lite/cmake_install.cmake")
+  include("/tmp/tmp.PlJhwQnzku/cmake-build-release/external/malloc_count/cmake_install.cmake")
 
 endif()
 
@@ -52,5 +57,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/tmp/tmp.PlJhwQnzku/cmake-build-release/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

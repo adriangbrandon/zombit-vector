@@ -22,7 +22,7 @@ FOREACH(file ${files})
   IF(${UNINSTALL_CHECK_${NUM}})
     MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
     EXEC_PROGRAM(
-      "/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
+      "/Applications/CLion.app/Contents/bin/cmake/mac/x64/bin/cmake" ARGS "-E remove \"$ENV{DESTDIR}${file}\""
       OUTPUT_VARIABLE rm_out
       RETURN_VALUE rm_retval
       )

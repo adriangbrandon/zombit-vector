@@ -1,4 +1,4 @@
-# Install script for directory: /Users/adrian/CLionProjects/succ-vectors/external/sdsl-lite/external/libdivsufsort/lib
+# Install script for directory: /tmp/tmp.PlJhwQnzku/external/sdsl-lite/external/libdivsufsort/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -27,6 +27,11 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
+# Install shared libraries without execute permission?
+if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
+  set(CMAKE_INSTALL_SO_NO_EXE "1")
+endif()
+
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
@@ -34,10 +39,10 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump")
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/usr/local/lib/libdivsufsort.a")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
@@ -46,14 +51,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a")
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libdivsufsort.a" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libdivsufsort.a")
-    execute_process(COMMAND "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib" "$ENV{DESTDIR}/usr/local/lib/libdivsufsort.a")
-  endif()
+  file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/tmp/tmp.PlJhwQnzku/cmake-build-release/external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort.a")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/usr/local/lib/libdivsufsort64.a")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
@@ -62,10 +63,6 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/Users/adrian/CLionProjects/succ-vectors/cmake-build-release/external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a")
-  if(EXISTS "$ENV{DESTDIR}/usr/local/lib/libdivsufsort64.a" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/usr/local/lib/libdivsufsort64.a")
-    execute_process(COMMAND "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib" "$ENV{DESTDIR}/usr/local/lib/libdivsufsort64.a")
-  endif()
+  file(INSTALL DESTINATION "/usr/local/lib" TYPE STATIC_LIBRARY FILES "/tmp/tmp.PlJhwQnzku/cmake-build-release/external/sdsl-lite/external/libdivsufsort/lib/libdivsufsort64.a")
 endif()
 
