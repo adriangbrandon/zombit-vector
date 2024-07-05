@@ -159,3 +159,6 @@ target_link_libraries(build_traj sdsl divsufsort divsufsort64)
 
 add_executable(traj-build-bvs benchmark/exp-trajectories/traj-build-bvs.cpp)
 target_link_libraries(traj-build-bvs sdsl divsufsort divsufsort64)
+
+add_executable(bench-traj benchmark/exp-trajectories/bench-traj.cpp)
+target_link_libraries(bench-traj sdsl divsufsort divsufsort64)
