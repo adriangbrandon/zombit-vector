@@ -73,6 +73,8 @@ uint64_t load_bitmap(BV &bitmap, Rank &rank, Succ &succ, const std::string &file
     sdsl::load_from_file(bitmap, file_name);
     sdsl::load_from_file(rank, rank_file_name);
     sdsl::load_from_file(succ, succ_file_name);
+    rank.set_vector(&bitmap);
+    succ.set_vector(&bitmap);
     return bitmap.size();
 }
 
@@ -125,7 +127,7 @@ void run(const std::string &path, std::vector<std::pair<int, int>> &qs){
     std::cout << "--- Exists queries ---" << std::endl;
 
     double avg = 0;
-    uint64_t sum = 0;
+    uint64_t sum;
     for(uint64_t t = 0; t < TIMES; ++t) {
         sum = 0;
         auto t1 = std::chrono::high_resolution_clock::now();
