@@ -42,6 +42,7 @@ void read_file(const std::string &file_name, sdsl::int_vector<32> &text){
             ++id;
         }
     }
+    sdsl::append_zero_symbol(text);
     std::cout << " [done]." << std::endl;
 }
 
