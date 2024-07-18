@@ -30,7 +30,7 @@ void read_file(const std::string &file_name, sdsl::int_vector<32> &text){
     sdsl::load_vector_from_file(text, file_name, 4);
     std::cout << " [done]." << std::endl;
     std::cout << "Mapping alphabet... " << std::flush;
-    uint8_t id = 1;
+    uint32_t id = 1;
     std::unordered_map<uint32_t, uint32_t > map;
     for(uint64_t i = 0; i < text.size(); ++i){
         auto it = map.find(text[i]);
