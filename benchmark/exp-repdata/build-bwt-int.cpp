@@ -26,7 +26,7 @@ void build_bwt(const sdsl::int_vector<32> &text, sdsl::int_vector<32> &bwt){
 void read_file(const std::string &file_name, sdsl::int_vector<32> &text){
 
     std::cout << "Reading file... " << std::flush;
-    sdsl::load_vector_from_file(text, file_name);
+    sdsl::load_vector_from_file(text, file_name, 4);
     std::cout << " [done]." << std::endl;
     std::cout << "Mapping alphabet... " << std::flush;
     uint8_t id = 1;
