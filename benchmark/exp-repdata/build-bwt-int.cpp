@@ -9,7 +9,7 @@
 void build_bwt(const sdsl::int_vector<32> &text, sdsl::int_vector<32> &bwt){
     sdsl::int_vector<> sa;
     std::cout << "Sorting suffixes... " << std::flush;
-    sdsl::qsufsort::construct_sa(sa, text, 4);
+    sdsl::qsufsort::construct_sa(sa, text);
     std::cout << " [done]." << std::endl;
     std::cout << "Building BWT... " << std::flush;
     bwt.resize(text.size());
@@ -21,15 +21,11 @@ void build_bwt(const sdsl::int_vector<32> &text, sdsl::int_vector<32> &bwt){
         }
     }
     std::cout << " [done]." << std::endl;
+
 }
 
 void read_file(const std::string &file_name, sdsl::int_vector<32> &text){
 
-
-    sdsl::int_vector<> sa;
-    std::cout << "Building SA... " << std::flush;
-    sdsl::qsufsort::construct_sa(sa, file_name.c_str(), 4);
-    std::cout << " [done]." << std::endl;
     std::cout << "Read file... " << std::flush;
     sdsl::load_vector_from_file(text, file_name, 4);
     std::cout << " [done]." << std::endl;
@@ -46,7 +42,6 @@ void read_file(const std::string &file_name, sdsl::int_vector<32> &text){
             ++id;
         }
     }
-    sdsl::append_zero_symbol(text);
     std::cout << " [done]." << std::endl;
 }
 
