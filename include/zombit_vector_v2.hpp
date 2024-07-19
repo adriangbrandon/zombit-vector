@@ -58,6 +58,7 @@ namespace runs_vectors {
         typedef typename sdsl::bit_vector::rank_1_type rank_bitmap_type;
         typedef typename sdsl::bit_vector::size_type size_type;
         typedef typename sdsl::bit_vector::value_type value_type;
+        typedef sdsl::random_access_const_iterator<zombit_vector> iterator;
 
         friend class rank_support_zombit<1>;
         friend class rank_support_zombit<0>;
@@ -212,6 +213,16 @@ namespace runs_vectors {
         zombit_vector(zombit_vector&& o)
         {
             *this = std::move(o);
+        }
+
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
         }
 
 

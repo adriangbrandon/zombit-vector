@@ -76,6 +76,7 @@ namespace runs_vectors {
         typedef select_support_partitioned_zombit_sparse<1, t_mixed> select_1_type;
         typedef select_support_partitioned_zombit_sparse<0, t_mixed> select_0_type;
         typedef succ_support_partitioned_zombit_sparse<1, t_mixed> succ_1_type;
+        typedef sdsl::random_access_const_iterator<partitioned_zombit_vector_sparse> iterator;
 
         friend class select_support_partitioned_zombit_sparse<1, t_mixed>;
         friend class select_support_partitioned_zombit_sparse<0, t_mixed>;
@@ -329,6 +330,16 @@ namespace runs_vectors {
             m_length_mixed.swap(o.m_length_mixed);
             sdsl::util::swap_support(m_select_length_mixed, o.m_select_length_mixed, &m_length_mixed, &o.m_length_mixed);
             m_mixed.swap(o.m_mixed);
+        }
+
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
         }
 
         inline value_type access(const size_type i) const{

@@ -70,6 +70,7 @@ namespace runs_vectors {
         typedef select_support_zombit_v4<1, t_mixed> select_1_type;
         typedef select_support_zombit_v4<0, t_mixed> select_0_type;
         typedef succ_support_zombit_v4<1, t_mixed> succ_1_type;
+        typedef sdsl::random_access_const_iterator<zombit_vector_v4> iterator;
 
         friend class rec_zombit_vector_v4;
         friend class rank_support_zombit_rec_v4<1>;
@@ -228,6 +229,16 @@ namespace runs_vectors {
             m_mixed = mixed_bitmap_type(aux);
             sdsl::util::init_support(m_rank_full, &m_full);
             sdsl::util::init_support(m_rank_info, &m_info);
+        }
+
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
         }
 
         //! Copy constructor

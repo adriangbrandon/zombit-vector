@@ -80,6 +80,7 @@ namespace runs_vectors {
         typedef select_support_partitioned_zombit<1, t_mixed> select_1_type;
         typedef select_support_partitioned_zombit<0, t_mixed> select_0_type;
         typedef succ_support_partitioned_zombit<1, t_mixed> succ_1_type;
+        typedef sdsl::random_access_const_iterator<partitioned_zombit_vector> iterator;
 
         friend class select_support_partitioned_zombit<1, t_mixed>;
         friend class select_support_partitioned_zombit<0, t_mixed>;
@@ -277,6 +278,16 @@ namespace runs_vectors {
             sdsl::util::init_support(m_rank_partitions, &m_partitions);
             sdsl::util::init_support(m_select_partitions, &m_partitions);
             sdsl::util::init_support(m_select_length_mixed, &m_length_mixed);
+        }
+
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
         }
 
         //! Copy constructor

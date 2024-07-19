@@ -70,6 +70,7 @@ namespace runs_vectors {
         typedef select_support_zombit_v3<1, t_mixed> select_1_type;
         typedef select_support_zombit_v3<0, t_mixed> select_0_type;
         typedef succ_support_zombit_v3<1, t_mixed> succ_1_type;
+        typedef sdsl::random_access_const_iterator<zombit_vector_v3> iterator;
 
         friend class rec_zombit_vector_v3;
         friend class rank_support_zombit_rec_v3<1>;
@@ -277,6 +278,15 @@ namespace runs_vectors {
             return m_size;
         }
 
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
+        }
 
         //! Serializes the data structure into the given ostream
         size_type serialize(std::ostream& out, sdsl::structure_tree_node* v=nullptr, std::string name="")const
