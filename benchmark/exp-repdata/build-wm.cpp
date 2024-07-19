@@ -20,7 +20,7 @@ typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
 
 template <class BV>
-void run(const std::string &file_name, const std::string &index_name){
+void run(const std::string &file_name, const std::string &index_name, uint8_t num_bytes){
 
     sdsl::wm_int<BV> wm_bv;
     std::cout << "Reading WM... " << std::flush;
@@ -38,7 +38,7 @@ void run(const std::string &file_name, const std::string &index_name){
         std::cout << bwt.size() << std::endl;
         std::cout << (uint64_t) bwt.width() << std::endl;*/
         std::cout << "Building WM... " << std::flush;
-        sdsl::construct(wm_bv, file_name, 1);
+        sdsl::construct(wm_bv, file_name, num_bytes);
         //sdsl::construct_im(wm_bv, bwt.data(), 1);
         sdsl::store_to_file(wm_bv, index_name);
     }
@@ -57,21 +57,22 @@ int main(int argc, char** argv){
     std::string file_name = argv[1];
     std::string index_name = argv[2];
     std::string type = argv[3];
+    uint num_bytes = std::atoi(argv[4]);
     if(type == "zombit-plain"){
-        run<zombit_plain_type>(file_name, index_name);
+        run<zombit_plain_type>(file_name, index_name, num_bytes);
     }else if (type == "zombit-rrr"){
-        run<zombit_rrr_type>(file_name, index_name);
+        run<zombit_rrr_type>(file_name, index_name, num_bytes);
     }else if (type == "zombit-hyb"){
-        run<zombit_hyb_type>(file_name, index_name);
+        run<zombit_hyb_type>(file_name, index_name, num_bytes);
     }else if (type == "pzombit-plain"){
-        run<pzombit_plain_type>(file_name, index_name);
+        run<pzombit_plain_type>(file_name, index_name, num_bytes);
     }else if (type == "pzombit-rrr"){
-        run<pzombit_rrr_type>(file_name, index_name);
+        run<pzombit_rrr_type>(file_name, index_name, num_bytes);
     }else if (type == "pzombit-hyb"){
-        run<pzombit_hyb_type>(file_name, index_name);
+        run<pzombit_hyb_type>(file_name, index_name, num_bytes);
     }else if (type == "hyb"){
-        run<hyb_type>(file_name, index_name);
+        run<hyb_type>(file_name, index_name, num_bytes);
     }else if (type == "rrr"){
-        run<rrr_type>(file_name, index_name);
+        run<rrr_type>(file_name, index_name, num_bytes);
     }
 }
