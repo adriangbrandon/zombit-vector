@@ -74,7 +74,7 @@ int run(const std::string &file_name, const std::string &index_name, uint8_t num
 
 
 
-void main(int argc, char** argv){
+int main(int argc, char** argv){
     std::string file_name = argv[1];
     std::string index_name = argv[2];
     std::string type = argv[3];
@@ -96,4 +96,5 @@ void main(int argc, char** argv){
     }else if (type == "rrr"){
         run<rrr_type>(file_name, index_name, num_bytes);
     }
+    return 0;
 }
