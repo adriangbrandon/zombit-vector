@@ -62,6 +62,7 @@ namespace runs_vectors {
         typedef select_support_oz<1> select_1_type;
         typedef select_support_oz<0> select_0_type;
         typedef succ_support_oz<1> succ_1_type;
+        typedef sdsl::random_access_const_iterator<oz_vector> iterator;
 
 
     private:
@@ -407,8 +408,33 @@ namespace runs_vectors {
             std::cout << std::endl;
         }
 
+        iterator begin() const
+        {
+            return iterator(this, 0);
+        }
+
+        iterator end() const
+        {
+            return iterator(this, size());
+        }
+
         size_type size()const{
             return m_size;
+        }
+
+        void swap(oz_vector &v) {
+
+            m_bit_vector_o.swap(v.m_bit_vector_o);
+            m_bit_vector_z.swap(v.m_bit_vector_z);
+            sdsl::util::swap_support(m_support_select_o, v.m_support_select_o, &m_bit_vector_o, &v.m_bit_vector_o);
+            sdsl::util::swap_support(m_support_select_z, v.m_support_select_z, &m_bit_vector_z, &v.m_bit_vector_z);
+            sdsl::util::swap_support(m_support_rank_o, v.m_support_rank_o, &m_bit_vector_o, &v.m_bit_vector_o);
+            sdsl::util::swap_support(m_support_select_z, v.m_support_select_z, &m_bit_vector_z, &v.m_bit_vector_z);
+            std::swap(m_z_1, v.m_z_1);
+            std::swap(m_size, v.m_size);
+            std::swap(m_ones, v.m_ones);
+            std::swap(m_zeroes, v.m_zeroes);
+            std::swap(m_right_bsearch, v.m_right_bsearch);
         }
 
         //! Serializes the data structure into the given ostream
