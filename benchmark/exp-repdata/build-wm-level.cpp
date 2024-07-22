@@ -21,7 +21,7 @@ typedef sdsl::hyb_vector<> hyb_type;
 
 
 template <class BV>
-int run(const std::string &file_name, const std::string &index_name, uint8_t num_bytes) {
+void run(const std::string &file_name, const std::string &index_name, uint8_t num_bytes) {
 
     typedef typename BV::rank_1_type Rank;
 
