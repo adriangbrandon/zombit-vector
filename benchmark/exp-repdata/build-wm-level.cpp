@@ -79,7 +79,9 @@ int main(int argc, char** argv){
     std::string index_name = argv[2];
     std::string type = argv[3];
     uint num_bytes = std::atoi(argv[4]);
-    if(type == "zombit-plain"){
+    if(type == "plain") {
+        run<sdsl::bit_vector>(file_name, index_name, num_bytes);
+    }else if(type == "zombit-plain"){
         run<zombit_plain_type>(file_name, index_name, num_bytes);
     }else if (type == "zombit-rrr"){
         run<zombit_rrr_type>(file_name, index_name, num_bytes);
