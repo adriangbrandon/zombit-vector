@@ -5,6 +5,7 @@
 #include <string>
 #include <sdsl/suffix_arrays.hpp>
 #include <iostream>
+#include <oz_vector.hpp>
 #include <zombit_vector_v3.hpp>
 #include <partitioned_zombit_vector.hpp>
 
@@ -18,6 +19,7 @@ typedef runs_vectors::partitioned_zombit_vector<sdsl::rrr_vector<127>> pzombit_r
 typedef runs_vectors::partitioned_zombit_vector<sdsl::hyb_vector<>> pzombit_hyb_type;
 typedef sdsl::rrr_vector<127> rrr_type;
 typedef sdsl::hyb_vector<> hyb_type;
+typedef runs_vectors::oz_vector<> oz_type;
 
 template <class BV>
 void run(const std::string &file_name, const std::string &index_name, uint8_t num_bytes){
@@ -74,5 +76,7 @@ int main(int argc, char** argv){
         run<hyb_type>(file_name, index_name, num_bytes);
     }else if (type == "rrr"){
         run<rrr_type>(file_name, index_name, num_bytes);
+    }else if (type == "oz") {
+        run<oz_type>(file_name, index_name, num_bytes);
     }
 }
