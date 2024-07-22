@@ -43,7 +43,7 @@ void run(const std::string &file_name, const std::string &index_name, uint8_t nu
     Rank rank_wm;
     sdsl::util::init_support(rank_wm, &bv_wm);
     //Current bitmaps and ranks
-    uint64_t size_wm = sdsl::size_in_bytes(bv_wm.tree) + sdsl::size_in_bytes(rank_wm);
+    uint64_t size_wm = sdsl::size_in_bytes(bv_wm) + sdsl::size_in_bytes(rank_wm);
 
     auto max_level = wm_bv.max_level;
     uint64_t size_wm_by_level = max_level * 8; //
