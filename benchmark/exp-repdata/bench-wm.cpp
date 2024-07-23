@@ -81,6 +81,7 @@ void run(const std::string &file_random, const std::string &index_name, uint8_t 
     std::cout << "Access avg per query: " << avg_access << " ns." << std::endl;
     std::cout << std::endl;
 
+    std::cerr << size << ";" << avg_access << ";" << avg_rank << std::endl;
 }
 
 int main(int argc, char** argv){
